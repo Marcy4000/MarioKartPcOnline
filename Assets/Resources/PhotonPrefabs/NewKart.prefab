@@ -1475,6 +1475,7 @@ MonoBehaviour:
   boostSpeed: 80
   canMove: 0
   star: 0
+  BulletBill: 0
   rayPoint: {fileID: 6312790470151467495}
   holder: {fileID: 4923200974656838261}
   GLIDER_FLY: 0

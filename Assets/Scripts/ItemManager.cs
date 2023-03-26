@@ -19,7 +19,11 @@ public class ItemManager : MonoBehaviourPun
 
     private void Start()
     {
-        selectedItem = nothing;
+        selectedItem =
+        new Item
+        {
+            itemType = Items.bulletBill
+    };
         player = GetComponent<PlayerScript>();
         skinManager = GetComponent<SkinManager>();
         if (!photonView.IsMine)
@@ -39,7 +43,7 @@ public class ItemManager : MonoBehaviourPun
 
         if (!GlobalData.UseController)
         {
-            if (Input.GetKeyDown(KeyCode.E) && selectedItem != nothing && !ItemRoulette.instance.spinning && canUseItem || Input.GetKeyDown(KeyCode.RightControl) && selectedItem != nothing && !ItemRoulette.instance.spinning && canUseItem)
+            if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.RightControl)) && selectedItem != nothing && !ItemRoulette.instance.spinning && canUseItem )
             {
                 UseItem();
             }
@@ -93,8 +97,8 @@ public class ItemManager : MonoBehaviourPun
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Fireball"), fireballSpawnPos.position, transform.rotation);
                 break;
             case Items.bulletBill:
-                //StopAllCoroutines();
-                //StartCoroutine(BulletBill());
+                player.BulletBill = true;
+                player.gameObject.AddComponent<BulletBill>();
                 player.BoostTime = 10f;
                 break;
             case Items.blooper:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -10,18 +11,18 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask slowGround;
     public PhotonView photonView { get; private set; }
-
+    private int lastValue;
     private float CurrentSpeed = 0;
     public float KartMaxSpeed;
     private float MaxSpeed;
     public float boostSpeed;
     private float RealSpeed; //not the applied speed
     public bool canMove;
-    public bool star;
-
+    public bool star= false;
+    public bool BulletBill = false;
     public Transform rayPoint;
     public Transform holder;
-
+    private Transform checkpoint;
     public bool GLIDER_FLY;
 
     public Animator gliderAnim;
@@ -36,7 +37,7 @@ public class PlayerScript : MonoBehaviour
     //drift and steering stuffz
     private float steerDirection;
     private float driftTime;
-
+    
     bool driftLeft = false;
     bool driftRight = false;
     float outwardsDriftForce = 50000f;
@@ -151,7 +152,7 @@ public class PlayerScript : MonoBehaviour
 
     public void GetHit(bool spin)
     {
-        if (star)
+        if (star || BulletBill) ;
         {
             return;
         }
@@ -206,7 +207,10 @@ public class PlayerScript : MonoBehaviour
     private void move()
     {
         RealSpeed = transform.InverseTransformDirection(rb.velocity).z; //real velocity before setting the value. This can be useful if say you want to have hair moving on the player, but don't want it to move if you are accelerating into a wall, since checking velocity after it has been applied will always be the applied value, and not real
-
+        if (BulletBill)
+        {
+            return;
+        }
         if ((driftLeft || driftRight) && !GLIDER_FLY)
         {
             rb.AddForce(-transform.up * 10000f * Time.deltaTime, ForceMode.Acceleration);
@@ -241,6 +245,10 @@ public class PlayerScript : MonoBehaviour
 
     private void steer()
     {
+        if (BulletBill)
+        {
+            return;
+        }
         steerDirection = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
         Vector3 steerDirVect; //this is used for the final rotation of the kart for steering
 
@@ -483,12 +491,14 @@ public class PlayerScript : MonoBehaviour
             {
                 boostFire.GetChild(i).GetComponent<ParticleSystem>().Stop();
             }
+            BulletBill = false;
             MaxSpeed = boostSpeed - 20;
         }
     }
 
     private void tireSteer()
     {
+        if (BulletBill) { return; }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 155, 0), 5 * Time.deltaTime);
@@ -540,5 +550,27 @@ public class PlayerScript : MonoBehaviour
             gliderAnim.SetBool("GliderOpen", false);
             gliderAnim.SetBool("GliderClose", true);
         }
+    }
+    private Transform GetNextCheckPoint()
+    {
+        LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
+
+        foreach (var item in things)
+        {
+            if (item.Index == KartLap.mainKart.CheckpointIndex)
+            {
+                return item.next;
+            }
+        }
+
+        foreach (var item in things)
+        {
+            if (item.Index == 1)
+            {
+                return item.transform;
+            }
+        }
+
+        return things[0].transform;
     }
 }

@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,13 +37,17 @@ public class ItemRoulette : MonoBehaviour
         int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
         secondImage.sprite = itemIcons[(int)KartLap.mainKart.racePlace].items[random].sprite;
     }
-
+    public Item GetRandomItem(KartLap lap)
+    {
+        int random = Random.Range(0, itemIcons[(int)lap.racePlace].items.Length);
+        return ItemRoulette.instance.itemIcons[(int)lap.racePlace].items[random];
+    }
     public void Spin()
     {
         if (spinning || selectedItem != nothing) { return; }
         Debug.Log(KartLap.mainKart);
         int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        selectedItem = itemIcons[(int)KartLap.mainKart.racePlace].items[random];
+        selectedItem = itemIcons[11].items[3];
         StartCoroutine(DoTheSpinning());
     }
 
