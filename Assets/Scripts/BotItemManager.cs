@@ -26,8 +26,7 @@ public class BotItemManager : MonoBehaviourPun
     {
         if (selectedItem != nothing) { return; }
 
-        int random = Random.Range(0, ItemRoulette.instance.itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        selectedItem = ItemRoulette.instance.itemIcons[(int)KartLap.mainKart.racePlace].items[random];
+        selectedItem = ItemRoulette.instance.GetRandomItem(this.kart);
         amount = selectedItem.amount;
         StartCoroutine(ThinkUseItem());
     }
