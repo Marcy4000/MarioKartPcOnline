@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.5.0" xmlns="http://www.collada.org/2008/03/COLLADASchema">
+	<asset>
+		<contributor>
+			<authoring_tool>BrawlBox</authoring_tool>
+		</contributor>
+		<created>2019-10-04T01:26:20Z</created>
+		<modified>2019-10-04T01:26:20Z</modified>
+		<unit meter="0.01" name="centimeter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_images>
+		<image id="sh_escalator-image" name="sh_escalator">
+			<init_from>
+				<ref>sh_escalator.png</ref>
+			</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="escalator_m">
+			<instance_effect url="#escalator_m-fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="escalator_m-fx" name="escalator_m">
+			<profile_COMMON>
+				<newparam sid="sh_escalator-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>sh_escalator-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="sh_escalator-sampler">
+					<sampler2D>
+						<source>sh_escalator-surface</source>
+						<instance_image url="#sh_escalator-image" />
+						<wrap_s>WRAP</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>LINEAR_MIPMAP_LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="sh_escalator-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="polygon0" name="polygon0">
+			<mesh>
+				<source id="polygon0_Positions">
+					<float_array id="polygon0_PosArr" count="18">-900 50.00011 0 899.9976 49.99996 0.006104 -900 0 0 899.9976 0.000114 0.006104 899.9976 101.981 -299.9939 -900 101.981 -300.0079</float_array>
+					<technique_common>
+						<accessor source="#polygon0_PosArr" count="6" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Colors0">
+					<float_array id="polygon0_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_UVs0">
+					<float_array id="polygon0_UVArr0" count="16">-0.2615967 0.1599121 1.421936 0.1599121 -0.2615967 0.005310059 1.421936 0.005310059 1.421936 0.3302612 -0.2615967 0.3302612 1.421936 0.9797363 -0.2615967 0.9797363</float_array>
+					<technique_common>
+						<accessor source="#polygon0_UVArr0" count="8" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon0_Vertices">
+					<input semantic="POSITION" source="#polygon0_Positions" />
+				</vertices>
+				<triangles material="escalator_m" count="4">
+					<input semantic="VERTEX" source="#polygon0_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon0_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon0_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2 4 0 6 0 0 5 1 0 4 5 0 7 0 0 5 4 0 6</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="polygon0_Controller">
+			<skin source="#polygon0">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon0_Joints">
+					<Name_array id="polygon0_JointArr" count="1">escalatorA</Name_array>
+					<technique_common>
+						<accessor source="#polygon0_JointArr" count="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Matrices">
+					<float_array id="polygon0_MatArr" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_MatArr" count="1" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Weights">
+					<float_array id="polygon0_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon0_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon0_Matrices" />
+				</joints>
+				<vertex_weights count="6">
+					<input semantic="JOINT" offset="0" source="#polygon0_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon0_Weights" />
+					<vcount>1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="RootNode" name="RootNode">
+			<node id="escalatorA" name="escalatorA" sid="escalatorA" type="JOINT" />
+			<node id="polygon0" name="polygon0" type="NODE">
+				<instance_controller url="#polygon0_Controller">
+					<skeleton>#escalatorA</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="escalator_m" target="#escalator_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#RootNode" />
+	</scene>
+</COLLADA>

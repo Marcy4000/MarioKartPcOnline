@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.5.0" xmlns="http://www.collada.org/2008/03/COLLADASchema">
+	<asset>
+		<contributor>
+			<authoring_tool>BrawlBox</authoring_tool>
+		</contributor>
+		<created>2019-10-04T01:26:46Z</created>
+		<modified>2019-10-04T01:26:46Z</modified>
+		<unit meter="0.01" name="centimeter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_images>
+		<image id="Mii_Faces_dummy-image" name="Mii_Faces_dummy">
+			<init_from>
+				<ref>Mii_Faces_dummy.png</ref>
+			</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="miiposter_m">
+			<instance_effect url="#miiposter_m-fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="miiposter_m-fx" name="miiposter_m">
+			<profile_COMMON>
+				<newparam sid="Mii_Faces_dummy-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>Mii_Faces_dummy-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="Mii_Faces_dummy-sampler">
+					<sampler2D>
+						<source>Mii_Faces_dummy-surface</source>
+						<instance_image url="#Mii_Faces_dummy-image" />
+						<wrap_s>CLAMP</wrap_s>
+						<wrap_t>CLAMP</wrap_t>
+						<minfilter>LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="Mii_Faces_dummy-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="polygon0" name="polygon0">
+			<mesh>
+				<source id="polygon0_Positions">
+					<float_array id="polygon0_PosArr" count="96">-12937.73 2691.509 -12802.1 -12301.77 2691.509 -12517.52 -12937.73 2018.945 -12802.11 -12301.77 2018.945 -12517.52 19266.14 3470.701 -15562.64 19264.6 3470.701 -16834.75 19266.22 4634.962 -15562.58 19264.73 4634.962 -16834.63 19287.09 3345.045 -17559.99 19282.24 3345.045 -18610.3 19287.13 4299.181 -17559.95 19282.3 4299.181 -18610.24 19277.3 4828.667 -19343.93 19277.3 3390.183 -19343.93 19277.29 4828.667 -20891.27 19277.29 3390.183 -20891.27 19266.42 4814.1 -21620.57 19266.42 3836.547 -21620.57 19266.42 4814.1 -22613.71 19266.42 3836.547 -22613.71 23832.59 3390.071 -46908.95 23367 3390.071 -47397.04 23832.62 4001.396 -46908.95 23367.05 4001.396 -47397.04 23146.47 3519.396 -42649.6 23688.79 3519.396 -43188.93 23146.46 4224.85 -42649.54 23688.79 4224.85 -43188.8 -19174.57 2673.177 -12449.85 -18399.24 2673.177 -12797.06 -19174.57 1730.603 -12449.86 -18399.24 1730.603 -12797.06</float_array>
+					<technique_common>
+						<accessor source="#polygon0_PosArr" count="32" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Colors0">
+					<float_array id="polygon0_ColorArr0" count="16">0.7058824 0.7058824 0.7058824 1 0.6 0.6 0.6 1 0.2235294 0.2117647 0.3568628 1 0.6509804 0.6509804 0.6509804 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_ColorArr0" count="4" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_UVs0">
+					<float_array id="polygon0_UVArr0" count="64">0.3360901 0.9956665 0.6568298 0.9956665 0.3360901 0.6748962 0.6568298 0.6748962 0.6533813 0.01168823 0.3374023 0.01168823 0.6533813 0.3276367 0.3374023 0.3276367 0.3182678 0.03198242 0.005523682 0.03198242 0.3182678 0.3269348 0.005523682 0.3269348 0.9851379 0.6590271 0.9851379 0.3445129 0.6706238 0.6590271 0.6706238 0.3445129 0.6531067 0.6605225 0.6531067 0.3430481 0.3356323 0.6605225 0.3356323 0.3430481 0.9895935 0.6965332 0.6703491 0.6965332 0.9895935 0.9956665 0.6703491 0.9956665 0.3218994 0.3430481 0.00402832 0.3430481 0.3218994 0.6605225 0.00402832 0.6605225 0.00402832 0.9956665 0.3218994 0.9956665 0.00402832 0.6748962 0.3218994 0.6748962</float_array>
+					<technique_common>
+						<accessor source="#polygon0_UVArr0" count="32" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon0_Vertices">
+					<input semantic="POSITION" source="#polygon0_Positions" />
+				</vertices>
+				<triangles material="miiposter_m" count="16">
+					<input semantic="VERTEX" source="#polygon0_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon0_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon0_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2 6 1 6 5 2 5 4 1 4 7 2 7 5 2 5 6 1 6 10 1 10 9 2 9 8 1 8 11 2 11 9 2 9 10 1 10 14 2 14 13 1 13 12 1 12 15 2 15 13 1 13 14 2 14 18 2 18 17 1 17 16 1 16 19 2 19 17 1 17 18 2 18 22 3 22 21 2 21 20 2 20 23 3 23 21 2 21 22 3 22 26 3 26 25 2 25 24 2 24 27 3 27 25 2 25 26 3 26 30 0 30 29 0 29 28 0 28 31 0 31 29 0 29 30 0 30</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="polygon0_Controller">
+			<skin source="#polygon0">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon0_Joints">
+					<Name_array id="polygon0_JointArr" count="1">miiposter</Name_array>
+					<technique_common>
+						<accessor source="#polygon0_JointArr" count="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Matrices">
+					<float_array id="polygon0_MatArr" count="16">1 0 0 0.344934 0 1 0 -0.338712 0 0 1 0.483513 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_MatArr" count="1" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Weights">
+					<float_array id="polygon0_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon0_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon0_Matrices" />
+				</joints>
+				<vertex_weights count="32">
+					<input semantic="JOINT" offset="0" source="#polygon0_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon0_Weights" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="RootNode" name="RootNode">
+			<node id="miiposter" name="miiposter" sid="miiposter" type="JOINT">
+				<translate>-0.344934 0.338712 -0.483513</translate>
+			</node>
+			<node id="polygon0" name="polygon0" type="NODE">
+				<instance_controller url="#polygon0_Controller">
+					<skeleton>#miiposter</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="miiposter_m" target="#miiposter_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#RootNode" />
+	</scene>
+</COLLADA>

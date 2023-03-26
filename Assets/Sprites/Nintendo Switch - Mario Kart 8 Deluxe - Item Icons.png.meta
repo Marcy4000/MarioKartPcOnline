@@ -1,0 +1,843 @@
+fileFormatVersion: 2
+guid: bae49d0da9a0adb4faf95bdad3a8f188
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf6f31edea0718841b9dff65174b7c6d
+      internalID: 662444606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c14cb37d1f7302f4aaa8fde7404e2e5e
+      internalID: 1427398707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_2
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebfb33dbc659c9f49a294f5d14b1a030
+      internalID: -745579474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_3
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb74f5ea98be9e54c808f0e4bb5fecb8
+      internalID: -1796184995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_4
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3ef45f64554c034b96c59ce5a74649c
+      internalID: -386219643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_5
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a95f3d361a8b2c942a941dd609f021c7
+      internalID: -1631109023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_6
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ef76a22287d56f44a237e47081f4295
+      internalID: -1938111290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_7
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 704434ee177ef5f4bad4a2b50a300ecd
+      internalID: -1023370923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_8
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 655
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c64d8593a021b148a44b7d390fcdfa3
+      internalID: 438288303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9409446c4a879484f9592b2440024427
+      internalID: -1079552418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_10
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b301a003f8a21d34d9385cb32aa9fb83
+      internalID: 963984619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_11
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 225403e474411284784cfbb1664180f5
+      internalID: -440565472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_12
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02bddc2431e4cec43a91e5c5853072b1
+      internalID: 1843161596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_13
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 716b2377da1afe1408ef020e47d6ccfa
+      internalID: -570235134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_14
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a513af1baae27554fb2ff8a95167801b
+      internalID: -426693714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_15
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7abf9111edda39b42976d4cf6945072c
+      internalID: -144705983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_16
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4337c0c4c13a5ba4a937d8f75ebee26c
+      internalID: -970322625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_17
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 462
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23c16519ba77fb1489e295df09ec02f4
+      internalID: 1644608801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb7e2f9253f77634eb737c1c4214f4b3
+      internalID: 1569885972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_19
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d36a5b359820f9d4ab6e368a176fb4a3
+      internalID: -723838445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_20
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e747fe6258b0e44cbfe90d14e54e1e9
+      internalID: -858560940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_21
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b704a776732a0634cba605550064318f
+      internalID: -524500924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_22
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f065a8138944fff41a25cc3d8c1f094c
+      internalID: -1282896914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_23
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c98705280883614cbee2af628ee77e6
+      internalID: 1406544028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_24
+      rect:
+        serializedVersion: 2
+        x: 1158
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ee92441f66b0b047853af30677c0938
+      internalID: 2142146350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_25
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 345e05f234d929a4d8522b8613cce37e
+      internalID: 682245812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_26
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 269
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54141ddf672a3a845898ef7605d7a62f
+      internalID: 706003430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 76
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 259e92d5631633e49881ef74ea128098
+      internalID: -55806321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_28
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 76
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e53e19e6d9cc7434592522d12d9a19fc
+      internalID: -638036784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_29
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 76
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c565463b7fe0b014396a2d91bdb69d57
+      internalID: 67169735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_30
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 76
+        width: 193
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc6390a62bf87d4387594e6bd44a2ca
+      internalID: 289565525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_36
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 39
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e01218accc84b7c47b935659371360e7
+      internalID: -924177102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_26: 706003430
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_27: -55806321
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_2: -745579474
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_16: -970322625
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_4: -386219643
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_31: 38438594
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_10: 963984619
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_17: 1644608801
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_32: 2123442435
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_36: -924177102
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_6: -1938111290
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_13: -570235134
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_5: -1631109023
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_29: 67169735
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_23: 1406544028
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_15: -144705983
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_3: -1796184995
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_0: 662444606
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_11: -440565472
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_25: 682245812
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_8: 438288303
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_30: 289565525
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_33: 479642777
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_24: 2142146350
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_9: -1079552418
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_21: -524500924
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_18: 1569885972
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_19: -723838445
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_34: 1132859195
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_20: -858560940
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_1: 1427398707
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_28: -638036784
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_7: -1023370923
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_35: -2090323797
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_14: -426693714
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_12: 1843161596
+      Nintendo Switch - Mario Kart 8 Deluxe - Item Icons_22: -1282896914
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

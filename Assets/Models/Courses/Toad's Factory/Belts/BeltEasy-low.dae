@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.5.0" xmlns="http://www.collada.org/2008/03/COLLADASchema">
+	<asset>
+		<contributor>
+			<authoring_tool>BrawlBox</authoring_tool>
+		</contributor>
+		<created>2019-09-22T17:48:18Z</created>
+		<modified>2019-09-22T17:48:18Z</modified>
+		<unit meter="0.01" name="centimeter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_images>
+		<image id="belt_t202_low-image" name="belt_t202_low">
+			<init_from>
+				<ref>belt_t202_low.png</ref>
+			</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="belt_o_low">
+			<instance_effect url="#belt_o_low-fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="belt_o_low-fx" name="belt_o_low">
+			<profile_COMMON>
+				<newparam sid="belt_t202_low-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>belt_t202_low-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="belt_t202_low-sampler">
+					<sampler2D>
+						<source>belt_t202_low-surface</source>
+						<instance_image url="#belt_t202_low-image" />
+						<wrap_s>MIRROR</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>LINEAR_MIPMAP_LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="belt_t202_low-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="polygon0" name="polygon0">
+			<mesh>
+				<source id="polygon0_Positions">
+					<float_array id="polygon0_PosArr" count="96">2499.995 0 -1749.999 2499.995 0 -916.6655 -2500.003 0 -1749.999 2499.995 0 -583.3331 -2500.003 0 250 2499.995 0 250 -2500.003 0 -3250 -2500.003 0 -4083.333 2499.996 0 -3250 -2500.003 0 -4416.666 2499.996 0 -5250 -2500.003 0 -5250 2499.995 0 -8749.999 2499.995 0 -7916.666 -2500.001 0 -8749.999 2499.995 0 -7583.333 -2500.001 0 -6750 2499.995 0 -6750 -2500.003 0 -10250 -2500.003 0 -11083.33 2499.996 0 -10250 -2500.003 0 -11416.67 2499.996 0 -12250 -2500.003 0 -12250 -3257.965 0 -4083.333 -3257.965 0 -4416.666 -3257.965 0 -11083.33 -3257.965 0 -11416.67 3257.959 0 -916.6655 3257.959 0 -583.3331 3257.96 0 -7916.666 3257.96 0 -7583.333</float_array>
+					<technique_common>
+						<accessor source="#polygon0_PosArr" count="32" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Colors0">
+					<float_array id="polygon0_ColorArr0" count="8">0.7490196 0.7490196 0.7490196 1 0.0509804 0.0509804 0.0509804 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_ColorArr0" count="2" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_UVs0">
+					<float_array id="polygon0_UVArr0" count="28">0.5 0.2337646 0.08337402 0.2337646 0.5 0.2706299 -0.08337402 0.2337646 -0.5 0.2706299 -0.5 0.2337646 0.916626 0.2337646 1.083374 0.2337646 1.5 0.2706299 1.5 0.2337646 0.916626 0.2271729 1.083374 0.2271729 0.08337402 0.2271729 -0.08337402 0.2271729</float_array>
+					<technique_common>
+						<accessor source="#polygon0_UVArr0" count="14" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon0_Vertices">
+					<input semantic="POSITION" source="#polygon0_Positions" />
+				</vertices>
+				<triangles material="belt_o_low" count="24">
+					<input semantic="VERTEX" source="#polygon0_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon0_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon0_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2 4 0 4 3 0 3 2 0 2 5 0 5 3 0 3 4 0 4 8 0 2 7 0 6 6 0 0 9 0 7 7 0 6 8 0 2 10 0 8 9 0 7 8 0 2 11 0 9 9 0 7 10 0 8 14 0 2 13 0 1 12 0 0 15 0 3 13 0 1 14 0 2 16 0 4 15 0 3 14 0 2 17 0 5 15 0 3 16 0 4 20 0 2 19 0 6 18 0 0 21 0 7 19 0 6 20 0 2 22 0 8 21 0 7 20 0 2 23 0 9 21 0 7 22 0 8 7 0 6 25 1 11 24 1 10 9 0 7 25 1 11 7 0 6 19 0 6 27 1 11 26 1 10 21 0 7 27 1 11 19 0 6 3 0 3 28 1 12 1 0 1 29 1 13 28 1 12 3 0 3 15 0 3 30 1 12 13 0 1 31 1 13 30 1 12 15 0 3</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="polygon0_Controller">
+			<skin source="#polygon0">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon0_Joints">
+					<Name_array id="polygon0_JointArr" count="1">BeltEasy_low</Name_array>
+					<technique_common>
+						<accessor source="#polygon0_JointArr" count="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Matrices">
+					<float_array id="polygon0_MatArr" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_MatArr" count="1" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Weights">
+					<float_array id="polygon0_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon0_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon0_Matrices" />
+				</joints>
+				<vertex_weights count="32">
+					<input semantic="JOINT" offset="0" source="#polygon0_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon0_Weights" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="RootNode" name="RootNode">
+			<node id="BeltEasy_low" name="BeltEasy_low" sid="BeltEasy_low" type="JOINT" />
+			<node id="polygon0" name="polygon0" type="NODE">
+				<instance_controller url="#polygon0_Controller">
+					<skeleton>#BeltEasy_low</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="belt_o_low" target="#belt_o_low">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#RootNode" />
+	</scene>
+</COLLADA>

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ca1bbeed6800345b5aa56874c2078e, type: 3}
+  m_Name: ThreeBananas
+  m_EditorClassIdentifier: 
+  itemType: 4
+  sprite: {fileID: -1631109023, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  amount: 3

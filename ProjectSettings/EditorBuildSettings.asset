@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: a5cd8031214475e4199bb8dfd3ea5be3
+  - enabled: 1
+    path: Assets/Scenes/BaseKartScene.unity
+    guid: 51632b50145c7d8408dbee366655988b
+  - enabled: 1
+    path: Assets/Scenes/Tracks/LuigiCircuit.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Tracks/Figure8Circuit.unity
+    guid: cc56a668996ce974c9ccc993fda2fdf9
+  - enabled: 1
+    path: Assets/Scenes/Tracks/WaluigiStadium.unity
+    guid: 5663ff2e7e12fae4dbb4bf98900b1499
+  - enabled: 1
+    path: Assets/Scenes/Tracks/KoopaCave.unity
+    guid: fd4c0cc2ba3746d468ac4080a63d0c94
+  - enabled: 1
+    path: Assets/Scenes/Tracks/CoconutMall.unity
+    guid: 98e9ecc58e50bdc4b93552f28e525adc
+  - enabled: 1
+    path: Assets/Scenes/Tracks/YoshiFalls.unity
+    guid: 75ee5901f166390498ef6efcbab3b848
+  - enabled: 1
+    path: Assets/Scenes/Tracks/WaluigiPinball.unity
+    guid: 3efe01a09981c2e46a384b0c72600ecb
+  - enabled: 1
+    path: Assets/Scenes/Tracks/YoshiCircuit.unity
+    guid: f6764e40f1e223247a92d14815d5fc3a
+  - enabled: 1
+    path: Assets/Scenes/Tracks/ToadsFactory.unity
+    guid: 62cfddda187eba24c85f08ec34cdc472
+  - enabled: 1
+    path: Assets/Scenes/Tracks/GokuStage.unity
+    guid: 1ee96c00064d3b240a0e81974c0b7ee3
+  - enabled: 1
+    path: Assets/Scenes/Tracks/LuigisMansion.unity
+    guid: 2046dcf538c06c84b83bae887e8784f9
+  - enabled: 1
+    path: Assets/Scenes/Tracks/MushroomGorge.unity
+    guid: 3cc24c72e75025c40b720dfa12127d81
+  - enabled: 1
+    path: Assets/Scenes/Tracks/BabyPark.unity
+    guid: 726e45ca362390f41a14bb9ebff25244
+  - enabled: 1
+    path: Assets/Scenes/Tracks/WiiRainbowRoad.unity
+    guid: dd6d14e01de8caf438c7bfaaf6fd86b2
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: f29ab6143077cf64daa0c884e13cce7f,
+      type: 2}

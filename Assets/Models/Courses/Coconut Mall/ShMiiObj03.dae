@@ -1,0 +1,1518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.5.0" xmlns="http://www.collada.org/2008/03/COLLADASchema">
+	<asset>
+		<contributor>
+			<authoring_tool>BrawlBox</authoring_tool>
+		</contributor>
+		<created>2019-10-04T01:28:05Z</created>
+		<modified>2019-10-04T01:28:05Z</modified>
+		<unit meter="0.01" name="centimeter" />
+		<up_axis>Y_UP</up_axis>
+	</asset>
+	<library_images>
+		<image id="Mii_Faces_dummy-image" name="Mii_Faces_dummy">
+			<init_from>
+				<ref>Mii_Faces_dummy.png</ref>
+			</init_from>
+		</image>
+		<image id="MiiBody_64x32-image" name="MiiBody_64x32">
+			<init_from>
+				<ref>MiiBody_64x32.png</ref>
+			</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="Miibody_m">
+			<instance_effect url="#Miibody_m-fx" />
+		</material>
+		<material id="Miiface_m">
+			<instance_effect url="#Miiface_m-fx" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="Miibody_m-fx" name="Miibody_m">
+			<profile_COMMON>
+				<newparam sid="MiiBody_64x32-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>MiiBody_64x32-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="MiiBody_64x32-sampler">
+					<sampler2D>
+						<source>MiiBody_64x32-surface</source>
+						<instance_image url="#MiiBody_64x32-image" />
+						<wrap_s>CLAMP</wrap_s>
+						<wrap_t>CLAMP</wrap_t>
+						<minfilter>LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="MiiBody_64x32-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+		<effect id="Miiface_m-fx" name="Miiface_m">
+			<profile_COMMON>
+				<newparam sid="Mii_Faces_dummy-surface">
+					<surface type="2D">
+						<init_from>
+							<ref>Mii_Faces_dummy-image</ref>
+						</init_from>
+					</surface>
+				</newparam>
+				<newparam sid="Mii_Faces_dummy-sampler">
+					<sampler2D>
+						<source>Mii_Faces_dummy-surface</source>
+						<instance_image url="#Mii_Faces_dummy-image" />
+						<wrap_s>CLAMP</wrap_s>
+						<wrap_t>CLAMP</wrap_t>
+						<minfilter>LINEAR</minfilter>
+						<magfilter>LINEAR</magfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="COMMON">
+					<phong>
+						<diffuse>
+							<texture texture="Mii_Faces_dummy-sampler" texcoord="TEXCOORD0" />
+						</diffuse>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="polygon0" name="polygon0">
+			<mesh>
+				<source id="polygon0_Positions">
+					<float_array id="polygon0_PosArr" count="12">3207.486 -849.2321 -2392.068 3031.948 -849.2321 -2392.068 3191.619 -580.5712 -2395.569 3047.815 -580.5712 -2395.569</float_array>
+					<technique_common>
+						<accessor source="#polygon0_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Colors0">
+					<float_array id="polygon0_ColorArr0" count="4">0.4 0.4 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_UVs0">
+					<float_array id="polygon0_UVArr0" count="8">0.90625 0 0.09375 0 0.8327942 0.8417358 0.1672058 0.8417358</float_array>
+					<technique_common>
+						<accessor source="#polygon0_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon0_Vertices">
+					<input semantic="POSITION" source="#polygon0_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon0_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon0_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon0_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon1" name="polygon1">
+			<mesh>
+				<source id="polygon1_Positions">
+					<float_array id="polygon1_PosArr" count="12">2953.115 -626.9389 -2399.226 2953.115 -293.7386 -2399.226 3286.316 -626.9389 -2399.226 3286.316 -293.7386 -2399.226</float_array>
+					<technique_common>
+						<accessor source="#polygon1_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon1_Normals">
+					<float_array id="polygon1_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon1_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon1_Colors0">
+					<float_array id="polygon1_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon1_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon1_UVs0">
+					<float_array id="polygon1_UVArr0" count="8">0.7578125 0.0078125 0.7578125 0.2421875 0.9921875 0.0078125 0.9921875 0.2421875</float_array>
+					<technique_common>
+						<accessor source="#polygon1_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon1_Vertices">
+					<input semantic="POSITION" source="#polygon1_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon1_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon1_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon1_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon1_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon2" name="polygon2">
+			<mesh>
+				<source id="polygon2_Positions">
+					<float_array id="polygon2_PosArr" count="12">-736.6592 -862.6223 -834.6772 -912.1963 -862.6223 -834.6772 -752.5234 -593.9617 -838.1733 -896.3271 -593.9617 -838.1733</float_array>
+					<technique_common>
+						<accessor source="#polygon2_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon2_Colors0">
+					<float_array id="polygon2_ColorArr0" count="4">0.4 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon2_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon2_UVs0">
+					<float_array id="polygon2_UVArr0" count="8">0.9061279 0 0.09387207 0 0.8327026 0.8515625 0.1672974 0.8515625</float_array>
+					<technique_common>
+						<accessor source="#polygon2_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon2_Vertices">
+					<input semantic="POSITION" source="#polygon2_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon2_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon2_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon2_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon3" name="polygon3">
+			<mesh>
+				<source id="polygon3_Positions">
+					<float_array id="polygon3_PosArr" count="12">-991.0269 -638.2227 -838.7935 -991.0269 -305.0224 -838.7935 -657.8286 -638.2227 -838.7935 -657.8286 -305.0224 -838.7935</float_array>
+					<technique_common>
+						<accessor source="#polygon3_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon3_Normals">
+					<float_array id="polygon3_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon3_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon3_Colors0">
+					<float_array id="polygon3_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon3_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon3_UVs0">
+					<float_array id="polygon3_UVArr0" count="8">0.7578125 0.2578125 0.7578125 0.4921875 0.9921875 0.2578125 0.9921875 0.4921875</float_array>
+					<technique_common>
+						<accessor source="#polygon3_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon3_Vertices">
+					<input semantic="POSITION" source="#polygon3_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon3_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon3_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon3_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon3_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon4" name="polygon4">
+			<mesh>
+				<source id="polygon4_Positions">
+					<float_array id="polygon4_PosArr" count="12">-3441.77 -853.6494 2161.098 -3617.307 -853.6494 2161.098 -3457.639 -584.9888 2161.098 -3601.443 -584.9888 2161.098</float_array>
+					<technique_common>
+						<accessor source="#polygon4_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon4_Colors0">
+					<float_array id="polygon4_ColorArr0" count="4">0.4 0.4 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon4_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon4_UVs0">
+					<float_array id="polygon4_UVArr0" count="8">0.9453125 0 0.0546875 0 0.8671875 0.84375 0.1328125 0.84375</float_array>
+					<technique_common>
+						<accessor source="#polygon4_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon4_Vertices">
+					<input semantic="POSITION" source="#polygon4_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon4_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon4_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon4_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon5" name="polygon5">
+			<mesh>
+				<source id="polygon5_Positions">
+					<float_array id="polygon5_PosArr" count="12">-3696.143 -632.8755 2156.491 -3696.143 -299.6753 2156.491 -3362.939 -632.8755 2156.491 -3362.939 -299.6753 2156.491</float_array>
+					<technique_common>
+						<accessor source="#polygon5_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon5_Normals">
+					<float_array id="polygon5_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon5_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon5_Colors0">
+					<float_array id="polygon5_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon5_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon5_UVs0">
+					<float_array id="polygon5_UVArr0" count="8">0.7554321 0.5054321 0.7554321 0.7445679 0.9945679 0.5054321 0.9945679 0.7445679</float_array>
+					<technique_common>
+						<accessor source="#polygon5_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon5_Vertices">
+					<input semantic="POSITION" source="#polygon5_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon5_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon5_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon5_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon5_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon6" name="polygon6">
+			<mesh>
+				<source id="polygon6_Positions">
+					<float_array id="polygon6_PosArr" count="12">5596.196 -765.8812 -2788.74 5420.659 -765.8812 -2788.74 5580.327 -497.2206 -2792.236 5436.528 -497.2206 -2792.236</float_array>
+					<technique_common>
+						<accessor source="#polygon6_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon6_Colors0">
+					<float_array id="polygon6_ColorArr0" count="4">0 0.4 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon6_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon6_UVs0">
+					<float_array id="polygon6_UVArr0" count="8">0.9242859 0 0.07571411 0 0.8475647 0.8399658 0.1524048 0.8399658</float_array>
+					<technique_common>
+						<accessor source="#polygon6_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon6_Vertices">
+					<input semantic="POSITION" source="#polygon6_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon6_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon6_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon6_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon7" name="polygon7">
+			<mesh>
+				<source id="polygon7_Positions">
+					<float_array id="polygon7_PosArr" count="12">5341.823 -545.424 -2793.322 5341.823 -212.2237 -2793.322 5675.026 -545.424 -2793.322 5675.026 -212.2237 -2793.322</float_array>
+					<technique_common>
+						<accessor source="#polygon7_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon7_Normals">
+					<float_array id="polygon7_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon7_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon7_Colors0">
+					<float_array id="polygon7_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon7_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon7_UVs0">
+					<float_array id="polygon7_UVArr0" count="8">0.2539063 0.7539063 0.2539063 0.9960938 0.4960938 0.7539063 0.4960938 0.9960938</float_array>
+					<technique_common>
+						<accessor source="#polygon7_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon7_Vertices">
+					<input semantic="POSITION" source="#polygon7_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon7_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon7_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon7_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon7_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon8" name="polygon8">
+			<mesh>
+				<source id="polygon8_Positions">
+					<float_array id="polygon8_PosArr" count="12">6632.64 -791.4391 -2773.476 6457.103 -791.4391 -2773.476 6616.775 -522.7782 -2776.977 6472.972 -522.7782 -2776.977</float_array>
+					<technique_common>
+						<accessor source="#polygon8_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon8_Colors0">
+					<float_array id="polygon8_ColorArr0" count="4">0.4 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon8_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon8_UVs0">
+					<float_array id="polygon8_UVArr0" count="8">0.932251 0 0.06774902 0 0.854126 0.8491211 0.1459045 0.8491211</float_array>
+					<technique_common>
+						<accessor source="#polygon8_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon8_Vertices">
+					<input semantic="POSITION" source="#polygon8_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon8_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon8_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon8_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon9" name="polygon9">
+			<mesh>
+				<source id="polygon9_Positions">
+					<float_array id="polygon9_PosArr" count="12">6378.272 -570.7715 -2781.342 6378.272 -237.5717 -2781.342 6711.47 -570.7715 -2781.342 6711.47 -237.5717 -2781.342</float_array>
+					<technique_common>
+						<accessor source="#polygon9_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon9_Normals">
+					<float_array id="polygon9_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon9_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon9_Colors0">
+					<float_array id="polygon9_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon9_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon9_UVs0">
+					<float_array id="polygon9_UVArr0" count="8">0.5053101 0.7553101 0.5053101 0.9946899 0.7446899 0.7553101 0.7446899 0.9946899</float_array>
+					<technique_common>
+						<accessor source="#polygon9_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon9_Vertices">
+					<input semantic="POSITION" source="#polygon9_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon9_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon9_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon9_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon9_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon10" name="polygon10">
+			<mesh>
+				<source id="polygon10_Positions">
+					<float_array id="polygon10_PosArr" count="12">1551.99 -844.4705 -2007.075 1376.453 -844.4705 -2007.075 1536.126 -575.8096 -2010.576 1392.322 -575.8096 -2010.576</float_array>
+					<technique_common>
+						<accessor source="#polygon10_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon10_Colors0">
+					<float_array id="polygon10_ColorArr0" count="4">0 0.4 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon10_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon10_UVs0">
+					<float_array id="polygon10_UVArr0" count="8">0.9051819 0 0.09481812 0 0.8319397 0.8441467 0.1680908 0.8441467</float_array>
+					<technique_common>
+						<accessor source="#polygon10_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon10_Vertices">
+					<input semantic="POSITION" source="#polygon10_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon10_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon10_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon10_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon11" name="polygon11">
+			<mesh>
+				<source id="polygon11_Positions">
+					<float_array id="polygon11_PosArr" count="12">1297.623 -628.5521 -2011.958 1297.623 -295.3518 -2011.958 1630.821 -628.5521 -2011.958 1630.821 -295.3518 -2011.958</float_array>
+					<technique_common>
+						<accessor source="#polygon11_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon11_Normals">
+					<float_array id="polygon11_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon11_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon11_Colors0">
+					<float_array id="polygon11_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon11_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon11_UVs0">
+					<float_array id="polygon11_UVArr0" count="8">0.2556763 0.00567627 0.2556763 0.2443237 0.4943237 0.00567627 0.4943237 0.2443237</float_array>
+					<technique_common>
+						<accessor source="#polygon11_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon11_Vertices">
+					<input semantic="POSITION" source="#polygon11_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon11_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon11_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon11_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon11_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon12" name="polygon12">
+			<mesh>
+				<source id="polygon12_Positions">
+					<float_array id="polygon12_PosArr" count="12">-2342.534 -874.2327 398.7354 -2518.071 -874.2327 398.7354 -2358.403 -605.5721 395.2344 -2502.204 -605.5721 395.2344</float_array>
+					<technique_common>
+						<accessor source="#polygon12_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon12_Colors0">
+					<float_array id="polygon12_ColorArr0" count="4">0.4 0 0.4 1</float_array>
+					<technique_common>
+						<accessor source="#polygon12_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon12_UVs0">
+					<float_array id="polygon12_UVArr0" count="8">0.9145813 0 0.0854187 0 0.8396301 0.8435364 0.1603699 0.8435364</float_array>
+					<technique_common>
+						<accessor source="#polygon12_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon12_Vertices">
+					<input semantic="POSITION" source="#polygon12_Positions" />
+				</vertices>
+				<triangles material="Miibody_m" count="2">
+					<input semantic="VERTEX" source="#polygon12_Vertices" offset="0" />
+					<input semantic="COLOR" source="#polygon12_Colors0" set="0" offset="1" />
+					<input semantic="TEXCOORD" source="#polygon12_UVs0" set="0" offset="2" />
+					<p>2 0 2 1 0 1 0 0 0 3 0 3 1 0 1 2 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="polygon13" name="polygon13">
+			<mesh>
+				<source id="polygon13_Positions">
+					<float_array id="polygon13_PosArr" count="12">-2596.906 -653.7642 392.4878 -2596.906 -320.5639 392.4878 -2263.703 -653.7642 392.4878 -2263.703 -320.5639 392.4878</float_array>
+					<technique_common>
+						<accessor source="#polygon13_PosArr" count="4" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon13_Normals">
+					<float_array id="polygon13_NormArr" count="3">0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon13_NormArr" count="1" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon13_Colors0">
+					<float_array id="polygon13_ColorArr0" count="4">1 1 1 1</float_array>
+					<technique_common>
+						<accessor source="#polygon13_ColorArr0" count="1" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon13_UVs0">
+					<float_array id="polygon13_UVArr0" count="8">0.2578125 0.2578125 0.2578125 0.4921875 0.4921875 0.2578125 0.4921875 0.4921875</float_array>
+					<technique_common>
+						<accessor source="#polygon13_UVArr0" count="4" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="polygon13_Vertices">
+					<input semantic="POSITION" source="#polygon13_Positions" />
+				</vertices>
+				<triangles material="Miiface_m" count="2">
+					<input semantic="VERTEX" source="#polygon13_Vertices" offset="0" />
+					<input semantic="NORMAL" source="#polygon13_Normals" offset="1" />
+					<input semantic="COLOR" source="#polygon13_Colors0" set="0" offset="2" />
+					<input semantic="TEXCOORD" source="#polygon13_UVs0" set="0" offset="3" />
+					<p>2 0 0 2 1 0 0 1 0 0 0 0 3 0 0 3 1 0 0 1 2 0 0 2</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="polygon0_Controller">
+			<skin source="#polygon0">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon0_Joints">
+					<Name_array id="polygon0_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon0_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Matrices">
+					<float_array id="polygon0_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon0_Weights">
+					<float_array id="polygon0_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon0_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon0_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon0_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon0_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon0_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>1 0 1 0 1 0 1 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon1_Controller">
+			<skin source="#polygon1">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon1_Joints">
+					<Name_array id="polygon1_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon1_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon1_Matrices">
+					<float_array id="polygon1_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon1_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon1_Weights">
+					<float_array id="polygon1_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon1_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon1_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon1_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon1_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon1_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>1 0 1 0 1 0 1 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon2_Controller">
+			<skin source="#polygon2">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon2_Joints">
+					<Name_array id="polygon2_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon2_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon2_Matrices">
+					<float_array id="polygon2_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon2_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon2_Weights">
+					<float_array id="polygon2_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon2_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon2_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon2_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon2_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon2_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>2 0 2 0 2 0 2 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon3_Controller">
+			<skin source="#polygon3">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon3_Joints">
+					<Name_array id="polygon3_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon3_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon3_Matrices">
+					<float_array id="polygon3_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon3_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon3_Weights">
+					<float_array id="polygon3_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon3_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon3_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon3_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon3_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon3_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>2 0 2 0 2 0 2 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon4_Controller">
+			<skin source="#polygon4">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon4_Joints">
+					<Name_array id="polygon4_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon4_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon4_Matrices">
+					<float_array id="polygon4_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon4_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon4_Weights">
+					<float_array id="polygon4_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon4_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon4_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon4_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon4_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon4_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>3 0 3 0 3 0 3 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon5_Controller">
+			<skin source="#polygon5">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon5_Joints">
+					<Name_array id="polygon5_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon5_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon5_Matrices">
+					<float_array id="polygon5_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon5_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon5_Weights">
+					<float_array id="polygon5_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon5_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon5_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon5_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon5_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon5_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>3 0 3 0 3 0 3 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon6_Controller">
+			<skin source="#polygon6">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon6_Joints">
+					<Name_array id="polygon6_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon6_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon6_Matrices">
+					<float_array id="polygon6_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon6_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon6_Weights">
+					<float_array id="polygon6_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon6_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon6_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon6_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon6_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon6_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>4 0 4 0 4 0 4 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon7_Controller">
+			<skin source="#polygon7">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon7_Joints">
+					<Name_array id="polygon7_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon7_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon7_Matrices">
+					<float_array id="polygon7_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon7_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon7_Weights">
+					<float_array id="polygon7_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon7_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon7_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon7_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon7_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon7_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>4 0 4 0 4 0 4 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon8_Controller">
+			<skin source="#polygon8">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon8_Joints">
+					<Name_array id="polygon8_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon8_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon8_Matrices">
+					<float_array id="polygon8_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon8_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon8_Weights">
+					<float_array id="polygon8_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon8_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon8_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon8_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon8_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon8_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>5 0 5 0 5 0 5 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon9_Controller">
+			<skin source="#polygon9">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon9_Joints">
+					<Name_array id="polygon9_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon9_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon9_Matrices">
+					<float_array id="polygon9_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon9_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon9_Weights">
+					<float_array id="polygon9_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon9_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon9_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon9_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon9_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon9_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>5 0 5 0 5 0 5 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon10_Controller">
+			<skin source="#polygon10">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon10_Joints">
+					<Name_array id="polygon10_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon10_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon10_Matrices">
+					<float_array id="polygon10_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon10_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon10_Weights">
+					<float_array id="polygon10_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon10_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon10_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon10_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon10_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon10_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>6 0 6 0 6 0 6 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon11_Controller">
+			<skin source="#polygon11">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon11_Joints">
+					<Name_array id="polygon11_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon11_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon11_Matrices">
+					<float_array id="polygon11_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon11_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon11_Weights">
+					<float_array id="polygon11_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon11_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon11_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon11_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon11_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon11_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>6 0 6 0 6 0 6 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon12_Controller">
+			<skin source="#polygon12">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon12_Joints">
+					<Name_array id="polygon12_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon12_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon12_Matrices">
+					<float_array id="polygon12_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon12_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon12_Weights">
+					<float_array id="polygon12_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon12_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon12_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon12_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon12_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon12_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>7 0 7 0 7 0 7 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="polygon13_Controller">
+			<skin source="#polygon13">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="polygon13_Joints">
+					<Name_array id="polygon13_JointArr" count="8">ShMiiObj03 MiiObjA_01 MiiObjA_04 MiiObjA_05 MiiObjB_01 MiiObjB_02 MiiObjB_05 MiiObjB_06</Name_array>
+					<technique_common>
+						<accessor source="#polygon13_JointArr" count="8">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon13_Matrices">
+					<float_array id="polygon13_MatArr" count="128">1 0 0 0 0 1 0 493.8229 0 0 1 0 0 0 0 1 1 0 0 -3119.716 0 1 0 604.5891 0 0 1 2395.566 0 0 0 1 1 0 0 824.4277 0 1 0 617.9795 0 0 1 838.1758 0 0 0 1 1 0 0 3529.541 0 1 0 609.0066 0 0 1 -2160.141 0 0 0 1 1 0 0 -5508.425 0 1 0 521.2385 0 0 1 2792.238 0 0 0 1 1 0 0 -6544.871 0 1 0 546.7961 0 0 1 2776.977 0 0 0 1 1 0 0 -1464.222 0 1 0 599.8276 0 0 1 2010.578 0 0 0 1 1 0 0 2430.305 0 1 0 629.5898 0 0 1 -395.2344 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#polygon13_MatArr" count="8" stride="16">
+							<param type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="polygon13_Weights">
+					<float_array id="polygon13_WeightArr" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#polygon13_WeightArr" count="1">
+							<param type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#polygon13_Joints" />
+					<input semantic="INV_BIND_MATRIX" source="#polygon13_Matrices" />
+				</joints>
+				<vertex_weights count="4">
+					<input semantic="JOINT" offset="0" source="#polygon13_Joints" />
+					<input semantic="WEIGHT" offset="1" source="#polygon13_Weights" />
+					<vcount>1 1 1 1</vcount>
+					<v>7 0 7 0 7 0 7 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="RootNode" name="RootNode">
+			<node id="ShMiiObj03" name="ShMiiObj03" sid="ShMiiObj03" type="JOINT">
+				<translate>0 -493.8229 0</translate>
+				<node id="MiiObjA_01" name="MiiObjA_01" sid="MiiObjA_01" type="JOINT">
+					<translate>3119.716 -110.7662 -2395.566</translate>
+				</node>
+				<node id="MiiObjA_04" name="MiiObjA_04" sid="MiiObjA_04" type="JOINT">
+					<translate>-824.4277 -124.1566 -838.1758</translate>
+				</node>
+				<node id="MiiObjA_05" name="MiiObjA_05" sid="MiiObjA_05" type="JOINT">
+					<translate>-3529.541 -115.1837 2160.141</translate>
+				</node>
+				<node id="MiiObjB_01" name="MiiObjB_01" sid="MiiObjB_01" type="JOINT">
+					<translate>5508.425 -27.41565 -2792.238</translate>
+				</node>
+				<node id="MiiObjB_02" name="MiiObjB_02" sid="MiiObjB_02" type="JOINT">
+					<translate>6544.871 -52.97327 -2776.977</translate>
+				</node>
+				<node id="MiiObjB_05" name="MiiObjB_05" sid="MiiObjB_05" type="JOINT">
+					<translate>1464.222 -106.0048 -2010.578</translate>
+				</node>
+				<node id="MiiObjB_06" name="MiiObjB_06" sid="MiiObjB_06" type="JOINT">
+					<translate>-2430.305 -135.767 395.2344</translate>
+				</node>
+			</node>
+			<node id="polygon0" name="polygon0" type="NODE">
+				<instance_controller url="#polygon0_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon1" name="polygon1" type="NODE">
+				<instance_controller url="#polygon1_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon2" name="polygon2" type="NODE">
+				<instance_controller url="#polygon2_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon3" name="polygon3" type="NODE">
+				<instance_controller url="#polygon3_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon4" name="polygon4" type="NODE">
+				<instance_controller url="#polygon4_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon5" name="polygon5" type="NODE">
+				<instance_controller url="#polygon5_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon6" name="polygon6" type="NODE">
+				<instance_controller url="#polygon6_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon7" name="polygon7" type="NODE">
+				<instance_controller url="#polygon7_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon8" name="polygon8" type="NODE">
+				<instance_controller url="#polygon8_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon9" name="polygon9" type="NODE">
+				<instance_controller url="#polygon9_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon10" name="polygon10" type="NODE">
+				<instance_controller url="#polygon10_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon11" name="polygon11" type="NODE">
+				<instance_controller url="#polygon11_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon12" name="polygon12" type="NODE">
+				<instance_controller url="#polygon12_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miibody_m" target="#Miibody_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="polygon13" name="polygon13" type="NODE">
+				<instance_controller url="#polygon13_Controller">
+					<skeleton>#ShMiiObj03</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="Miiface_m" target="#Miiface_m">
+								<bind_vertex_input semantic="TEXCOORD0" input_semantic="TEXCOORD" input_set="0" />
+							</instance_material>
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#RootNode" />
+	</scene>
+</COLLADA>
