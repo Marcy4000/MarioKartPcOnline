@@ -97,8 +97,8 @@ public class ItemManager : MonoBehaviourPun
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Fireball"), fireballSpawnPos.position, transform.rotation);
                 break;
             case Items.bulletBill:
-                StopAllCoroutines();
-                StartCoroutine(BulletBill());
+                player.BulletBill = true;
+                player.gameObject.AddComponent<BulletBill>();
                 player.BoostTime = 10f;
                 break;
             case Items.blooper:
