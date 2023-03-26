@@ -152,7 +152,7 @@ public class PlayerScript : MonoBehaviour
 
     public void GetHit(bool spin)
     {
-        if (star || BulletBill) ;
+        if (star || BulletBill);
         {
             return;
         }
@@ -549,6 +549,10 @@ public class PlayerScript : MonoBehaviour
             GLIDER_FLY = false;
             gliderAnim.SetBool("GliderOpen", false);
             gliderAnim.SetBool("GliderClose", true);
+        }
+        if(collision.gameObject.tag == "GetHitCollider")
+        {
+            this.GetHit(true);
         }
     }
     private Transform GetNextCheckPoint()

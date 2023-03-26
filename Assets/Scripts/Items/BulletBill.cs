@@ -1,27 +1,39 @@
 using NUnit.Framework.Constraints;
 using PathCreation;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BulletBill : MonoBehaviour
+public class BulletBill : MonoBehaviourPun
 {
     public PathCreator pathCreator;
     public float speed = 100;
     float distanceTravelled;
     PlayerScript ps;
+    GameObject BulletBillGameObject;
+    GameObject CartDisplayGameObject;
     // Start is called before the first frame update
     void Start()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
         ps = gameObject.GetComponent<PlayerScript>();
-         pathCreator = FindObjectsOfType<PathCreator>()[0];
+        BulletBillGameObject = gameObject.transform.Find("BulletBill").gameObject;
+        CartDisplayGameObject = gameObject.transform.Find("Holder").gameObject;
+        BulletBillGameObject.SetActive(true);
+        CartDisplayGameObject.SetActive(false);
+        pathCreator = FindObjectsOfType<PathCreator>()[0];
         if (pathCreator == null)
         {
             ps.BulletBill = false;
             Destroy(this);
             return;
         }
+
         distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
     }
 
@@ -42,5 +54,11 @@ public class BulletBill : MonoBehaviour
         float y = provRot.eulerAngles.y;
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x,y,transform.rotation.eulerAngles.z);
         
+    }
+    private void OnDestroy()
+    {
+        BulletBillGameObject.SetActive(false);
+        CartDisplayGameObject.SetActive(true);
+
     }
 }
