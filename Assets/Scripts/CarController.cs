@@ -163,146 +163,24 @@ public class CarController : MonoBehaviourPun
             return;
         }
 
-        if (!botDrive)
+        
+        if (!moving.isPlaying)
         {
-            speedInput = 0;
-            if (!GlobalData.UseController)
-            {
-                if (Input.GetAxis("Vertical") > 0)
-                {
-                    speedInput = Input.GetAxis("Vertical") * forwardAccel * 1000f;
-                }
-                else if (Input.GetAxis("Vertical") < 0)
-                {
-                    speedInput = Input.GetAxis("Vertical") * revesreAccel * 1000f;
-                }
-            }
-            else
-            {
-                if (Input.GetAxis("MoveCar") > 0)
-                {
-                    speedInput = Input.GetAxis("MoveCar") * forwardAccel * 1000f;
-                }
-                else if (Input.GetAxis("MoveCar") < 0)
-                {
-                    speedInput = Input.GetAxis("MoveCar") * revesreAccel * 1000f;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) && grounded)
-            {
-                theRB.AddForce(Vector3.up * 350f, ForceMode.Impulse);
-                isDrifting = true;
-                if (driftingCorutine != null)
-                {
-                    StopCoroutine(driftingCorutine);
-                }
-                driftingCorutine = StartCoroutine(Drifting());
-            }
-
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                isDrifting = false;
-                if (miniTurbo)
-                {
-                    theRB.AddForce(transform.forward * 3000f, ForceMode.Impulse);
-                    miniTurbo = false;
-                    foreach (var item in driftingParticles)
-                    {
-                        item.Stop();
-                    }
-                }
-                else
-                {
-                    if (driftingCorutine != null)
-                    {
-                        StopCoroutine(driftingCorutine);
-                    }
-                    foreach (var item in driftingParticles)
-                    {
-                        item.Stop();
-                    }
-                }
-            }
-
-            turnInput = Input.GetAxis("Horizontal");
-
-            leftFrontWheel.transform.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, (turnInput * 30) - 180, leftFrontWheel.localRotation.eulerAngles.z);
-            rightFrontWheel.transform.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, (turnInput * 30) - 180, rightFrontWheel.localRotation.eulerAngles.z);
-
-            if (!GlobalData.UseController)
-            {
-                foreach (var tire in tires)
-                {
-                    tire.SetFloat("Blend", Input.GetAxis("Vertical"));
-                }
-            }
-            else
-            {
-                foreach (var tire in tires)
-                {
-                    tire.SetFloat("Blend", Input.GetAxis("MoveCar"));
-                }
-            }
-
-
-
-            if (grounded)
-            {
-                if (isDrifting)
-                {
-                    turnStrenght = turnStrBackup;
-                }
-                else
-                {
-                    turnStrenght = turnStrBackup / 1.5f;
-                }
-            }
-            else
-            {
-                turnStrenght = turnStrBackup / 2.5f;
-            }
-
-            if (!GlobalData.UseController)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnStrenght * Input.GetAxis("Vertical") * Time.deltaTime, 0));
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnStrenght * Input.GetAxis("MoveCar") * Time.deltaTime, 0));
-            }
-
-            if (Mathf.Abs(speedInput) > 0 && !moving.isPlaying)
-            {
-                idle.Stop();
-                moving.Play();
-            }
-            else if (Mathf.Abs(speedInput) <= 0 && !idle.isPlaying)
-            {
-                idle.Play();
-                moving.Stop();
-            }
-            animator.SetFloat("Direction", Input.GetAxis("Horizontal"));
+            idle.Stop();
+            moving.Play();
         }
-        else
+        if (lastValue != kartLap.CheckpointIndex)
         {
-            if (!moving.isPlaying)
-            {
-                idle.Stop();
-                moving.Play();
-            }
-            if (lastValue != kartLap.CheckpointIndex)
-            {
-                checkpoint = GetNextCheckPoint();
-            }
-            foreach (var tire in tires)
-            {
-                tire.SetFloat("Blend", 1);
-            }
-            Quaternion newRotation = Quaternion.FromToRotation(transform.forward, checkpoint.forward) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);
-            lastValue = kartLap.CheckpointIndex;
+            checkpoint = GetNextCheckPoint();
         }
+        foreach (var tire in tires)
+        {
+            tire.SetFloat("Blend", 1);
+        }
+        Quaternion newRotation = Quaternion.FromToRotation(transform.forward, checkpoint.forward) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);
+        lastValue = kartLap.CheckpointIndex;
+        
         transform.position = new Vector3(theRB.transform.position.x, theRB.transform.position.y - kartOffset, theRB.transform.position.z);
     }
 
@@ -323,12 +201,10 @@ public class CarController : MonoBehaviourPun
             return;
         }
 
-        grounded = false;
         RaycastHit hit;
 
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
         {
-            grounded = true;
 
             Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, yourRotationSpeedVariable);
@@ -336,37 +212,15 @@ public class CarController : MonoBehaviourPun
             {
                 theRB.AddForce(transform.forward * 12000f);
             }
-        }
-
-        if (!botDrive)
-        {
-            if (grounded)
-            {
-                theRB.drag = dragOnGround;
-                if (Mathf.Abs(speedInput) > 0)
-                {
-                    theRB.AddForce(transform.forward * speedInput);
-                }
-            }
-            else
-            {
-                theRB.drag = 0.1f;
-                //theRB.AddForce(100f * -gravityForce * Vector3.up);
-            }
+            theRB.drag = dragOnGround;
+            theRB.AddForce(1000f * forwardAccel * transform.forward);
         }
         else
         {
-            if (grounded)
-            {
-                theRB.drag = dragOnGround;
-                theRB.AddForce(1000f * forwardAccel * transform.forward);
-            }
-            else
-            {
-                theRB.drag = 0.1f;
-                //theRB.AddForce(100f * -gravityForce * Vector3.up);
-            }
+            theRB.drag = 0.1f;
+             //theRB.AddForce(100f * -gravityForce * Vector3.up);
         }
+        
 
         if (theRB.velocity.magnitude > maxSpeed)
         {
