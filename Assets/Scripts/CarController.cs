@@ -20,7 +20,7 @@ public class CarController : MonoBehaviourPun
     public bool grounded { get; private set; }
     [SerializeField] bool autoDisable;
 
-    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] public LayerMask whatIsGround;
     [SerializeField] private float groundRayLenght;
     [SerializeField] private Transform groundRayPoint;
     [SerializeField] private float yourRotationSpeedVariable;

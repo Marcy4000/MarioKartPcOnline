@@ -95,7 +95,7 @@ public class ItemManager : MonoBehaviourPun
                 break;
             case Items.bulletBill:
                 player.BulletBill = true;
-                player.gameObject.AddComponent<BulletBill>();
+                player.gameObject.AddComponent<BulletBill>().mask = kart.carController.whatIsGround;
                 player.BoostTime = 10f;
                 break;
             case Items.blooper:

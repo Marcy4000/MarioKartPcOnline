@@ -1429,7 +1429,6 @@ GameObject:
   - component: {fileID: 867531168394680521}
   - component: {fileID: 4723892008413562815}
   - component: {fileID: 7194367450481897056}
-  - component: {fileID: 8890821276803785230}
   - component: {fileID: 536551670241185747}
   m_Layer: 8
   m_Name: NewKart
@@ -1882,7 +1881,7 @@ MonoBehaviour:
   autoDisable: 1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   groundRayLenght: 0.75
   groundRayPoint: {fileID: 6312790470151467495}
   yourRotationSpeedVariable: 0.1
@@ -1976,29 +1975,6 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 8376346930861751985}
   emblemMesh: {fileID: 5252276040016396617}
   characterAnimator: {fileID: 2427432607123656354}
---- !u!114 &8890821276803785230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582820841966394765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 3190860238525008553}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &536551670241185747
 MonoBehaviour:
   m_ObjectHideFlags: 0
