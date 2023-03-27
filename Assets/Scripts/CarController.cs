@@ -83,6 +83,11 @@ public class CarController : MonoBehaviourPun
         pv = GetComponent<PhotonView>();
         turnStrBackup = turnStrenght;
         botTurnSpeed = Random.Range(0.05f, 0.075f);
+        if (autoDisable)
+        {
+            enabled = false;
+            yield break;
+        }
 
         if (!pv.IsMine)
         {

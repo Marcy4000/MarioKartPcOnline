@@ -19,11 +19,7 @@ public class ItemManager : MonoBehaviourPun
 
     private void Start()
     {
-        selectedItem =
-        new Item
-        {
-            itemType = Items.bulletBill
-    };
+        selectedItem = nothing;
         player = GetComponent<PlayerScript>();
         skinManager = GetComponent<SkinManager>();
         if (!photonView.IsMine)
@@ -82,6 +78,7 @@ public class ItemManager : MonoBehaviourPun
                         break;
                     }
                 }
+                
                 GameObject blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), targetKart.shellBackSPos.position, targetKart.transform.rotation * new Quaternion(0f, 1f, 0f, 0f));
                 BlueShell blueScript = blueShell.GetComponent<BlueShell>();
                 blueScript.target = targetKart.transform;
