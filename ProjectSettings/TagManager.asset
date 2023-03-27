@@ -12,6 +12,7 @@ TagManager:
   - ArtworkButton
   - GliderPad
   - SlowGround
+  - GetHitCollider
   layers:
   - Default
   - TransparentFX
