@@ -55,6 +55,10 @@ public class ItemManager : MonoBehaviourPun
 
     private void UseItem()
     {
+        if (this.player.BulletBill)
+        {
+            return;
+        }
         switch (selectedItem.itemType)
         {
             case Items.mushroom:
