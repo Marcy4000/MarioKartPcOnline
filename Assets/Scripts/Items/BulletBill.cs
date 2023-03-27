@@ -28,7 +28,6 @@ public class BulletBill : MonoBehaviourPun
         BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x +0.11f, transform.position.y+2.91f , transform.position.z-1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
         ps = gameObject.GetComponent<PlayerScript>();
         CartDisplayGameObject = gameObject.transform.Find("Holder").gameObject;
-        BulletBillGameObject.transform.SetParent(gameObject.transform,true);
         CartDisplayGameObject.SetActive(false);
         pathCreator = FindObjectsOfType<PathCreator>()[0];
         if (pathCreator == null)
@@ -48,32 +47,32 @@ public class BulletBill : MonoBehaviourPun
             return;
         }
 
-        RaycastHit hit1, hit2 ;
+        RaycastHit hit1, hit2;
 
         distanceTravelled += speed * Time.deltaTime;
-        
+
         Vector3 provPos = pathCreator.path.GetPointAtDistance(distanceTravelled);
         float offset = 0.5f;
         int iteration = 0;
-        mask = LayerMask.GetMask("Ground","OffRoad");
+        mask = LayerMask.GetMask("Ground", "OffRoad");
     start:
         //casting a ray to determine the height of the road
         //Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down,Color.red,20,false);
-        if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y+offset, provPos.z), Vector3.down, out hit1, 1000f,mask))
-        { 
+        if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
+        {
             iteration++;
             offset += 0.1f;
             if (iteration > 100)
             {
-                
+
                 Debug.LogError("didn't hit anything\n");
                 return;
             }
             goto start;
-        }    
-        
+        }
+
         Quaternion provRot = pathCreator.path.GetRotationAtDistance(distanceTravelled);
-        
+
         float y = provRot.eulerAngles.y;
 
         //rotation calculation
@@ -81,11 +80,28 @@ public class BulletBill : MonoBehaviourPun
         {
 
         }
-            Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
+        Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
 
         //applying
-        transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
-        transform.position = new Vector3(provPos.x, hit1.point.y+0.25f, provPos.z);
+        if (hit1.collider.gameObject.CompareTag("Wall"))
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
+        }
+        else 
+        { 
+            transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
+        }
+        if (transform.position.y - hit1.point.y > 3)
+        {
+            transform.position = new Vector3(provPos.x, transform.position.y -(9.81f*Time.deltaTime), provPos.z);
+
+        }
+        else
+        {
+
+
+            transform.position = new Vector3(provPos.x, hit1.point.y + 0.25f, provPos.z);
+        }
         SyncBulletBillPosition();
          
     }
