@@ -8,6 +8,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.SceneManagement;
 
 public class BulletBill : MonoBehaviourPun
@@ -55,53 +56,55 @@ public class BulletBill : MonoBehaviourPun
         float offset = 0.5f;
         int iteration = 0;
         mask = LayerMask.GetMask("Ground", "OffRoad");
+        Quaternion provRot = pathCreator.path.GetRotationAtDistance(distanceTravelled);
     start:
         //casting a ray to determine the height of the road
         //Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down,Color.red,20,false);
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
             iteration++;
-            offset += 0.1f;
-            if (iteration > 100)
+            offset += 0.3f;
+            if (iteration > 34)
             {
+                transform.position = provPos;
+                transform.rotation = Quaternion.Euler(provRot.eulerAngles.x, provRot.eulerAngles.y, transform.rotation.eulerAngles.z);
 
-                Debug.LogError("didn't hit anything\n");
-                return;
+                goto sync;
             }
             goto start;
-        }
-
-        Quaternion provRot = pathCreator.path.GetRotationAtDistance(distanceTravelled);
-
-        float y = provRot.eulerAngles.y;
-
-        //rotation calculation
-        if (!Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f, mask))
-        {
-
-        }
-        Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
-
-        //applying
-        if (hit1.collider.gameObject.CompareTag("Wall"))
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
-        }
-        else 
-        { 
-            transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
-        }
-        if (transform.position.y - hit1.point.y > 3)
-        {
-            transform.position = new Vector3(provPos.x, transform.position.y -(9.81f*Time.deltaTime), provPos.z);
 
         }
         else
         {
+            if (transform.position.y - hit1.point.y > 1)
+            {
+                distanceTravelled -= speed * Time.deltaTime;
 
+                transform.position = new Vector3(transform.position.x, transform.position.y - (9.81f * Time.deltaTime), transform.position.z);
 
-            transform.position = new Vector3(provPos.x, hit1.point.y + 0.25f, provPos.z);
+            }
+            else
+            {
+                transform.position = new Vector3(provPos.x, hit1.point.y + 0.25f, provPos.z);
+            }
         }
+   
+        float y = provRot.eulerAngles.y;
+
+        //rotation calculation
+        if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f, mask))
+        {
+
+            Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
+                transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, y,transform.rotation.eulerAngles.z);
+        }
+
+        //applying
+        sync:
         SyncBulletBillPosition();
          
     }
