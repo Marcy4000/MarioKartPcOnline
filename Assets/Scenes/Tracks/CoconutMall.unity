@@ -6722,7 +6722,7 @@ GameObject:
   - component: {fileID: 1555135524}
   m_Layer: 0
   m_Name: BulletBillPath
-  m_TagString: Untagged
+  m_TagString: BulletBillPath
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

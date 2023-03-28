@@ -13,6 +13,7 @@ TagManager:
   - GliderPad
   - SlowGround
   - GetHitCollider
+  - BulletBillPath
   layers:
   - Default
   - TransparentFX

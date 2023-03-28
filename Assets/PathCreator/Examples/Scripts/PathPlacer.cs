@@ -20,7 +20,6 @@ namespace PathCreation.Examples {
 
                 spacing = Mathf.Max(minSpacing, spacing);
                 float dst = 0;
-
                 while (dst < path.length) {
                     Vector3 point = path.GetPointAtDistance (dst);
                     Quaternion rot = path.GetRotationAtDistance (dst);
