@@ -4,111 +4,180 @@ using PathCreation;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.SceneManagement;
 
 public class BulletBill : MonoBehaviourPun
 {
-    public PathCreator pathCreator;
+    public PathCreator GlobalPathCreator;
+    public PathCreator UsablePath;
+    public PathCreator BulletBillPathCreator;
     public float speed = 100;
+    public const float MAXSPEED = 100;
     float distanceTravelled;
     PlayerScript ps;
-    private bool firstcicle = true;
+    bool UsingLocalPath = false;
     GameObject BulletBillGameObject;
+    GameObject PathKeeper; 
     GameObject CartDisplayGameObject;
     public LayerMask mask;
-
-    // Start is called before the first frame update
-
+    public float turnRate= 7.5f;
+    public float MaxDistSPawnBulletBill = 2.0f;
+    private Vector3 aimPoint;
+    private float gdist;
     void Start()
     {
-        BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x +0.11f, transform.position.y+2.91f , transform.position.z-1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+        mask = LayerMask.GetMask("Ground", "OffRoad");
+        BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+        PathKeeper = Instantiate(new GameObject("BulletPathKeeper"));
+        BulletBillPathCreator = PathKeeper.AddComponent<PathCreator>();
         ps = gameObject.GetComponent<PlayerScript>();
+
         CartDisplayGameObject = gameObject.transform.Find("Holder").gameObject;
         CartDisplayGameObject.SetActive(false);
-        pathCreator = FindObjectsOfType<PathCreator>()[0];
-        if (pathCreator == null)
+
+        foreach (PathCreator path in FindObjectsOfType<PathCreator>())
+        {
+            if (path.gameObject.tag == "BulletBillPath")
+            {
+                GlobalPathCreator = path;
+                break;
+            }
+        }
+
+        if (GlobalPathCreator == null)
         {
             Destroy(this);
             return;
         }
-        distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+
+        distanceTravelled = GlobalPathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        gdist = distanceTravelled + 60f;
+        aimPoint = GlobalPathCreator.path.GetPointAtDistance(gdist);
+        Vector3 v = aimPoint - transform.position;
+        float dist = Mathf.Sqrt(v.x * v.x + v.z * v.z);
+        if (dist > MaxDistSPawnBulletBill)
+        {
+            Vector3[] waypoints = { transform.position, aimPoint };
+            BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xz);
+            bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
+            bezierPath.SetPoint(0, transform.position);
+            bezierPath.SetPoint(3, aimPoint);
+            bezierPath.SetPoint(1, bezierPath.GetPoint(0));
+            bezierPath.SetPoint(2, bezierPath.GetPoint(3));
+
+            speed = 25;
+            UsingLocalPath = true;
+            distanceTravelled = 0;
+            BulletBillPathCreator.bezierPath = bezierPath;
+            UsablePath = BulletBillPathCreator;
+
+
+            return;
+        }
+        UsablePath = GlobalPathCreator;
+
     }
-    // Update is called once per frame
+
     void Update()
     {
-        if (!ps.BulletBill || pathCreator == null)
+        if (!ps.BulletBill || UsablePath == null)
         {
 
             Destroy(this);
+        
             return;
         }
 
         RaycastHit hit1, hit2;
-
+        if (UsingLocalPath)
+        {
+            speed = (distanceTravelled / UsablePath.path.length) * MAXSPEED + 10;
+            if (speed > MAXSPEED)
+            {
+                speed = MAXSPEED;    
+            }
+        }
         distanceTravelled += speed * Time.deltaTime;
+        if (UsingLocalPath && UsablePath.path.length < distanceTravelled)
+        {
+            speed = 100;
+            UsingLocalPath = false;
+            UsablePath = GlobalPathCreator;
+            distanceTravelled = gdist;
+        }
+        Vector3 provPos = UsablePath.path.GetPointAtDistance(distanceTravelled);
+        float offset = 1f;
+        Quaternion provRot = UsablePath.path.GetRotationAtDistance(distanceTravelled);
 
-        Vector3 provPos = pathCreator.path.GetPointAtDistance(distanceTravelled);
-        float offset = 0.5f;
         int iteration = 0;
-        mask = LayerMask.GetMask("Ground", "OffRoad");
-    start:
-        //casting a ray to determine the height of the road
-        //Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down,Color.red,20,false);
+    //casting a ray to determine the height of the road
+    Start:
+        Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, Color.red, 20, false);
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
+            offset += 0.3f;
             iteration++;
-            offset += 0.1f;
-            if (iteration > 100)
+            if (iteration > 30)
             {
-
-                Debug.LogError("didn't hit anything\n");
-                return;
+                Debug.LogError("didn't hit");
+                goto followpathcondition;
             }
-            goto start;
-        }
-
-        Quaternion provRot = pathCreator.path.GetRotationAtDistance(distanceTravelled);
-
-        float y = provRot.eulerAngles.y;
-
-        //rotation calculation
-        if (!Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f, mask))
-        {
-
-        }
-        Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
-
-        //applying
-        if (hit1.collider.gameObject.CompareTag("Wall"))
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
-        }
-        else 
-        { 
-            transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z);
-        }
-        if (transform.position.y - hit1.point.y > 3)
-        {
-            transform.position = new Vector3(provPos.x, transform.position.y -(9.81f*Time.deltaTime), provPos.z);
-
+            goto Start;
         }
         else
         {
-
-
-            transform.position = new Vector3(provPos.x, hit1.point.y + 0.25f, provPos.z);
+            Debug.Log(hit1.collider.gameObject);
+            if (Mathf.Abs(transform.position.y - hit1.point.y) > 3)
+            {
+                goto followpathcondition;
+            }
+            else
+            {
+                transform.position = new Vector3(provPos.x, hit1.point.y, provPos.z);
+            }
         }
+   
+        float y = provRot.eulerAngles.y;
+        
+        //rotation calculation
+        if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f, mask))
+        {
+            Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
+            if (UsingLocalPath)
+            {
+                
+                var localRot = GlobalPathCreator.path.GetRotationAtDistance(gdist);
+                transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x,Mathf.LerpAngle( y,localRot.eulerAngles.y, distanceTravelled / UsablePath.path.length), transform.rotation.eulerAngles.z);
+                goto sync;
+            }
+            transform.rotation =Quaternion.Slerp( transform.rotation,Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z), turnRate * Time.deltaTime);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z), turnRate * Time.deltaTime);
+        }
+
+    //applying
+    sync:
         SyncBulletBillPosition();
-         
+        return;
+
+    followpathcondition:
+        transform.position = provPos;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(provRot.eulerAngles.x, provRot.eulerAngles.y, transform.rotation.eulerAngles.z), turnRate* Time.deltaTime);
+        goto sync;
     }
             
     private void SyncBulletBillPosition()
     {
-        BulletBillGameObject.transform.position = new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f);
+        BulletBillGameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 2.91f, transform.position.z - 1.08f);
         BulletBillGameObject.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x + 90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
     }
