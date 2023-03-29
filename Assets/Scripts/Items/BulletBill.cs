@@ -27,12 +27,13 @@ public class BulletBill : MonoBehaviourPun
     GameObject PathKeeper; 
     GameObject CartDisplayGameObject;
     public LayerMask mask;
-    public float turnRate= 0.02f;
+    public float turnRate= 7.5f;
     public float MaxDistSPawnBulletBill = 2.0f;
     private Vector3 aimPoint;
     private float gdist;
     void Start()
     {
+        mask = LayerMask.GetMask("Ground", "OffRoad");
         BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
         PathKeeper = Instantiate(new GameObject("BulletPathKeeper"));
         BulletBillPathCreator = PathKeeper.AddComponent<PathCreator>();
@@ -94,7 +95,7 @@ public class BulletBill : MonoBehaviourPun
             return;
         }
 
-        RaycastHit hit1, hit2, hit3 ;
+        RaycastHit hit1, hit2;
         if (UsingLocalPath)
         {
             speed = (distanceTravelled / UsablePath.path.length) * MAXSPEED + 10;
@@ -103,35 +104,37 @@ public class BulletBill : MonoBehaviourPun
                 speed = MAXSPEED;    
             }
         }
+        distanceTravelled += speed * Time.deltaTime;
         if (UsingLocalPath && UsablePath.path.length < distanceTravelled)
         {
             speed = 100;
             UsingLocalPath = false;
             UsablePath = GlobalPathCreator;
-            distanceTravelled = UsablePath.path.GetClosestDistanceAlongPath(transform.position);
+            distanceTravelled = gdist;
         }
-        distanceTravelled += speed * Time.deltaTime;
         Vector3 provPos = UsablePath.path.GetPointAtDistance(distanceTravelled);
-        float offset = 0.5f;
-        mask = LayerMask.GetMask("Ground", "OffRoad");
+        float offset = 1f;
         Quaternion provRot = UsablePath.path.GetRotationAtDistance(distanceTravelled);
 
         int iteration = 0;
     //casting a ray to determine the height of the road
     Start:
+        Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, Color.red, 20, false);
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
             offset += 0.3f;
             iteration++;
             if (iteration > 30)
             {
+                Debug.LogError("didn't hit");
                 goto followpathcondition;
             }
             goto Start;
         }
         else
         {
-            if (transform.position.y - hit1.point.y > 3)
+            Debug.Log(hit1.collider.gameObject);
+            if (Mathf.Abs(transform.position.y - hit1.point.y) > 3)
             {
                 goto followpathcondition;
             }
@@ -154,11 +157,11 @@ public class BulletBill : MonoBehaviourPun
                 transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x,Mathf.LerpAngle( y,localRot.eulerAngles.y, distanceTravelled / UsablePath.path.length), transform.rotation.eulerAngles.z);
                 goto sync;
             }
-            transform.rotation =Quaternion.Slerp(transform.rotation, Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z),turnRate);
+            transform.rotation =Quaternion.Slerp( transform.rotation,Quaternion.Euler(newRotation.eulerAngles.x, y, transform.rotation.eulerAngles.z), turnRate * Time.deltaTime);
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z), turnRate);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, y, transform.rotation.eulerAngles.z), turnRate * Time.deltaTime);
         }
 
     //applying
@@ -168,7 +171,7 @@ public class BulletBill : MonoBehaviourPun
 
     followpathcondition:
         transform.position = provPos;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(provRot.eulerAngles.x, provRot.eulerAngles.y, transform.rotation.eulerAngles.z), turnRate);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(provRot.eulerAngles.x, provRot.eulerAngles.y, transform.rotation.eulerAngles.z), turnRate* Time.deltaTime);
         goto sync;
     }
             
