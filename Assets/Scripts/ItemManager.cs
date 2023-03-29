@@ -15,6 +15,7 @@ public class ItemManager : MonoBehaviourPun
     int amount = 0;
     [SerializeField] private AudioClip starTheme;
     [SerializeField] private Material rainbow;
+    [SerializeField] private GameObject[] itemModels;
     private SkinManager skinManager;
 
     private void Start()
@@ -36,6 +37,14 @@ public class ItemManager : MonoBehaviourPun
             amount = ItemRoulette.instance.selectedItem.amount;
         }
 
+        if (!ItemRoulette.instance.spinning)
+        {
+            for (int i = 0; i < itemModels.Length; i++)
+            {
+                itemModels[i].SetActive(i == (int)selectedItem.itemType);
+            }
+            skinManager.characters[skinManager.selectedCharacter].modelAnimator.SetBool("HoldingItem", selectedItem != nothing);
+        }
 
         if (!GlobalData.UseController)
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Character
 {
     public string name;
-    public GameObject model;
+    public GameObject model, handPlace;
     public Animator modelAnimator;
     public Material kartMaterial;
 }

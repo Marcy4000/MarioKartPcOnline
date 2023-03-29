@@ -7,6 +7,7 @@ public class SkinManager : MonoBehaviourPun
 {
     public static SkinManager instance { get; private set; }
     public Character[] characters;
+    public GameObject itemThing;
     public int selectedCharacter;
     public SkinnedMeshRenderer skinnedMeshRenderer, emblemMesh;
     [SerializeField] private Animator characterAnimator;
@@ -34,6 +35,9 @@ public class SkinManager : MonoBehaviourPun
         }
         characters[character].model.SetActive(true);
         characterAnimator = characters[character].modelAnimator;
+        itemThing.transform.SetParent(characters[character].handPlace.transform);
+        itemThing.transform.position = characters[character].handPlace.transform.position;
+        itemThing.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void Update()
