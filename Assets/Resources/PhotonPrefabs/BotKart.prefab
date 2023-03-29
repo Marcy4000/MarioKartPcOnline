@@ -11570,30 +11570,36 @@ MonoBehaviour:
   characters:
   - name: Mario
     model: {fileID: 5249111865250113158}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 6500415553437996094, guid: b555d0cf027ed7243828ad1b19448505,
       type: 3}
     kartMaterial: {fileID: 2100000, guid: 2568a74697db61d44a6abd1e615d437b, type: 2}
   - name: Luigi
     model: {fileID: 892596723820125871}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 2144895496930345890, guid: b555d0cf027ed7243828ad1b19448505,
       type: 3}
     kartMaterial: {fileID: 2100000, guid: 66541fc92b2fc9e478ba5e195963b63d, type: 2}
   - name: Yoshi
     model: {fileID: 3909627065394341806}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 4345632508151680483, guid: b555d0cf027ed7243828ad1b19448505,
       type: 3}
     kartMaterial: {fileID: 2100000, guid: acb1fec699969324ca21f92bb47a495e, type: 2}
   - name: Waluigi
     model: {fileID: 2298011054345775218}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 741461523852263758, guid: b555d0cf027ed7243828ad1b19448505,
       type: 3}
     kartMaterial: {fileID: 2100000, guid: c3ade6a79ba59b041bf3a92e05b41a2f, type: 2}
   - name: Ermes
     model: {fileID: 6754276094335776985}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 2700495399133460546}
     kartMaterial: {fileID: 2100000, guid: b045100aac0620541a30bcf6f9a7c803, type: 2}
   - name: Toad
     model: {fileID: 3354197165211406577}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 3447697868528343462}
     kartMaterial: {fileID: 2100000, guid: 73d2890fc76d63649975d6f482b46572, type: 2}
   selectedCharacter: 0
