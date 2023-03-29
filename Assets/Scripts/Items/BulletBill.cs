@@ -4,6 +4,7 @@ using PathCreation;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using TMPro;
 using Unity.VisualScripting;
@@ -28,6 +29,8 @@ public class BulletBill : MonoBehaviourPun
     public LayerMask mask;
     public float turnRate= 0.02f;
     public float MaxDistSPawnBulletBill = 2.0f;
+    private Vector3 aimPoint;
+    private float gdist;
     void Start()
     {
         BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
@@ -54,16 +57,17 @@ public class BulletBill : MonoBehaviourPun
         }
 
         distanceTravelled = GlobalPathCreator.path.GetClosestDistanceAlongPath(transform.position);
-        Vector3 point = GlobalPathCreator.path.GetPointAtDistance(distanceTravelled);
-        Vector3 v = point - transform.position;
+        gdist = distanceTravelled + 60f;
+        aimPoint = GlobalPathCreator.path.GetPointAtDistance(gdist);
+        Vector3 v = aimPoint - transform.position;
         float dist = Mathf.Sqrt(v.x * v.x + v.z * v.z);
         if (dist > MaxDistSPawnBulletBill)
         {
-            Vector3[] waypoints = { transform.position, point };
+            Vector3[] waypoints = { transform.position, aimPoint };
             BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xz);
             bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
             bezierPath.SetPoint(0, transform.position);
-            bezierPath.SetPoint(3, point);
+            bezierPath.SetPoint(3, aimPoint);
             bezierPath.SetPoint(1, bezierPath.GetPoint(0));
             bezierPath.SetPoint(2, bezierPath.GetPoint(3));
 
@@ -111,12 +115,19 @@ public class BulletBill : MonoBehaviourPun
         float offset = 0.5f;
         mask = LayerMask.GetMask("Ground", "OffRoad");
         Quaternion provRot = UsablePath.path.GetRotationAtDistance(distanceTravelled);
-        
-    
-        //casting a ray to determine the height of the road
+
+        int iteration = 0;
+    //casting a ray to determine the height of the road
+    Start:
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
-            goto followpathcondition;
+            offset += 0.3f;
+            iteration++;
+            if (iteration > 30)
+            {
+                goto followpathcondition;
+            }
+            goto Start;
         }
         else
         {
@@ -138,8 +149,8 @@ public class BulletBill : MonoBehaviourPun
             Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit2.normal) * transform.rotation;
             if (UsingLocalPath)
             {
-                var localDist = GlobalPathCreator.path.GetClosestDistanceAlongPath(transform.position);
-                var localRot = GlobalPathCreator.path.GetRotationAtDistance(localDist);
+                
+                var localRot = GlobalPathCreator.path.GetRotationAtDistance(gdist);
                 transform.rotation = Quaternion.Euler(newRotation.eulerAngles.x,Mathf.LerpAngle( y,localRot.eulerAngles.y, distanceTravelled / UsablePath.path.length), transform.rotation.eulerAngles.z);
                 goto sync;
             }
