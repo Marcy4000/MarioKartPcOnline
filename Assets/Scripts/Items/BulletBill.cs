@@ -72,7 +72,7 @@ public class BulletBill : MonoBehaviourPun
             bezierPath.SetPoint(1, bezierPath.GetPoint(0));
             bezierPath.SetPoint(2, bezierPath.GetPoint(3));
 
-            speed = 25;
+            speed = MAXSPEED;
             UsingLocalPath = true;
             distanceTravelled = 0;
             BulletBillPathCreator.bezierPath = bezierPath;
@@ -96,14 +96,7 @@ public class BulletBill : MonoBehaviourPun
         }
 
         RaycastHit hit1, hit2;
-        if (UsingLocalPath)
-        {
-            speed = (distanceTravelled / UsablePath.path.length) * MAXSPEED + 10;
-            if (speed > MAXSPEED)
-            {
-                speed = MAXSPEED;    
-            }
-        }
+        
         distanceTravelled += speed * Time.deltaTime;
         if (UsingLocalPath && UsablePath.path.length < distanceTravelled)
         {
@@ -113,13 +106,13 @@ public class BulletBill : MonoBehaviourPun
             distanceTravelled = gdist;
         }
         Vector3 provPos = UsablePath.path.GetPointAtDistance(distanceTravelled);
-        float offset = 1f;
+        float offset = 0.8f;
         Quaternion provRot = UsablePath.path.GetRotationAtDistance(distanceTravelled);
 
         int iteration = 0;
     //casting a ray to determine the height of the road
     Start:
-        Debug.DrawRay(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, Color.red, 20, false);
+        
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
             offset += 0.3f;
