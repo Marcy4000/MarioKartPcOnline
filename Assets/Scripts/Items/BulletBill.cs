@@ -62,8 +62,7 @@ public class BulletBill : MonoBehaviourPun
         aimPoint = GlobalPathCreator.path.GetPointAtDistance(gdist);
         Vector3 v = aimPoint - transform.position;
         float dist = Mathf.Sqrt(v.x * v.x + v.z * v.z);
-        if (dist > MaxDistSPawnBulletBill)
-        {
+        
             Vector3[] waypoints = { transform.position, aimPoint };
             BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xz);
             bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
@@ -77,12 +76,6 @@ public class BulletBill : MonoBehaviourPun
             distanceTravelled = 0;
             BulletBillPathCreator.bezierPath = bezierPath;
             UsablePath = BulletBillPathCreator;
-
-
-            return;
-        }
-        UsablePath = GlobalPathCreator;
-
     }
 
     void Update()
