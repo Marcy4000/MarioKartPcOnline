@@ -82,19 +82,9 @@ public class ItemManager : MonoBehaviourPun
                 script.SetCurrentKartLap(kart);
                 break;
             case Items.blueShell:
-                KartLap targetKart = PlaceCounter.instance.karts[0];
-                foreach (var _kart in PlaceCounter.instance.karts)
-                {
-                    if (_kart.racePlace == RacePlace.first)
-                    {
-                        targetKart = _kart;
-                        break;
-                    }
-                }
-                
-                GameObject blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), targetKart.shellBackSPos.position, targetKart.transform.rotation * new Quaternion(0f, 1f, 0f, 0f));
+                GameObject blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), fireballSpawnPos.position, transform.rotation);
                 BlueShell blueScript = blueShell.GetComponent<BlueShell>();
-                blueScript.target = targetKart.transform;
+                blueScript.SetCurrentKartLap(kart);
                 break;
             case Items.banana:
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Banana"), bananaSpawnPos.position, bananaSpawnPos.rotation);

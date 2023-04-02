@@ -59,44 +59,32 @@ public class BotItemManager : MonoBehaviourPun
                 script.SetCurrentKartLap(kart);
                 break;
             case Items.blueShell:
-                KartLap targetKart = PlaceCounter.instance.karts[0];
-                foreach (var _kart in PlaceCounter.instance.karts)
-                {
-                    if (_kart.racePlace == RacePlace.first)
-                    {
-                        targetKart = _kart;
-                        break;
-                    }
-                }
-                GameObject blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), targetKart.shellBackSPos.position, targetKart.transform.rotation * new Quaternion(0f, 1f, 0f, 0f));
+
+                GameObject blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), fireballSpawnPos.position, transform.rotation);
                 BlueShell blueScript = blueShell.GetComponent<BlueShell>();
-                blueScript.target = targetKart.transform;
+                blueScript.SetCurrentKartLap(kart);
                 break;
+
             case Items.banana:
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Banana"), bananaSpawnPos.position, transform.rotation);
                 break;
+
             case Items.star:
                 redShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NewRedShell"), fireballSpawnPos.position, transform.rotation);
                 script = redShell.GetComponent<RedShell>();
                 script.SetCurrentKartLap(kart);
                 break;
+
             case Items.fireFlower:
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Fireball"), fireballSpawnPos.position, transform.rotation);
                 break;
+
             case Items.bulletBill:
-                targetKart = PlaceCounter.instance.karts[0];
-                foreach (var _kart in PlaceCounter.instance.karts)
-                {
-                    if (_kart.racePlace == RacePlace.first)
-                    {
-                        targetKart = _kart;
-                        break;
-                    }
-                }
-                blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), targetKart.shellBackSPos.position, targetKart.transform.rotation * new Quaternion(0f, 1f, 0f, 0f));
+                blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), fireballSpawnPos.position, transform.rotation);
                 blueScript = blueShell.GetComponent<BlueShell>();
-                blueScript.target = targetKart.transform;
+                blueScript.SetCurrentKartLap(kart);
                 break;
+
             case Items.blooper:
                 photonView.RPC("UseBlooper", RpcTarget.All, PhotonNetwork.LocalPlayer, kart.racePlace);
                 break;

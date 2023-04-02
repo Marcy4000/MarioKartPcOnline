@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using UnityEngine.Rendering;
 
 public class RedShell : MonoBehaviourPun
 {
@@ -13,9 +14,8 @@ public class RedShell : MonoBehaviourPun
     [SerializeField] private Transform groundRayPoint;
     private bool grounded;
     [SerializeField] private KartLap targetKart, currKart;
-    public int currentCheckpoint, targetCheckPoint;
+    public int currentCheckpoint;
     [SerializeField] private Transform nextCheckPoint;
-    private int lastValue;
     [SerializeField] private bool move = false;
     private bool safeMode = false;
     [SerializeField] bool useNewRedshellCode;
@@ -29,7 +29,6 @@ public class RedShell : MonoBehaviourPun
             return;
         }
         rb.AddForce(transform.forward * 1500f, ForceMode.Impulse);
-        StartCoroutine(Timer());
     }
 
     public void SetCurrentKartLap(KartLap _kart)
@@ -40,29 +39,17 @@ public class RedShell : MonoBehaviourPun
         {
             if (kart.racePlace == currKart.racePlace - 1)
             {
-                if (useNewRedshellCode)
-                {
                     targetKart = kart;
                     agent.destination = targetKart.frontPosition.position;
                     StartCoroutine(SafeFrames());
-                }
-                else
-                {
-                    targetKart = kart;
-                    move = true;
-                }
-                Debug.Log("Found Thing");
+                
+                Debug.Log("Red Shell found target");
                 return;
             }
         }
         AskToDestroy();
     }
 
-    IEnumerator Timer()
-    {
-        yield return new WaitForSeconds(25f);
-        safeMode = true;
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -102,80 +89,32 @@ public class RedShell : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine || (!agent.isOnNavMesh && ! agent.isOnOffMeshLink))
         {
             return;
         }
 
-        if (!useNewRedshellCode)
+        if (!agent.pathPending)
         {
-            if (!move)
+            if (Time.frameCount % 15 == 0)
             {
+                
+                agent.destination = targetKart.frontPosition.position;
                 return;
             }
-
-            if (lastValue != currentCheckpoint)
+            
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                nextCheckPoint = GetNextCheckPoint();
-            }
-
-            if (!safeMode)
-            {
-                transform.LookAt(targetKart.transform, Vector3.up);
-            }
-            else
-            {
-                transform.position = targetKart.transform.position;
-            }
-        }
-        else
-        {
-            if (!agent.pathPending)
-            {
-                if (Time.frameCount % 15 == 0)
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                 {
                     agent.destination = targetKart.frontPosition.position;
-                    return;
-                }
-
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                    {
-                        agent.destination = targetKart.frontPosition.position;
-                    }
                 }
             }
         }
+        
     }
 
-    private Transform GetNextCheckPoint()
-    {
-        LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
-
-        if (currentCheckpoint == targetKart.CheckpointIndex)
-        {
-            return targetKart.transform;
-        }
-
-        foreach (var item in things)
-        {
-            if (item.Index == currentCheckpoint)
-            {
-                return item.next;
-            }
-        }
-
-        foreach (var item in things)
-        {
-            if (item.Index == 1)
-            {
-                return item.transform;
-            }
-        }
-
-        return things[0].transform;
-    }
+  
 
     private IEnumerator SafeFrames()
     {
@@ -184,35 +123,4 @@ public class RedShell : MonoBehaviourPun
         GetComponent<SphereCollider>().enabled = true;
     }
 
-    private void FixedUpdate()
-    {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-
-        if (!useNewRedshellCode)
-        {
-            return;
-        }
-        grounded = false;
-        RaycastHit hit;
-
-        Debug.DrawRay(groundRayPoint.position, -transform.up * groundRayLenght);
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
-        {
-            grounded = true;
-        }
-
-        if (!move)
-        {
-            return;
-        }
-
-        if (!grounded)
-        {
-            rb.AddForce(-1200f * Vector3.up);
-        }
-        rb.AddForce(1000f * transform.forward);
-    }
 }

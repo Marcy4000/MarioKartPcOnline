@@ -146,7 +146,6 @@ MonoBehaviour:
   targetKart: {fileID: 0}
   currKart: {fileID: 0}
   currentCheckpoint: 0
-  targetCheckPoint: 0
   nextCheckPoint: {fileID: 0}
   move: 0
   useNewRedshellCode: 1
