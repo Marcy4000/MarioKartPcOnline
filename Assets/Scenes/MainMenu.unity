@@ -45402,54 +45402,67 @@ MonoBehaviour:
   characters:
   - name: Mario
     model: {fileID: 1216796003}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 2568a74697db61d44a6abd1e615d437b, type: 2}
   - name: Luigi
     model: {fileID: 1079472646}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 66541fc92b2fc9e478ba5e195963b63d, type: 2}
   - name: Yoshi
     model: {fileID: 229863330}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: acb1fec699969324ca21f92bb47a495e, type: 2}
   - name: Waluigi
     model: {fileID: 2027889243}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: c3ade6a79ba59b041bf3a92e05b41a2f, type: 2}
   - name: Ermes
     model: {fileID: 276587464}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: b045100aac0620541a30bcf6f9a7c803, type: 2}
   - name: Toad
     model: {fileID: 1774489001}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 73d2890fc76d63649975d6f482b46572, type: 2}
   - name: Vegito
     model: {fileID: 103984057}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 8bdb161621473114c948ae1e536e0a5c, type: 2}
   - name: Luffy
     model: {fileID: 1757410826}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 2568a74697db61d44a6abd1e615d437b, type: 2}
   - name: Marcy
     model: {fileID: 1167790691}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: acb1fec699969324ca21f92bb47a495e, type: 2}
   - name: Funky Kong
     model: {fileID: 568023255}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: f7aee9032a8dc6547b388cf044d30dec, type: 2}
   - name: Raboot
     model: {fileID: 1840302242}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: 8bdb161621473114c948ae1e536e0a5c, type: 2}
   - name: Sonic
     model: {fileID: 1873037843}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: bb28e1fbc3f7758479525926cdac36bf, type: 2}
   - name: Peach
     model: {fileID: 1479083019}
+    handPlace: {fileID: 0}
     modelAnimator: {fileID: 0}
     kartMaterial: {fileID: 2100000, guid: a3b67df08ff9fcc42943d8b0765bc781, type: 2}
   skinnedMeshRenderer: {fileID: 1970986519}

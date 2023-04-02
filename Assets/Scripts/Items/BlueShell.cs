@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.AI;
+using NUnit.Framework.Internal.Execution;
 
 public class BlueShell : MonoBehaviourPun
 {
     private Rigidbody rb;
-    public Transform target;
+    private KartLap targetKart, currKart;
+    private NavMeshAgent agent;
 
-    private void Start()
+    private void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (!photonView.IsMine)
         {
@@ -18,18 +22,65 @@ public class BlueShell : MonoBehaviourPun
         }
         rb.AddForce(transform.forward * 1200f, ForceMode.Impulse);
     }
+    public void SetCurrentKartLap(KartLap _kart)
+    {
+        currKart = _kart;
+        foreach (var kart in PlaceCounter.instance.karts)
+        {
+            if (kart.racePlace == RacePlace.first)
+            {
+                targetKart = kart;
+                agent.destination = targetKart.frontPosition.position;
+                StartCoroutine(SafeFrames());
 
+                Debug.Log("Blue Shell found target");
+                return;
+            }
+        }
+        AskToDestroy();
+    }
+    private IEnumerator SafeFrames()
+    {
+        GetComponent<SphereCollider>().enabled = false;
+        yield return new WaitForSeconds(1);
+        GetComponent<SphereCollider>().enabled = true;
+    }
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine || (!agent.isOnNavMesh && !agent.isOnOffMeshLink))
         {
             return;
         }
 
-        if (target != null)
+        if (targetKart.racePlace != RacePlace.first)
         {
-            transform.LookAt(target, Vector3.up);
+            foreach (var kart in PlaceCounter.instance.karts)
+            {
+                if (kart.racePlace == RacePlace.first)
+                {
+                    targetKart = kart;
+                    agent.destination = targetKart.frontPosition.position;
+                    Debug.Log("blue Shell found target");
+                }
+            }
         }
+        if (!agent.pathPending)
+        {
+            if (Time.frameCount % 15 == 0)
+            {
+                agent.destination = targetKart.frontPosition.position;
+                return;
+            }
+
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    agent.destination = targetKart.frontPosition.position;
+                }
+            }
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -41,8 +92,12 @@ public class BlueShell : MonoBehaviourPun
             {
                 return;
             }
-            player.GetHit(false);
-            photonView.RPC("AskToDestroy", RpcTarget.All);
+            player.GetHit(true);
+            if (collision.gameObject.GetComponent<KartLap>().racePlace == RacePlace.first)
+            {
+                    photonView.RPC("AskToDestroy", RpcTarget.All);
+            }
+
             return;
         }
 
@@ -54,7 +109,10 @@ public class BlueShell : MonoBehaviourPun
                 return;
             }
             kart.carController.GetHit();
-            photonView.RPC("AskToDestroy", RpcTarget.All);
+            if (kart.racePlace == RacePlace.first)
+            {
+                photonView.RPC("AskToDestroy", RpcTarget.All);
+            }
         }
     }
 
@@ -70,11 +128,5 @@ public class BlueShell : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-
-        rb.AddForce(2200f * transform.forward);
     }
 }
