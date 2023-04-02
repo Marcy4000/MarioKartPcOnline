@@ -60,6 +60,12 @@ public class OptionsMenu : MonoBehaviour
         useController.isOn = GlobalData.UseController;
         dummyKart.SetCharacter(GlobalData.SelectedCharacter);
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
+        dummyKart.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        dummyKart.gameObject.SetActive(false);
     }
 
     public void SetResolution(int resolutionIndex)

@@ -12,6 +12,7 @@ public class EmblemEditor : MonoBehaviour
     public SkinnedMeshRenderer dummyKartEmblem;
     private Material dummyKartMat;
     private Texture2D emblem;
+    [SerializeField] private GameObject dummyKart;
     private ExitGames.Client.Photon.Hashtable _myCustomProprieties = new ExitGames.Client.Photon.Hashtable();
 
     private void Start()
@@ -31,6 +32,12 @@ public class EmblemEditor : MonoBehaviour
     private void OnEnable()
     {
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
+        dummyKart.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        dummyKart.SetActive(false);
     }
 
     public void LoadTexture()
