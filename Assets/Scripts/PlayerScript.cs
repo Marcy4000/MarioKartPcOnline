@@ -57,7 +57,7 @@ public class PlayerScript : MonoBehaviour
 
     public Transform boostFire;
     public Transform boostExplosion;
-
+    private bool alreadyDown = false;
     private void OnEnable()
     {
         Countdown.Instance.OnCountdownEnded += CountdownEnded;
@@ -72,7 +72,14 @@ public class PlayerScript : MonoBehaviour
     {
         canMove = true;
     }
-
+    private void AddBostAfterCountDownEnded()
+    {
+        BoostTime = 5f;
+    }
+    private void StallAfterCountDownEnded()
+    {
+        GetHit(true);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +97,21 @@ public class PlayerScript : MonoBehaviour
 
         if (!canMove)
         {
+            if (Cutscene.instance.isPlaying) return;
+            if (alreadyDown) return;
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetButton("Fire2"))
+            {
+                alreadyDown = true;
+                if (Countdown.Instance.canDoRocketBoost)
+                {
+                    Countdown.Instance.OnCountdownEnded += AddBostAfterCountDownEnded;
+                }
+                else
+                {
+
+                    Countdown.Instance.OnCountdownEnded += StallAfterCountDownEnded;
+                }
+            }
             return;
         }
 
@@ -149,7 +171,6 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-
     public void GetHit(bool spin)
     {
         if (star || BulletBill)

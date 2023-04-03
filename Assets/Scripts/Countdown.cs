@@ -9,7 +9,7 @@ public class Countdown : MonoBehaviour
     [SerializeField] private TMP_Text countdownText;
     [SerializeField] private AudioSource numbers, go;
     public Animator lakitu;
-
+    public bool canDoRocketBoost  = false;
     public delegate void CountdownEnded();
     public event CountdownEnded OnCountdownEnded;
 
@@ -25,6 +25,7 @@ public class Countdown : MonoBehaviour
 
     IEnumerator CountdownThing()
     {
+
         lakitu.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.6f);
         lakitu.SetTrigger("doCountdown");
@@ -35,7 +36,10 @@ public class Countdown : MonoBehaviour
         yield return new WaitForSeconds(1f);
         countdownText.text = "2";
         numbers.Play();
-        yield return new WaitForSeconds(1f);
+        canDoRocketBoost = true;
+        yield return new WaitForSeconds(0.5f);
+        canDoRocketBoost = false;
+        yield return new WaitForSeconds(0.5f);
         countdownText.text = "1";
         numbers.Play();
         yield return new WaitForSeconds(1f);
