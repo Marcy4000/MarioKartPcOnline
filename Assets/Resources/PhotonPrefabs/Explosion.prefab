@@ -64,6 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 8cb4d6fee77fd4ee6895f08b240d625f, type: 2}
   - {fileID: 2100000, guid: 5e4c1da01c41fbe4393d40526bcd2b80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b612905adc54cb41884f9fd1e6a349b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionRange: 10
+  ExplosionRange: 30
   explosionSpeed: 0.258
   alreadyExec: 0
   playerMask:

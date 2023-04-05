@@ -89,10 +89,6 @@ public class BlueShell : MonoBehaviourPun
                 if (kart.racePlace == RacePlace.first)
                 {
                     targetKart = kart;
-<<<<<<< Updated upstream
-                    agent.destination = targetKart.frontPosition.position;
-=======
->>>>>>> Stashed changes
                     Debug.Log("blue Shell found target");
                 }
             }

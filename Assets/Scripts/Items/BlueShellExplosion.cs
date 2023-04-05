@@ -21,7 +21,7 @@ public class BlueShellExplosion : MonoBehaviour
         transform.localScale += Vector3.one * explosionSpeed;
         else if(!alreadyExec)
         {
-
+            CheckCollision();
         }
     }
     void CheckCollision()
