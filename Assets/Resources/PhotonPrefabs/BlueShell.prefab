@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 7499700741604764667}
   - component: {fileID: 210153745313240627}
   - component: {fileID: 257745234309929046}
-  - component: {fileID: 2001537183492297395}
   - component: {fileID: 2650800316306399600}
   - component: {fileID: -1091577127544422268}
-  - component: {fileID: 6512116353582636493}
+  - component: {fileID: 6988768452818400812}
   m_Layer: 7
   m_Name: BlueShell
   m_TagString: Item
@@ -73,22 +72,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5fa92a674bf444b98bde2ea70de8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &2001537183492297395
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480959477932312558}
-  serializedVersion: 2
-  m_Mass: 40
-  m_Drag: 0
-  m_AngularDrag: 65
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  animator: {fileID: 6988768452818400812}
+  PlayingAnimation: 0
+  child: {fileID: 5943732072476607177}
 --- !u!135 &2650800316306399600
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -135,14 +121,16 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!195 &6512116353582636493
-NavMeshAgent:
+--- !u!95 &6988768452818400812
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480959477932312558}
   m_Enabled: 1
+<<<<<<< Updated upstream
   m_AgentTypeID: 0
   m_Radius: 1.7
   m_Speed: 154
@@ -157,6 +145,19 @@ NavMeshAgent:
   m_BaseOffset: 1.4
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+=======
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 65bb5e7af20299d4391caa9f1cbc42ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+>>>>>>> Stashed changes
 --- !u!1001 &1163390441663130715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,6 +265,12 @@ PrefabInstance:
 --- !u!4 &1706732369535765424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c5fdfa7a74e654c4aa7e1209459fedec,
+    type: 3}
+  m_PrefabInstance: {fileID: 1163390441663130715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5943732072476607177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4780942250663931538, guid: c5fdfa7a74e654c4aa7e1209459fedec,
     type: 3}
   m_PrefabInstance: {fileID: 1163390441663130715}
   m_PrefabAsset: {fileID: 0}

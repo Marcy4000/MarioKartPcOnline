@@ -248,6 +248,12 @@
       "dependencies": {},
       "hash": "f45424822189ebd875d864a17d7f03b72eafbff7"
     },
+    "jp.keijiro.noiseshader": {
+      "version": "file:jp.keijiro.noiseshader",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
