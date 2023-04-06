@@ -8,7 +8,7 @@ public class Cutscene : MonoBehaviour
     public AudioSource introMusic;
     private GameObject mainCam;
     Animator animator;
-
+    public bool isPlaying = false;
     private void Start()
     {
         instance = this;
@@ -17,6 +17,7 @@ public class Cutscene : MonoBehaviour
 
     public void PlayCutscene(GameObject mainCamera)
     {
+        isPlaying = true;
         mainCam = mainCamera;
         mainCamera.SetActive(false);
         animator.Play("cutscene");
@@ -25,6 +26,7 @@ public class Cutscene : MonoBehaviour
 
     public void CutsceneEnded()
     {
+        isPlaying = false; 
         mainCam.SetActive(true);
         Countdown.Instance.StartCountdown();
         gameObject.SetActive(false);

@@ -66,7 +66,7 @@ public class BlueShell : MonoBehaviourPun
     private IEnumerator SafeFrames()
     {
         GetComponent<SphereCollider>().enabled = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         GetComponent<SphereCollider>().enabled = true;
     }
     private void Update()
