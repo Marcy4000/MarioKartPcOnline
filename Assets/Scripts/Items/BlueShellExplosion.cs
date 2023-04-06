@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,7 @@ public class BlueShellExplosion : MonoBehaviour
     Renderer rendererBack;
     bool dissolve = false;
     bool lightdown = false;
+    public PhotonView pv;
     // Start is called before the first frame update
 
     private void Start()
@@ -26,20 +28,29 @@ public class BlueShellExplosion : MonoBehaviour
         renderer = GetComponent<Renderer>();
         rendererFront = FrontSphere.GetComponent<Renderer>();
         rendererBack = BackSphere.GetComponent<Renderer>();
+        StartCoroutine(DeleteFront());
+
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-       
-        if (FrontSphere.transform.localScale.x > 0.99f)
+
+        if (FrontSphere  && FrontSphere.transform.localScale.x > 0.99f)
         {
-            FrontSphere.transform.localScale -= Vector3.one * explosionSpeed/10;
+            FrontSphere.transform.localScale -= Vector3.one * explosionSpeed / 10;
         }
-        else
+        else if (FrontSphere)
         {
             FrontSphere.transform.localScale = Vector3.one * 0.99f;
         }
-
+        if (BackSphere && BackSphere.transform.localScale.x > 0.99f)
+        {
+            BackSphere.transform.localScale -= Vector3.one * explosionSpeed / 10;
+        }
+        else if (BackSphere)
+        {
+            BackSphere.transform.localScale = Vector3.one * 0.99f;
+        }
         if (transform.localScale.x < ExplosionRange)
         {
             transform.localScale += Vector3.one * explosionSpeed;
@@ -49,11 +60,16 @@ public class BlueShellExplosion : MonoBehaviour
             
             CheckCollision();
             StartCoroutine(WaitToDestoy());
+            alreadyExec = true;
         }
         if (lightdown)
         {
-            rendererFront.material.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f,rendererFront.material.GetColor("_BaseColor").a - 0.01f));
-            rendererBack.material.SetColor("_BaseColor", new Color(1.0f, 1.0f, 1.0f, rendererBack.material.GetColor("_BaseColor").a - 0.01f));
+            light1.intensity -= 1.0f;
+            light2.intensity -= 1.0f;
+            if (light1.intensity < 20)
+            {
+                Destroy(FrontSphere.gameObject);
+            }
 
         }
         if (dissolve) 
@@ -70,19 +86,37 @@ public class BlueShellExplosion : MonoBehaviour
 
         
     }
-    
+    IEnumerator DeleteFront()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Destroy(FrontSphere.gameObject);
+    }
     void CheckCollision()
     {
+        if (!pv.IsMine) return;   
         Collider[] colliders = Physics.OverlapSphere(transform.position,ExplosionRange,playerMask);
         foreach (Collider c in colliders)
         {
-            
+            var pv = c.gameObject.GetComponent<PhotonView>();
+            var ps = c.gameObject.GetComponent<PlayerScript>();
+            if (pv) {
+                if (ps)
+                {
+                    pv.RPC("PlayerGetHitRPC", RpcTarget.All, false);
+                }
+                else
+                {
+                    pv.RPC("BotGetHitRPC", RpcTarget.All, false);
+                }
+                
+            }
         }
     }
     IEnumerator WaitToDestoy()
     {
         lightdown = true;
         yield return new WaitForSeconds(0.2f);
+        Destroy(BackSphere);
         dissolve = true;
     }
 }

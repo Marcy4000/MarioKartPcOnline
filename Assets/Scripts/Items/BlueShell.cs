@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.UIElements;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
+using System.IO;
 
 public class BlueShell : MonoBehaviourPun
 {
@@ -163,6 +164,10 @@ public class BlueShell : MonoBehaviourPun
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.GetComponent<KartLap>().racePlace == targetKart.racePlace)
+        {
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Explosion"), transform.position, Quaternion.identity);
+        }
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
@@ -178,7 +183,7 @@ public class BlueShell : MonoBehaviourPun
 
             return;
         }
-
+       
         if (collision.gameObject.GetComponent<KartLap>())
         {
             KartLap kart = collision.gameObject.GetComponent<KartLap>();
