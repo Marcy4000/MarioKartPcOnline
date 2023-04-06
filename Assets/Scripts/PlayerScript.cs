@@ -577,6 +577,15 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
+    [PunRPC]
+    void PlayerGetHitRPC(bool b)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        GetHit(b);
+    }
     private Transform GetNextCheckPoint()
     {
         LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();

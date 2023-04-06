@@ -298,4 +298,13 @@ public class CarController : MonoBehaviourPun
 
         return things[0].transform;
     }
+    [PunRPC]
+    void BotGetHitRPC(bool b)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        GetHit();
+    }
 }

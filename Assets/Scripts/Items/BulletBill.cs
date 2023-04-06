@@ -72,9 +72,7 @@ public class BulletBill : MonoBehaviourPun
     {
         if (!ps.BulletBill || UsablePath == null)
         {
-
             Destroy(this);
-        
             return;
         }
 
@@ -95,7 +93,6 @@ public class BulletBill : MonoBehaviourPun
         int iteration = 0;
     //casting a ray to determine the height of the road
     Start:
-        
         if (!Physics.Raycast(new Vector3(provPos.x, transform.position.y + offset, provPos.z), Vector3.down, out hit1, 1000f, mask))
         {
             offset += 0.3f;
