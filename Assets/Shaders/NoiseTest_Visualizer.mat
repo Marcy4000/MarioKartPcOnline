@@ -23,16 +23,24 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Fractal: 1
+    - _Glossiness: 0.5
     - _Gradient: 0
+    - _Metallic: 0
     - _NoiseType: 1
+    - _Octaves: 8
+    - _Progress: 0
     - _Speed: 2.42
     - _ThreeD: 1
     m_Colors:
     - _Color: {r: 0.5424528, g: 0.6998745, b: 1, a: 1}
-    - _Color0: {r: 0, g: 0.3013629, b: 0.7075472, a: 0}
+    - _Color0: {r: 0, g: 0.25828093, b: 0.6037736, a: 0}
     - _Color1: {r: 0.7971698, g: 0.8847556, b: 1, a: 1}
   m_BuildTextureStacks: []
