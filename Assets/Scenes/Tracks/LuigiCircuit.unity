@@ -3624,31 +3624,31 @@ MonoBehaviour:
       points:
       - {x: -38.371883, y: 0, z: -1.9718051}
       - {x: -37.298122, y: 0, z: -2.0193663}
-      - {x: 146.64897, y: 0, z: -1.8900294}
-      - {x: 143.6523, y: 0, z: -1.8899531}
-      - {x: 154.58049, y: 0, z: -1.889297}
-      - {x: 195.94542, y: 0, z: -2.3556361}
-      - {x: 192.09767, y: 0, z: -2.3206325}
-      - {x: 279.22003, y: 0, z: -0.13543698}
-      - {x: 253.59496, y: 0, z: -97.50843}
-      - {x: 276.27557, y: 0, z: -159.67352}
-      - {x: 294.59418, y: 0, z: -230.85574}
-      - {x: 367.54175, y: 0, z: -223.21364}
-      - {x: 324.175, y: 0, z: -309.83356}
-      - {x: 255.9039, y: 0, z: -383.866}
-      - {x: 237.41791, y: 0, z: -364.98645}
-      - {x: 181.23386, y: 0, z: -321.2759}
-      - {x: 138.16188, y: 0, z: -272.38275}
-      - {x: 2.1215055, y: 0, z: -160.34369}
-      - {x: -9.466567, y: 0, z: -154.62503}
-      - {x: -19.85652, y: 0, z: -156.02266}
-      - {x: -125.799255, y: 0, z: -148.52992}
-      - {x: -153.40076, y: 0, z: -148.55869}
-      - {x: -222.44632, y: 0, z: -156.69307}
-      - {x: -266.9213, y: 0, z: -21.89425}
-      - {x: -161.19894, y: 0, z: -7.152418}
-      - {x: -130.58699, y: 0, z: -4.153182}
-      - {x: -102.95861, y: 0, z: -3.6711264}
+      - {x: 147.3319, y: 0, z: -1.8900294}
+      - {x: 143.99376, y: 0, z: -1.8899531}
+      - {x: 155.26341, y: 0, z: -1.889297}
+      - {x: 197.31126, y: 0, z: -2.3556361}
+      - {x: 192.7806, y: 0, z: -2.3206325}
+      - {x: 280.58588, y: 0, z: -0.13543698}
+      - {x: 254.79008, y: 0, z: -98.36207}
+      - {x: 276.9585, y: 0, z: -160.01497}
+      - {x: 296.30136, y: 0, z: -231.88013}
+      - {x: 368.9076, y: 0, z: -224.57947}
+      - {x: 324.8579, y: 0, z: -310.51648}
+      - {x: 257.57776, y: 0, z: -386.1558}
+      - {x: 238.78375, y: 0, z: -366.3523}
+      - {x: 181.57532, y: 0, z: -321.95883}
+      - {x: 138.8448, y: 0, z: -273.7486}
+      - {x: 2.1215055, y: 0, z: -161.02661}
+      - {x: -9.466567, y: 0, z: -154.96649}
+      - {x: -19.85652, y: 0, z: -156.70558}
+      - {x: -126.48218, y: 0, z: -149.21284}
+      - {x: -153.74222, y: 0, z: -148.90015}
+      - {x: -223.4707, y: 0, z: -157.37599}
+      - {x: -268.28714, y: 0, z: -21.89425}
+      - {x: -161.5404, y: 0, z: -7.152418}
+      - {x: -131.26991, y: 0, z: -4.153182}
+      - {x: -103.30007, y: 0, z: -3.6711264}
       isClosed: 1
       space: 2
       controlMode: 2
@@ -3929,6 +3929,121 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1629170198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1629170200}
+  - component: {fileID: 1629170199}
+  m_Layer: 0
+  m_Name: 'BlueShellPath '
+  m_TagString: BlueShellPath
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1629170199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629170198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5ac92bc18f545cc84cd886ece82b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editorData:
+    _bezierPath:
+      points:
+      - {x: -38.302303, y: -1.8375478, z: -1.9971042}
+      - {x: -37.228542, y: -1.8375478, z: -2.0446653}
+      - {x: 159.9022, y: -1.1793926, z: 2.2194057}
+      - {x: 155.30443, y: -1.1793926, z: 2.219482}
+      - {x: 167.83372, y: -1.1793926, z: 2.220138}
+      - {x: 202.34984, y: 0, z: -2.3556361}
+      - {x: 195.29988, y: 0, z: -2.3206325}
+      - {x: 285.62445, y: 0, z: -0.13543698}
+      - {x: 260.43103, y: 15.138508, z: -102.05158}
+      - {x: 280.25323, y: 15.138508, z: -162.27043}
+      - {x: 303.36816, y: 15.138508, z: -236.65488}
+      - {x: 373.9159, y: 23.70812, z: -229.58777}
+      - {x: 327.34692, y: 23.70812, z: -313.0055}
+      - {x: 263.79428, y: 29.40366, z: -394.87103}
+      - {x: 243.79785, y: 17.606049, z: -371.3609}
+      - {x: 182.81998, y: 17.606049, z: -324.44815}
+      - {x: 141.33592, y: 13.065537, z: -278.73083}
+      - {x: 2.1215055, y: 0, z: -163.5459}
+      - {x: -9.466567, y: 0, z: -156.22614}
+      - {x: -19.85652, y: 0, z: -159.22487}
+      - {x: -129.00146, y: 0, z: -151.73213}
+      - {x: -155.00186, y: 0, z: -150.15979}
+      - {x: -227.24959, y: 0, z: -159.89528}
+      - {x: -273.3257, y: 0, z: -21.89425}
+      - {x: -162.80005, y: 0, z: -7.152418}
+      - {x: -133.7892, y: 0, z: -4.153182}
+      - {x: -104.490135, y: -1.8375478, z: -3.6964254}
+      isClosed: 1
+      space: 0
+      controlMode: 2
+      autoControlLength: 0.3
+      boundsUpToDate: 0
+      bounds:
+        m_Center: {x: 55.82511, y: 4.1574707, z: -179.5909}
+        m_Extent: {x: 280.5585, y: 7.0997114, z: 177.70094}
+      perAnchorNormalsAngle:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      globalNormalsAngle: 0
+      flipNormals: 0
+    vertexPathUpToDate: 1
+    vertexPathMaxAngleError: 0.3
+    vertexPathMinVertexSpacing: 0.01
+    showTransformTool: 0
+    showPathBounds: 0
+    showPerSegmentBounds: 0
+    displayAnchorPoints: 1
+    displayControlPoints: 1
+    bezierHandleScale: 126.91
+    globalDisplaySettingsFoldout: 0
+    keepConstantHandleSize: 0
+    showNormalsInVertexMode: 0
+    showBezierPathInVertexMode: 0
+    showDisplayOptions: 1
+    showPathOptions: 1
+    showVertexPathDisplayOptions: 0
+    showVertexPathOptions: 1
+    showNormals: 0
+    showNormalsHelpInfo: 0
+    tabIndex: 0
+  initialized: 1
+--- !u!4 &1629170200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629170198}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 203.1, y: 15.32, z: 269.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1633490155
 GameObject:
   m_ObjectHideFlags: 0
@@ -4609,6 +4724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 1723429630}
+  isPlaying: 0
 --- !u!1 &1752456241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2132848631943147283, guid: 0af000df0daff4f4f90e035476bf02ab,

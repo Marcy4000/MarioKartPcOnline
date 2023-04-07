@@ -890,6 +890,121 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &451772752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 451772754}
+  - component: {fileID: 451772753}
+  m_Layer: 0
+  m_Name: BlueShellPath
+  m_TagString: BlueShellPath
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &451772753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451772752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5ac92bc18f545cc84cd886ece82b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editorData:
+    _bezierPath:
+      points:
+      - {x: -2, y: 6.2785645, z: 0}
+      - {x: -1.9762548, y: 6.2784595, z: 0}
+      - {x: 2.393155, y: 6.362449, z: -0.118286066}
+      - {x: 2.559524, y: 6.378624, z: -0.12288451}
+      - {x: 9.79647, y: 7.0822144, z: -0.3229142}
+      - {x: 147.49301, y: 9.156727, z: -4.4844756}
+      - {x: 200.54842, y: 9.729759, z: 10.930325}
+      - {x: 202.67926, y: 9.752773, z: 11.549423}
+      - {x: 206.46579, y: 9.814812, z: 12.3889475}
+      - {x: 208.15617, y: 9.905464, z: 13.352388}
+      - {x: 441.13632, y: 22.399788, z: 146.14037}
+      - {x: 204.78807, y: 39.97413, z: 364.7475}
+      - {x: 76.354965, y: 32.673157, z: 203.2352}
+      - {x: 76.307335, y: 32.67045, z: 203.17531}
+      - {x: 71.92581, y: 32.577015, z: 198.6578}
+      - {x: 71.71468, y: 32.577797, z: 198.43631}
+      - {x: 60.648277, y: 32.618805, z: 186.82608}
+      - {x: -157.24364, y: 33.85832, z: -36.864532}
+      - {x: -173.6998, y: 33.926117, z: -54.559826}
+      - {x: -173.91411, y: 33.927002, z: -54.790268}
+      - {x: -176.7096, y: 33.396294, z: -57.737453}
+      - {x: -176.84386, y: 33.396294, z: -57.90434}
+      - {x: -433.59683, y: 33.397118, z: -377.05038}
+      - {x: -569.24133, y: 35.514374, z: -5.37618}
+      - {x: -330.40625, y: 13.168831, z: -5.4430137}
+      - {x: -323.6639, y: 12.538013, z: -5.4449}
+      - {x: -142.93639, y: 6.9010468, z: 0}
+      isClosed: 1
+      space: 0
+      controlMode: 0
+      autoControlLength: 0.3
+      boundsUpToDate: 0
+      bounds:
+        m_Center: {x: 0, y: 0, z: 0}
+        m_Extent: {x: 0, y: 0, z: 0}
+      perAnchorNormalsAngle:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      globalNormalsAngle: 0
+      flipNormals: 0
+    vertexPathUpToDate: 1
+    vertexPathMaxAngleError: 0.3
+    vertexPathMinVertexSpacing: 0.01
+    showTransformTool: 0
+    showPathBounds: 0
+    showPerSegmentBounds: 0
+    displayAnchorPoints: 1
+    displayControlPoints: 1
+    bezierHandleScale: 51.1
+    globalDisplaySettingsFoldout: 0
+    keepConstantHandleSize: 0
+    showNormalsInVertexMode: 0
+    showBezierPathInVertexMode: 0
+    showDisplayOptions: 1
+    showPathOptions: 1
+    showVertexPathDisplayOptions: 0
+    showVertexPathOptions: 1
+    showNormals: 0
+    showNormalsHelpInfo: 0
+    tabIndex: 0
+  initialized: 1
+--- !u!4 &451772754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451772752}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 9.18386, y: 94.39, z: -1.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &486403019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3555,7 +3670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1820413201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3618,7 +3733,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 0
