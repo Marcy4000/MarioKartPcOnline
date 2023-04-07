@@ -29,6 +29,7 @@ public class BlueShellExplosion : MonoBehaviour
         rendererFront = FrontSphere.GetComponent<Renderer>();
         rendererBack = BackSphere.GetComponent<Renderer>();
         StartCoroutine(DeleteFront());
+        CheckCollision();
 
     }
     // Update is called once per frame
@@ -58,7 +59,7 @@ public class BlueShellExplosion : MonoBehaviour
         else if (!alreadyExec)
         {
             
-            CheckCollision();
+            
             StartCoroutine(WaitToDestoy());
             alreadyExec = true;
         }
