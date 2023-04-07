@@ -353,6 +353,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7693245792163141203, guid: 100a8d9b2810eef498fd431e52305be9,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: -6659348033617436161, guid: 100a8d9b2810eef498fd431e52305be9,
         type: 3}
       propertyPath: m_TagString
@@ -373,6 +379,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: -5626843311716702822, guid: 100a8d9b2810eef498fd431e52305be9,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
+    - target: {fileID: -3668055396551745069, guid: 100a8d9b2810eef498fd431e52305be9,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: -2854909935394172816, guid: 100a8d9b2810eef498fd431e52305be9,
         type: 3}
       propertyPath: m_Layer
@@ -423,6 +441,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 4051206119525505058, guid: 100a8d9b2810eef498fd431e52305be9,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: 5385742329919587961, guid: 100a8d9b2810eef498fd431e52305be9,
         type: 3}
       propertyPath: m_Convex
@@ -438,6 +462,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 5669879768938107331, guid: 100a8d9b2810eef498fd431e52305be9,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: 8126400113212677441, guid: 100a8d9b2810eef498fd431e52305be9,
         type: 3}
       propertyPath: m_TagString
@@ -2661,6 +2691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 1413999336}
+  isPlaying: 0
 --- !u!95 &1413999338
 Animator:
   serializedVersion: 5

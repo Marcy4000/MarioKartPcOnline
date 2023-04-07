@@ -3300,6 +3300,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 439516310653078524, guid: 30099fa320946e345944ac804d415722,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: 919132149155446097, guid: 30099fa320946e345944ac804d415722,
         type: 3}
       propertyPath: m_Name
@@ -6896,6 +6902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 1679707899}
+  isPlaying: 0
 --- !u!95 &1679707901
 Animator:
   serializedVersion: 5

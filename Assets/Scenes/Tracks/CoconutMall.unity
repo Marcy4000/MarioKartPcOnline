@@ -645,6 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 61297439}
+  isPlaying: 0
 --- !u!1 &111319341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1174,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6486152874617073803, guid: fbeabf9ecc6e6714e954cc97cd4c2b31,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235,
+        type: 2}
     - target: {fileID: -6402510910423425858, guid: fbeabf9ecc6e6714e954cc97cd4c2b31,
         type: 3}
       propertyPath: m_Enabled
@@ -1515,7 +1522,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203515501}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -1563,7 +1570,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203515509}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -5321,7 +5328,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060395394}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -5673,7 +5680,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203515497}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b9251d8922768fc4ca3d4b49a477c235, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
