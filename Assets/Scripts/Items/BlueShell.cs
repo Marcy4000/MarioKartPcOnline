@@ -167,6 +167,7 @@ public class BlueShell : MonoBehaviourPun
         if (collision.gameObject.GetComponent<KartLap>().racePlace == targetKart.racePlace)
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Explosion"), transform.position, Quaternion.identity);
+            photonView.RPC("AskToDestroy", RpcTarget.All);
         }
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
@@ -176,10 +177,6 @@ public class BlueShell : MonoBehaviourPun
                 return;
             }
             player.GetHit(true);
-            if (collision.gameObject.GetComponent<KartLap>().racePlace == targetKart.racePlace)
-            {
-                photonView.RPC("AskToDestroy", RpcTarget.All);
-            }
 
             return;
         }
@@ -192,10 +189,6 @@ public class BlueShell : MonoBehaviourPun
                 return;
             }
             kart.carController.GetHit();
-            if (kart.racePlace == targetKart.racePlace)
-            {
-                photonView.RPC("AskToDestroy", RpcTarget.All);
-            }
         }
     }
 
