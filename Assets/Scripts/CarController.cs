@@ -82,7 +82,7 @@ public class CarController : MonoBehaviourPun
 
         pv = GetComponent<PhotonView>();
         turnStrBackup = turnStrenght;
-        botTurnSpeed = Random.Range(0.05f, 0.075f);
+        botTurnSpeed = Random.Range(1.4f, 1.8f);
         if (autoDisable)
         {
             enabled = false;
@@ -182,8 +182,13 @@ public class CarController : MonoBehaviourPun
         {
             tire.SetFloat("Blend", 1);
         }
-        Quaternion newRotation = Quaternion.FromToRotation(transform.forward, checkpoint.forward) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);
+        /*Quaternion newRotation = Quaternion.FromToRotation(transform.forward, checkpoint.forward) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);*/
+        Vector3 lookPos = checkpoint.position - transform.position;
+        lookPos += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * botTurnSpeed);
         lastValue = kartLap.CheckpointIndex;
         
         transform.position = new Vector3(theRB.transform.position.x, theRB.transform.position.y - kartOffset, theRB.transform.position.z);
