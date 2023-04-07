@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using System.IO;
+using UnityEngine.UI;
 
 public class BlueShell : MonoBehaviourPun
 {
@@ -17,17 +18,18 @@ public class BlueShell : MonoBehaviourPun
     private KartLap targetKart, currKart;
     private PathCreator path;
     private float distanceAlongPath;
-    private float ExplodeDistance = 20f;
     private float speed = 100f;
     private bool targetMode = false;
     private bool animationEnded = false;
     private float t = 0;
+    public float SHELL_HEIGHT = 3f;
     private const float radius = 10f;
     private bool notFirst = false;
     public Animator animator;
     public bool PlayingAnimation = false;
     private bool MustLookAt = false;
     public GameObject child;
+    public LayerMask THISMASK;
     private bool once = false;
     private void Awake()
     {
@@ -75,11 +77,13 @@ public class BlueShell : MonoBehaviourPun
         {
             return;
         }
+
         if (targetMode)
         { 
             TargetMode();
             return;
         }
+        targetMode = (Distance2dVector3xz(transform.position, targetKart.transform.position) < 40 && CheckLineOfSight()) ;
         distanceAlongPath += speed * Time.deltaTime;
         transform.position = path.path.GetPointAtDistance(distanceAlongPath);
 
@@ -94,8 +98,11 @@ public class BlueShell : MonoBehaviourPun
                 }
             }
         }
-        if (Distance2dVector3xz(transform.position, targetKart.transform.position) < 80) targetMode = true;
 
+    }
+    bool CheckLineOfSight()
+    {
+        return !Physics.Linecast(transform.position, targetKart.transform.position + Vector3.up * SHELL_HEIGHT,THISMASK);
     }
     private void TargetMode()
     {
@@ -114,8 +121,8 @@ public class BlueShell : MonoBehaviourPun
             {
                 t = transform.rotation.eulerAngles.y * Mathf.Deg2Rad;
                 var temp = targetKart.transform.position + targetKart.transform.forward * radius;
-                transform.position =  new Vector3 (temp.x , transform.position.y, temp.z);
-                transform.LookAt(new Vector3 (targetKart.transform.position.x , transform.position.y, targetKart.transform.position.z));
+                transform.position = temp + Vector3.up * SHELL_HEIGHT;
+                transform.LookAt(targetKart.transform.position + Vector3.up * SHELL_HEIGHT);
                 MustLookAt = true;
                 if (!PlayingAnimation)
                 {
@@ -125,7 +132,7 @@ public class BlueShell : MonoBehaviourPun
                 }
                 return;
             }
-            transform.position = new Vector3(targetKart.transform.position.x + Mathf.Cos(t) * radius, transform.position.y, targetKart.transform.position.z + Mathf.Sin(t) * radius);
+            transform.position =  targetKart.transform.position + Vector3.right * Mathf.Cos(t) * radius + Vector3.forward *Mathf.Sin(t)* radius + Vector3.up * SHELL_HEIGHT; 
         }
 
         else
@@ -133,20 +140,23 @@ public class BlueShell : MonoBehaviourPun
             notFirst = true;
             float p = transform.position.z / dist;
             Debug.Log(p);
+            float f = 1;
+            Start:
             if (p > 1)
             {
-                t = -Mathf.Asin(p -1  );
+                p -= 1;
+                f*= -1 ;
+                goto Start;    
             }
             else if( p < -1 ) 
             {
-                t = -Mathf.Asin(p + 1);
-            }
-            else
-            {
-                t = Mathf.Asin(p);
-            }
-            Debug.Log(t);
-            transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetKart.transform.position.x + Mathf.Cos(t) *radius, speed * Time.deltaTime / 5), transform.position.y, Mathf.Lerp(transform.position.z, targetKart.transform.position.z + Mathf.Sin(t) * radius, speed * Time.deltaTime / 5 ));
+                p += 1;
+                f*= -1 ;
+                goto Start;
+            }    
+            t = Mathf.Asin(p) * f ;
+            transform.LookAt(targetKart.transform.position + Vector3.up * SHELL_HEIGHT);
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
     private void AnimationEnd()

@@ -72,9 +72,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5fa92a674bf444b98bde2ea70de8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SHELL_HEIGHT: 6
   animator: {fileID: 2015282187629588323}
   PlayingAnimation: 0
   child: {fileID: 5943732072476607177}
+  THISMASK:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!135 &2650800316306399600
 SphereCollider:
   m_ObjectHideFlags: 0
