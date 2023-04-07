@@ -59,6 +59,7 @@ public static class GlobalData
         "donkeykong",
         "raboot",
         "sonic",
-        "peach"
+        "peach",
+        "rosalina"
     };
 }

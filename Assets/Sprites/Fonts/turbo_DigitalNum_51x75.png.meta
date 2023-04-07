@@ -3,7 +3,7 @@ guid: 62a70f9ef62fd1c4eb329ab50d0627df
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,13 +63,14 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -114,18 +115,437 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 300b2e1b9a75b0d43900ae1042ab889b
+      internalID: -439034043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 684.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 337b297a945ee034a809edb30ede73fc
+      internalID: -911207364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 608.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 234cf3c5082ed5741b59dbc2bb68e91c
+      internalID: 568701100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_3
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 608.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ebe0f8543cb75244baabbee95879cbc
+      internalID: -1545197348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 532.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ead66fdb612a3b4099410346554deac
+      internalID: 1994831740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_5
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 532.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8db7b2f60383679458acc0f37d43948a
+      internalID: -111648354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 456.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7ab45aac2f59f24687bd87ebe1c53c0
+      internalID: -472708806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_7
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 456.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d3546fcbaa62e46a252b0aead5894b
+      internalID: 222305051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 380.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c78d227c8e7d0843a0c8022fdac4cec
+      internalID: -1981907503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_9
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 380.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 946af89321e495249b1d6fbec944ccff
+      internalID: -1841360826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 304.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75bccf518d272194db78d0fe76c57e3b
+      internalID: 1323248837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_11
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 304.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a668a94e6f64c041afc9593b256b38a
+      internalID: -691086970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 228.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6db60fc4dba6c9a44a54b6b3bd9e0c14
+      internalID: 323935132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_13
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 228.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 685b828fe41ed1a499ab6a4072ce7b25
+      internalID: -534611998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 152.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95d32be7a1bb0434fabf785efce5b50d
+      internalID: -1700608957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_15
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 152.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e87477d08c7c5b409bdc94a4bbbb1b9
+      internalID: -931822484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 76.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cd52a209e1b7454facc3e0e959b08fb
+      internalID: -553261305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_17
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 76.9
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57f5e96f69e60424bb1d17d444d1b07c
+      internalID: -2094998844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turbo_DigitalNum_51x75_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.9000015
+        width: 52.5
+        height: 76.1
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa7143c0fdf2b4d47a1995cb499ec6c7
+      internalID: 2066926139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 519dc6a7b85c6dd49a40d576b96cfa3a
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      turbo_DigitalNum_51x75_0: -439034043
+      turbo_DigitalNum_51x75_13: -534611998
+      turbo_DigitalNum_51x75_5: -111648354
+      turbo_DigitalNum_51x75_17: -2094998844
+      turbo_DigitalNum_51x75_18: 2066926139
+      turbo_DigitalNum_51x75_15: -931822484
+      turbo_DigitalNum_51x75_8: -1981907503
+      turbo_DigitalNum_51x75_1: -911207364
+      turbo_DigitalNum_51x75_7: 222305051
+      turbo_DigitalNum_51x75_6: -472708806
+      turbo_DigitalNum_51x75_10: 1323248837
+      turbo_DigitalNum_51x75_3: -1545197348
+      turbo_DigitalNum_51x75_9: -1841360826
+      turbo_DigitalNum_51x75_16: -553261305
+      turbo_DigitalNum_51x75_14: -1700608957
+      turbo_DigitalNum_51x75_4: 1994831740
+      turbo_DigitalNum_51x75_2: 568701100
+      turbo_DigitalNum_51x75_12: 323935132
+      turbo_DigitalNum_51x75_19: 701725722
+      turbo_DigitalNum_51x75_11: -691086970
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -234,7 +234,7 @@ public class PlayerScript : MonoBehaviour
         }
         if ((driftLeft || driftRight) && !GLIDER_FLY)
         {
-            rb.AddForce(-transform.up * 10000f * Time.deltaTime, ForceMode.Acceleration);
+            rb.AddForce(-transform.up * 50000f * Time.deltaTime, ForceMode.Acceleration);
         }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
@@ -282,7 +282,9 @@ public class PlayerScript : MonoBehaviour
 
 
             if (isSliding && touchingGround)
+            {
                 rb.AddForce(transform.right * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
+            }
         }
         else if (driftRight && !driftLeft)
         {
@@ -290,7 +292,9 @@ public class PlayerScript : MonoBehaviour
             holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, 20f, 0), 8f * Time.deltaTime);
 
             if (isSliding && touchingGround)
+            {
                 rb.AddForce(-transform.right * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
+            }   
         }
         else
         {

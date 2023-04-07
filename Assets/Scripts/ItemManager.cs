@@ -74,7 +74,14 @@ public class ItemManager : MonoBehaviourPun
                 player.BoostTime = 2f;
                 break;
             case Items.greenShell:
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "GreenShell"), fireballSpawnPos.position, transform.rotation);
+                if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") < 0f)
+                {
+                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "GreenShell"), bananaSpawnPos.position, bananaSpawnPos.rotation);
+                }
+                else
+                {
+                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "GreenShell"), fireballSpawnPos.position, fireballSpawnPos.rotation);
+                }
                 break;
             case Items.redShell:
                 GameObject redShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NewRedShell"), fireballSpawnPos.position, transform.rotation);
