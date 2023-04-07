@@ -60,6 +60,7 @@ public static class GlobalData
         "raboot",
         "sonic",
         "peach",
-        "rosalina"
+        "rosalina",
+        "eggman"
     };
 }
