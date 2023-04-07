@@ -1,8 +1,10 @@
+using Mono.Cecil.Cil;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ItemManager : MonoBehaviourPun
 {
@@ -113,10 +115,16 @@ public class ItemManager : MonoBehaviourPun
                 break;
         }
         amount--;
+       
         if (amount <= 0)
         {
             selectedItem = nothing;
             ItemRoulette.instance.UpdateItem(nothing);
+        }
+        Debug.Log(selectedItem is MultipleObject);
+        if (selectedItem is MultipleObject)
+        {
+            ItemRoulette.instance.firstImage.sprite = ((MultipleObject)selectedItem).SpriteCollection[amount - 1];   
         }
     }
 

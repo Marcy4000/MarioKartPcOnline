@@ -8,6 +8,6 @@ public enum Items { mushroom, greenShell, redShell, blueShell, banana, star, fir
 public class Item : ScriptableObject
 {
     public Items itemType;
-    public Sprite sprite;
+    public Sprite activeSprite;
     public int amount;
 }

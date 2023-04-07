@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17ca1bbeed6800345b5aa56874c2078e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c9f7c58f03a634468ad2ad519368164, type: 3}
   m_Name: ThreeMushrooms
   m_EditorClassIdentifier: 
   itemType: 0
-  sprite: {fileID: -144705983, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  activeSprite: {fileID: -144705983, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
   amount: 3
+  SpriteCollection:
+  - {fileID: -570235134, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  - {fileID: -426693714, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  - {fileID: -144705983, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}

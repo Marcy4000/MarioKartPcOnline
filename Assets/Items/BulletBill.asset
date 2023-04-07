@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BulletBill
   m_EditorClassIdentifier: 
   itemType: 8
-  sprite: {fileID: 2142146350, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  activeSprite: {fileID: 2142146350, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
   amount: 1

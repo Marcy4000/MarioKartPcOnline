@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Star
   m_EditorClassIdentifier: 
   itemType: 5
-  sprite: {fileID: -1282896914, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
+  activeSprite: {fileID: -1282896914, guid: bae49d0da9a0adb4faf95bdad3a8f188, type: 3}
   amount: 1

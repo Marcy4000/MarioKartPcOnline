@@ -28,14 +28,14 @@ public class ItemRoulette : MonoBehaviour
     public void UpdateItem(Item item)
     {
         selectedItem = item;
-        firstImage.sprite = item.sprite;
+        firstImage.sprite = item.activeSprite;
     }
 
     public void ChangeToRandomItem()
     {
         firstImage.sprite = secondImage.sprite;
         int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        secondImage.sprite = itemIcons[(int)KartLap.mainKart.racePlace].items[random].sprite;
+        secondImage.sprite = itemIcons[(int)KartLap.mainKart.racePlace].items[random].activeSprite;
     }
 
     public Item GetRandomItem(KartLap lap)
@@ -71,7 +71,7 @@ public class ItemRoulette : MonoBehaviour
         animator.speed = 0.5f;
         yield return new WaitForSeconds(0.65f);
         animator.Play("Static");
-        firstImage.sprite = selectedItem.sprite;
+        firstImage.sprite = selectedItem.activeSprite;
         roll.Stop();
         decide.Play();
         animator.speed = 1;
