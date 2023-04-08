@@ -58,14 +58,14 @@ public class OptionsMenu : MonoBehaviour
         characterDropdown.value = GlobalData.SelectedCharacter;
         regionDropdown.value = GlobalData.selectedRegion;
         useController.isOn = GlobalData.UseController;
-        dummyKart.SetCharacter(GlobalData.SelectedCharacter);
+        //dummyKart.SetCharacter(GlobalData.SelectedCharacter);
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
-        dummyKart.gameObject.SetActive(true);
+        //dummyKart.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
-        dummyKart.gameObject.SetActive(false);
+        //dummyKart.gameObject.SetActive(false);
     }
 
     public void SetResolution(int resolutionIndex)
