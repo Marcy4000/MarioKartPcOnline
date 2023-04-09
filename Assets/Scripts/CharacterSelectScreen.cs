@@ -12,6 +12,7 @@ public class CharacterSelectScreen : MonoBehaviour
 
     private void OnEnable()
     {
+        selectedChar = GlobalData.SelectedCharacter;
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
         dummyKart.gameObject.SetActive(true);
         dummyKart.SetCharacter(GlobalData.SelectedCharacter);

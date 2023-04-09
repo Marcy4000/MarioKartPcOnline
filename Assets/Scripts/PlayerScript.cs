@@ -234,7 +234,7 @@ public class PlayerScript : MonoBehaviour
         }
         if ((driftLeft || driftRight) && !GLIDER_FLY)
         {
-            rb.AddForce(-transform.up * 50000f * Time.deltaTime, ForceMode.Acceleration);
+            rb.AddForce(-transform.up * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
         }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
