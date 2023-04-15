@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour, IPunObservable
 {
     private Rigidbody rb;
 
@@ -58,6 +58,17 @@ public class PlayerScript : MonoBehaviour
     public Transform boostFire;
     public Transform boostExplosion;
     private bool alreadyDown = false;
+
+    //Values that will be synced over network
+    Vector3 latestPos;
+    Quaternion latestRot;
+    //Lag compensation
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion rotationAtLastPacket = Quaternion.identity;
+
     private void OnEnable()
     {
         Countdown.Instance.OnCountdownEnded += CountdownEnded;
@@ -92,6 +103,13 @@ public class PlayerScript : MonoBehaviour
     {
         if (!photonView.IsMine)
         {
+            //Lag compensation
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+
+            //Update remote player
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
             return;
         }
 
@@ -611,5 +629,28 @@ public class PlayerScript : MonoBehaviour
         }
 
         return things[0].transform;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            latestPos = (Vector3)stream.ReceiveNext();
+            latestRot = (Quaternion)stream.ReceiveNext();
+
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            rotationAtLastPacket = transform.rotation;
+        }
     }
 }

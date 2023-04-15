@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Photon.Pun;
 using UnityEngine.Rendering;
 
-public class RedShell : MonoBehaviourPun
+public class RedShell : MonoBehaviourPun, IPunObservable
 {
     private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
@@ -19,6 +19,16 @@ public class RedShell : MonoBehaviourPun
     [SerializeField] private bool move = false;
     private bool safeMode = false;
     [SerializeField] bool useNewRedshellCode;
+
+    //Values that will be synced over network
+    Vector3 latestPos;
+    Quaternion latestRot;
+    //Lag compensation
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void Awake()
     {
@@ -89,6 +99,17 @@ public class RedShell : MonoBehaviourPun
 
     private void Update()
     {
+        if (!photonView.IsMine)
+        {
+            //Lag compensation
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+
+            //Update remote player
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
+        }
+
         if (!photonView.IsMine || (!agent.isOnNavMesh && ! agent.isOnOffMeshLink))
         {
             return;
@@ -114,8 +135,6 @@ public class RedShell : MonoBehaviourPun
         
     }
 
-  
-
     private IEnumerator SafeFrames()
     {
         GetComponent<SphereCollider>().enabled = false;
@@ -123,4 +142,26 @@ public class RedShell : MonoBehaviourPun
         GetComponent<SphereCollider>().enabled = true;
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            latestPos = (Vector3)stream.ReceiveNext();
+            latestRot = (Quaternion)stream.ReceiveNext();
+
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            rotationAtLastPacket = transform.rotation;
+        }
+    }
 }

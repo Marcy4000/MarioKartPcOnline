@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class GreenShell : MonoBehaviour
+public class GreenShell : MonoBehaviour, IPunObservable
 {
     private Rigidbody rb;
     [SerializeField] private LayerMask whatIsGround;
@@ -13,6 +13,16 @@ public class GreenShell : MonoBehaviour
     [SerializeField] float maxSpeed = 200f;
     PhotonView pv;
     bool bitch, thing;
+
+    //Values that will be synced over network
+    Vector3 latestPos;
+    Quaternion latestRot;
+    //Lag compensation
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void Awake()
     {
@@ -96,6 +106,20 @@ public class GreenShell : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!pv.IsMine)
+        {
+            //Lag compensation
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+
+            //Update remote player
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!pv.IsMine)
@@ -131,5 +155,28 @@ public class GreenShell : MonoBehaviour
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
 
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            //Network player, receive data
+            latestPos = (Vector3)stream.ReceiveNext();
+            latestRot = (Quaternion)stream.ReceiveNext();
+
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            rotationAtLastPacket = transform.rotation;
+        }
     }
 }
