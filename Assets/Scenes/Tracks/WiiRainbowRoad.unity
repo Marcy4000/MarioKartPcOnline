@@ -1294,6 +1294,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 38bcc8c659ed51b41be11f84eff99fa6, type: 2}
     - target: {fileID: -3609984980801832991, guid: 2f08e5c1d47adf2419db7fec066c1e92,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3609984980801832991, guid: 2f08e5c1d47adf2419db7fec066c1e92,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -1384,6 +1389,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 116867808317628971, guid: 2f08e5c1d47adf2419db7fec066c1e92,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116867808317628971, guid: 2f08e5c1d47adf2419db7fec066c1e92,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -1431,6 +1441,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7649706768983911884, guid: 2f08e5c1d47adf2419db7fec066c1e92,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7649706768983911884, guid: 2f08e5c1d47adf2419db7fec066c1e92,
         type: 3}
@@ -6089,6 +6104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 1669615466}
+  isPlaying: 0
 --- !u!95 &1669615468
 Animator:
   serializedVersion: 5

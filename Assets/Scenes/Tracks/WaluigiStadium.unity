@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: cbba56fa5752a154b905dcce14606112,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: a7c35c03d029d8d4e934b3ea62f91532,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4030,14 +4032,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109404034}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -104.92, y: 12.32, z: 0.28}
+  m_LocalRotation: {x: -0, y: -0, z: -0.025410382, w: 0.9996771}
+  m_LocalPosition: {x: -114.2, y: 18.76, z: 0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1095254355}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.912}
 --- !u!114 &1109404036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4061,8 +4063,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 3.08, z: 29.47}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 32.94874, y: 0.5, z: 29.47}
+  m_Center: {x: -15.474369, y: 0, z: 0}
 --- !u!1 &1126129390
 GameObject:
   m_ObjectHideFlags: 0

@@ -117,9 +117,8 @@ public class RedShell : MonoBehaviourPun, IPunObservable
 
         if (!agent.pathPending)
         {
-            if (Time.frameCount % 15 == 0)
+            if (Mathf.RoundToInt(Time.time) % 1 == 0)
             {
-                
                 agent.destination = targetKart.frontPosition.position;
                 return;
             }
@@ -138,7 +137,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
     private IEnumerator SafeFrames()
     {
         GetComponent<SphereCollider>().enabled = false;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         GetComponent<SphereCollider>().enabled = true;
     }
 

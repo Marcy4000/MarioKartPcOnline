@@ -5,9 +5,15 @@ using UnityEngine;
 public class HolderSetDrifting : MonoBehaviour
 {
     [SerializeField] private SkinManager skinManager;
+    private PlayerScript player;
+
+    private void Start()
+    {
+        player = transform.parent.GetComponent<PlayerScript>();
+    }
 
     public void SetDrifting()
     {
-        transform.parent.GetComponent<PlayerScript>().isSliding = true;
+        player.isSliding = true;
     }
 }

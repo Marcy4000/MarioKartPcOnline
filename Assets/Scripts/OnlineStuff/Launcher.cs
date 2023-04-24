@@ -74,7 +74,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             return;
         }
-        PhotonNetwork.CreateRoom(roomNameInputField.text, new RoomOptions() { MaxPlayers = 8 });
+        PhotonNetwork.CreateRoom(roomNameInputField.text, new RoomOptions() { MaxPlayers = GlobalData.PlayerCount });
         MenuManager.instance.OpenMenu("Loading");
     }
 
@@ -86,13 +86,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             roomName += digits[UnityEngine.Random.Range(0, 9)];
         }
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = 8, IsVisible = false });
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = GlobalData.PlayerCount, IsVisible = false });
         MenuManager.instance.OpenMenu("Loading");
     }
 
     public override void OnJoinedRoom()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/8)", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         MenuManager.instance.OpenMenu("RoomMenu");
         foreach (Transform child in playerListContent)
         {

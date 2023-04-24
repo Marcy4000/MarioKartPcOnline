@@ -1087,6 +1087,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1336014038846844747, guid: 2820e1880fcf32442a4345525b6b9389,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5209625611691456332, guid: 2820e1880fcf32442a4345525b6b9389,
         type: 3}
       propertyPath: m_IsActive
@@ -1921,11 +1926,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CheckpointAmt: 36
+  nLaps: 0
   lapSource: {fileID: 1188771978}
   lastThing: {fileID: 8300000, guid: 049152766d7a09645b225147d0349b78, type: 3}
   winTheme: {fileID: 8300000, guid: 2d3090ad0c24c0345a4ddb3a82ae9944, type: 3}
   finalLapClip: {fileID: 8300000, guid: 1af6ccb61a9dd4a4a8a286f5b17dbe08, type: 3}
   lapCounter: {fileID: 0}
+  orderedKarts: []
 --- !u!65 &1188771980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2486,9 +2493,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introMusic: {fileID: 1504004838}
+  isPlaying: 0
 --- !u!95 &1504004840
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2505,7 +2513,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &1504004841
 MonoBehaviour:
   m_ObjectHideFlags: 0

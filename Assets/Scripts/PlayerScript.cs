@@ -160,6 +160,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             return;
         }
+        
         move();
         RaycastHit hit;
         if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.2f, whatIsGround))
@@ -377,7 +378,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     {
         if (driftLeft || driftRight) 
         {
-            if (Input.GetKey(KeyCode.Space) && touchingGround && CurrentSpeed > 40 && Input.GetAxis("Horizontal") != 0 || Input.GetButton("Drift") && touchingGround && CurrentSpeed > 40 && Input.GetAxis("Horizontal") != 0)
+            if (Input.GetKey(KeyCode.Space) && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0 || Input.GetButton("Drift") && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0)
             {
                 driftTime += Time.deltaTime;
 
@@ -434,7 +435,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
         if (!GlobalData.UseController)
         {
-            if (!Input.GetKey(KeyCode.Space) || RealSpeed < 40)
+            if (!Input.GetKey(KeyCode.Space) || RealSpeed < 35)
             {
                 driftLeft = false;
                 driftRight = false;
@@ -473,7 +474,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
         else
         {
-            if (!Input.GetButton("Drift") || RealSpeed < 40)
+            if (!Input.GetButton("Drift") || RealSpeed < 35)
             {
                 driftLeft = false;
                 driftRight = false;

@@ -1752,7 +1752,6 @@ GameObject:
   - component: {fileID: 867531168394680521}
   - component: {fileID: 4723892008413562815}
   - component: {fileID: 7194367450481897056}
-  - component: {fileID: 536551670241185747}
   m_Layer: 8
   m_Name: NewKart
   m_TagString: Player
@@ -1795,8 +1794,8 @@ MonoBehaviour:
   slowGround:
     serializedVersion: 2
     m_Bits: 512
-  KartMaxSpeed: 60
-  boostSpeed: 80
+  KartMaxSpeed: 75
+  boostSpeed: 95
   canMove: 0
   star: 0
   BulletBill: 0
@@ -2031,7 +2030,6 @@ MonoBehaviour:
   - {fileID: 3190860238525008552}
   - {fileID: 3190860238525008553}
   - {fileID: 867531168394680521}
-  - {fileID: 536551670241185747}
   - {fileID: 7494664426684162998}
   - {fileID: 6626091114941460684}
   - {fileID: 2200998361195444265}
@@ -2342,22 +2340,6 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 8376346930861751985}
   emblemMesh: {fileID: 5252276040016396617}
   characterAnimator: {fileID: 2427432607123656354}
---- !u!114 &536551670241185747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582820841966394765}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &6710196519083276019
 GameObject:
   m_ObjectHideFlags: 0

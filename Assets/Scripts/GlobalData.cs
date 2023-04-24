@@ -9,6 +9,8 @@ public static class GlobalData
     public static int SelectedCharacter = 0;
     public static bool UseController;
 
+    public const int PlayerCount = 12;
+
     public static bool HasSceneLoaded = false;
 
     public static int selectedRegion = 0;

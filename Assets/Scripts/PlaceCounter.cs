@@ -33,7 +33,7 @@ public class PlaceCounter : MonoBehaviour
 
     public RacePlace GetCurrentPlace(KartLap kart)
     {
-        int currPlace = 7;
+        int currPlace = GlobalData.PlayerCount - 1;
         RacePlace newPlace;
 
         foreach (var thingKart in karts)

@@ -11606,7 +11606,7 @@ MonoBehaviour:
   theRB: {fileID: 4907233369227756325}
   forwardAccel: 17
   revesreAccel: 8
-  maxSpeed: 240
+  maxSpeed: 270
   turnStrenght: 160
   gravityForce: 16
   dragOnGround: 3
