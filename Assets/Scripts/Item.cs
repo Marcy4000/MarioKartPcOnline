@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Items { mushroom, greenShell, redShell, blueShell, banana, star, fireFlower, goldenMushroom, bulletBill, blooper };
+public enum Items { mushroom, greenShell, redShell, blueShell, banana, star, fireFlower, goldenMushroom, bulletBill, blooper, lightning };
 
 [CreateAssetMenu]
 public class Item : ScriptableObject

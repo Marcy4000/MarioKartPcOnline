@@ -208,12 +208,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Time.deltaTime * 1.5f);
         if (spin)
         {
-            kartAnimator.Play("HitSpin");
+            //kartAnimator.Play("HitSpin");
+            kartAnimator.SetTrigger("Spin");
             yield return new WaitForSeconds(1.1f);
         }
         else
         {
-            kartAnimator.Play("HitFlip");
+            //kartAnimator.Play("HitFlip");
+            kartAnimator.SetTrigger("Flip");
             yield return new WaitForSeconds(1.3f);
         }
         

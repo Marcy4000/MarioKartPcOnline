@@ -109,6 +109,10 @@ public class ItemManager : MonoBehaviourPun
             case Items.blooper:
                 photonView.RPC("UseBlooper", RpcTarget.All, PhotonNetwork.LocalPlayer, KartLap.mainKart.racePlace);
                 break;
+            case Items.lightning:
+                LightningHandler.instance.sender = true;
+                photonView.RPC("UseLightning", RpcTarget.All, PhotonNetwork.LocalPlayer);
+                break;
         }
         amount--;
        
@@ -132,6 +136,12 @@ public class ItemManager : MonoBehaviourPun
             return;
         }
         Blooper.insance.Splat(racePlace);
+    }
+
+    [PunRPC]
+    public void UseLightning(Photon.Realtime.Player sender)
+    {
+        LightningHandler.instance.Strike();
     }
 
     private IEnumerator Star()

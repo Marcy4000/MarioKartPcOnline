@@ -80,13 +80,14 @@ public class BotItemManager : MonoBehaviourPun
                 break;
 
             case Items.bulletBill:
-                blueShell = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BlueShell"), fireballSpawnPos.position, transform.rotation);
-                blueScript = blueShell.GetComponent<BlueShell>();
-                blueScript.SetCurrentKartLap(kart);
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "GreenShell"), fireballSpawnPos.position, transform.rotation);
                 break;
 
             case Items.blooper:
                 photonView.RPC("UseBlooper", RpcTarget.All, PhotonNetwork.LocalPlayer, kart.racePlace);
+                break;
+            case Items.lightning:
+                photonView.RPC("UseLightning", RpcTarget.All, PhotonNetwork.LocalPlayer);
                 break;
         }
         amount--;
@@ -100,5 +101,20 @@ public class BotItemManager : MonoBehaviourPun
     public void UseBlooper(Photon.Realtime.Player sender, RacePlace racePlace)
     {
         Blooper.insance.Splat(racePlace);
+    }
+
+    [PunRPC]
+    public void UseLightning(Photon.Realtime.Player sender)
+    {
+        if (sender == PhotonNetwork.LocalPlayer && !PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            return;
+        }
+        else if (sender == PhotonNetwork.LocalPlayer && PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            LightningHandler.instance.Strike();
+        }
+
+        LightningHandler.instance.Strike();
     }
 }
