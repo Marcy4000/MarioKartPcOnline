@@ -296,7 +296,8 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
         if (driftLeft && !driftRight)
         {
-            steerDirection = Input.GetAxis("Horizontal") < 0 ? -1.5f : -0.5f;
+            //steerDirection = Input.GetAxis("Horizontal") < 0 ? -1.5f : -0.5f;
+            steerDirection = Mathf.Lerp(-1.5f, -0.3f, (Input.GetAxis("Horizontal") + 1) / 2);
             holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, -20f, 0), 8f * Time.deltaTime);
 
 
@@ -307,7 +308,8 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
         else if (driftRight && !driftLeft)
         {
-            steerDirection = Input.GetAxis("Horizontal") > 0 ? 1.5f : 0.5f;
+            //steerDirection = Input.GetAxis("Horizontal") > 0 ? 1.5f : 0.5f;
+            steerDirection = Mathf.Lerp(1.5f, 0.3f, (Input.GetAxis("Horizontal") - 1) / -2);
             holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, 20f, 0), 8f * Time.deltaTime);
 
             if (isSliding && touchingGround)
