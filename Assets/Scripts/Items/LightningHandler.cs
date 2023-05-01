@@ -7,6 +7,7 @@ public class LightningHandler : MonoBehaviour
 {
     public static LightningHandler instance;
     public bool sender = false;
+    public AudioSource[] soundEffects;
 
     // Start is called before the first frame update
     void Awake()
@@ -16,6 +17,7 @@ public class LightningHandler : MonoBehaviour
 
     public void Strike()
     {
+        soundEffects[0].Play();
         foreach (var kart in PlaceCounter.instance.karts)
         {
             if (!kart.carController.isPlayer)
@@ -36,6 +38,7 @@ public class LightningHandler : MonoBehaviour
 
                 if (!sender)
                 {
+                    soundEffects[1].Play();
                     kart.GetComponent<PlayerScript>().GetHit(true);
                 }
             }

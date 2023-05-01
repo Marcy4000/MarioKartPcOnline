@@ -51543,7 +51543,7 @@ GameObject:
   - component: {fileID: 2146035940}
   - component: {fileID: 2146035939}
   m_Layer: 5
-  m_Name: Disclaimer
+  m_Name: Version
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51589,7 +51589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v1.7
+  m_text: v1.7.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ae35c74a66a0d241ba0f4f33137e6fa, type: 2}
   m_sharedMaterial: {fileID: -2718251700098128330, guid: 9ae35c74a66a0d241ba0f4f33137e6fa,
@@ -51617,14 +51617,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.35
+  m_fontSize: 58
   m_fontSizeBase: 58
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -51633,7 +51633,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

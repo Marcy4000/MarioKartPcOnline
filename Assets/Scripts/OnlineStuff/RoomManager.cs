@@ -53,6 +53,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         pv.RPC("ChangeSelectedStage", RpcTarget.All, GlobalData.SelectedStage);
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)

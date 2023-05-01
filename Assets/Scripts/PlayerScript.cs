@@ -59,6 +59,9 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     public Transform boostExplosion;
     private bool alreadyDown = false;
 
+    [Header("Sounds")]
+    public AudioSource[] soundEffects;
+
     //Values that will be synced over network
     Vector3 latestPos;
     Quaternion latestRot;
@@ -261,14 +264,29 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
         {
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, Time.deltaTime * 0.5f); //speed
+            if (!soundEffects[1].isPlaying)
+            {
+                soundEffects[0].Stop();
+                soundEffects[1].Play();
+            }
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetButton("Fire1"))
         {
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, -MaxSpeed / 1.75f, 1f * Time.deltaTime);
+            if (!soundEffects[1].isPlaying)
+            {
+                soundEffects[0].Stop();
+                soundEffects[1].Play();
+            }
         }
         else
         {
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Time.deltaTime * 1.5f); //speed
+            if (!soundEffects[0].isPlaying)
+            {
+                soundEffects[1].Stop();
+                soundEffects[0].Play();
+            }
         }
 
         if (!GLIDER_FLY)
@@ -389,6 +407,12 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                 //particle effects (sparks)
                 if (driftTime >= 1.5 && driftTime < 4)
                 {
+                    if (!soundEffects[2].isPlaying)
+                    {
+                        soundEffects[2].Play();
+                        soundEffects[3].Stop();
+                        soundEffects[4].Stop();
+                    }
                     for (int i = 0; i < leftDrift.childCount; i++)
                     {
                         ParticleSystem DriftPS = rightDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
@@ -407,8 +431,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                         }
                     }
                 }
-                if (driftTime >= 4 && driftTime < 7)
+                if (driftTime >= 4 && driftTime < 6)
                 {
+                    if (!soundEffects[3].isPlaying)
+                    {
+                        soundEffects[3].Play();
+                        soundEffects[4].Stop();
+                        soundEffects[2].Stop();
+                    }
                     //drift color particles
                     for (int i = 0; i < leftDrift.childCount; i++)
                     {
@@ -421,11 +451,16 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                     }
 
                 }
-                if (driftTime >= 7)
+                if (driftTime >= 6)
                 {
+                    if (!soundEffects[4].isPlaying)
+                    {
+                        soundEffects[4].Play();
+                        soundEffects[3].Stop();
+                        soundEffects[2].Stop();
+                    }
                     for (int i = 0; i < leftDrift.childCount; i++)
                     {
-
                         ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
                         ParticleSystem.MainModule PSMAIN = DriftPS.main;
                         ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
@@ -449,15 +484,27 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                 if (driftTime > 1.5 && driftTime < 4)
                 {
                     BoostTime = 0.75f;
+                    soundEffects[2].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[4].Stop();
+                    soundEffects[5].Play();
                 }
                 if (driftTime >= 4 && driftTime < 7)
                 {
                     BoostTime = 1.5f;
+                    soundEffects[2].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[4].Stop();
+                    soundEffects[5].Play();
 
                 }
-                if (driftTime >= 7)
+                if (driftTime >= 6)
                 {
                     BoostTime = 2.5f;
+                    soundEffects[4].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[2].Stop();
+                    soundEffects[5].Play();
                 }
 
                 //reset everything
@@ -488,15 +535,27 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                 if (driftTime > 1.5 && driftTime < 4)
                 {
                     BoostTime = 0.75f;
+                    soundEffects[4].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[2].Stop();
+                    soundEffects[5].Play();
                 }
                 if (driftTime >= 4 && driftTime < 7)
                 {
                     BoostTime = 1.5f;
+                    soundEffects[4].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[2].Stop();
+                    soundEffects[5].Play();
 
                 }
-                if (driftTime >= 7)
+                if (driftTime >= 6)
                 {
                     BoostTime = 2.5f;
+                    soundEffects[4].Stop();
+                    soundEffects[3].Stop();
+                    soundEffects[2].Stop();
+                    soundEffects[5].Play();
                 }
 
                 //reset everything
