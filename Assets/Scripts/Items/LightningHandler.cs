@@ -40,10 +40,19 @@ public class LightningHandler : MonoBehaviour
                 {
                     soundEffects[1].Play();
                     kart.GetComponent<PlayerScript>().GetHit(true);
+                    StartCoroutine("ThunderAnimation", kart);
                 }
             }
         }
 
         sender = false;
+    }
+
+    private IEnumerator ThunderAnimation(KartLap _kart)
+    {
+        GameObject thunder = _kart.transform.Find("Thunder").gameObject;
+        thunder.SetActive(true);
+        yield return new WaitForSeconds(1.4f);
+        thunder.SetActive(false);
     }
 }

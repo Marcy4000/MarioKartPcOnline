@@ -49,7 +49,7 @@ public class ItemRoulette : MonoBehaviour
         if (spinning || selectedItem != nothing) { return; }
         Debug.Log(KartLap.mainKart);
         int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        selectedItem = itemIcons[8].items[1];
+        selectedItem = itemIcons[(int)KartLap.mainKart.racePlace].items[random];
         StartCoroutine(DoTheSpinning());
     }
 
