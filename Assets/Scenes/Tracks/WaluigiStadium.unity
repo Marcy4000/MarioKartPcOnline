@@ -7579,8 +7579,11 @@ MonoBehaviour:
   nLaps: 3
   lapSource: {fileID: 2009219043}
   lastThing: {fileID: 8300000, guid: 049152766d7a09645b225147d0349b78, type: 3}
-  winTheme: {fileID: 8300000, guid: 2d3090ad0c24c0345a4ddb3a82ae9944, type: 3}
   finalLapClip: {fileID: 8300000, guid: 1af6ccb61a9dd4a4a8a286f5b17dbe08, type: 3}
+  finishThemes:
+  - {fileID: 8300000, guid: eccbe8b0d03ac2f499f6c881cd4b8779, type: 3}
+  - {fileID: 8300000, guid: f649898d4063f8d4a80a365d73a4d55f, type: 3}
+  - {fileID: 8300000, guid: 5590b3a6562e79347903170085481a3d, type: 3}
   lapCounter: {fileID: 0}
   orderedKarts: []
 --- !u!65 &2009219045

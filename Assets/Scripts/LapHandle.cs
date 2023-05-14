@@ -9,7 +9,8 @@ public class LapHandle : MonoBehaviour
 {
     public int CheckpointAmt, nLaps;
     public AudioSource lapSource;
-    public AudioClip lastThing, winTheme, finalLapClip;
+    public AudioClip lastThing, finalLapClip;
+    public AudioClip[] finishThemes;
     public TMP_Text lapCounter;
     public KartLap[] orderedKarts;
 
@@ -56,7 +57,18 @@ public class LapHandle : MonoBehaviour
                         lapSource.clip = lastThing;
                         lapSource.Play();
                         MusicManager.instance.Stop();
-                        MusicManager.instance.SetAudioClip(winTheme);
+                        if (tempKart.racePlace == RacePlace.first)
+                        {
+                            MusicManager.instance.SetAudioClip(finishThemes[0]);
+                        }
+                        else if ((int)tempKart.racePlace > 0 && (int)tempKart.racePlace < 6)
+                        {
+                            MusicManager.instance.SetAudioClip(finishThemes[1]);
+                        }
+                        else
+                        {
+                            MusicManager.instance.SetAudioClip(finishThemes[2]);
+                        }
                         MusicManager.instance.ChangeSpeed(1f);
                         MusicManager.instance.Play();
                         tempKart.lapNumber = nLaps;

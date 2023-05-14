@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
+using System;
 
 public class CharacterSelectScreen : MonoBehaviour
 {
     public DummyKart dummyKart;
     public int selectedChar;
+    public TMP_Text[] names;
     private ExitGames.Client.Photon.Hashtable _myCustomProprieties = new ExitGames.Client.Photon.Hashtable();
 
     private void OnEnable()
@@ -16,6 +19,10 @@ public class CharacterSelectScreen : MonoBehaviour
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
         dummyKart.gameObject.SetActive(true);
         dummyKart.SetCharacter(GlobalData.SelectedCharacter);
+        foreach (var name in names)
+        {
+            name.text = GlobalData.charPngNames[GlobalData.SelectedCharacter];
+        }
     }
 
     private void OnDisable()
@@ -26,6 +33,10 @@ public class CharacterSelectScreen : MonoBehaviour
     public void SetSelectedChar(int chara)
     {
         selectedChar = chara;
+        foreach (var name in names)
+        {
+            name.text = GlobalData.charPngNames[chara];
+        }
     }
 
     public void ChangeCharacter()
