@@ -50,8 +50,8 @@ public class LapCheckPoint : MonoBehaviour
         if (other.GetComponent<KartLap>())
         {
             KartLap Kart = other.GetComponent<KartLap>();
-
-            if (Kart.CheckpointIndex == Index + 1 || Kart.CheckpointIndex == Index - 1)
+            Debug.LogWarning(Mathf.Abs(Kart.CheckpointIndex - Index));
+            if ( Mathf.Abs(Kart.CheckpointIndex - Index   )<10 )
             {
                 Kart.CheckpointIndex = Index;
                 Kart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(Kart));
