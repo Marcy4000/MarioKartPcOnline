@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager instance;
 
     [SerializeField] Menu[] menus;
+    [SerializeField] AudioSource music;
 
     private void Awake()
     {
@@ -43,5 +44,12 @@ public class MenuManager : MonoBehaviour
     public void CloseMenu(Menu menuObj)
     {
         menuObj.Close();
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        music.Stop();
+        music.clip = clip;
+        music.Play();
     }
 }

@@ -63,6 +63,7 @@ public static class GlobalData
         "sonic",
         "peach",
         "rosalina",
-        "eggman"
+        "eggman",
+        "peppebrescia"
     };
 }
