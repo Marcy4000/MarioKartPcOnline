@@ -184,7 +184,11 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             {
                 if (hit.collider.gameObject.CompareTag("SlowGround"))
                 {
-                    MaxSpeed = KartMaxSpeed - (KartMaxSpeed * 15 / 100);
+                    MaxSpeed = KartMaxSpeed * 45 / 100;
+                    if (CurrentSpeed > MaxSpeed)
+                    {
+                        CurrentSpeed = MaxSpeed;
+                    }
                 }
                 else
                 {
