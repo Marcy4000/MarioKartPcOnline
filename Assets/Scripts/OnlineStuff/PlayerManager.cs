@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviourPun
     public bool hasLoaded = false;
     public bool allPlayersLoaded;
     public PlayerManager[] players;
-    private ExitGames.Client.Photon.Hashtable _roomCustomProprietes = new ExitGames.Client.Photon.Hashtable();
+    private ExitGames.Client.Photon.Hashtable _playerCustomProprietes = new ExitGames.Client.Photon.Hashtable();
 
     private void Awake()
     {
@@ -38,8 +38,9 @@ public class PlayerManager : MonoBehaviourPun
             yield return null;
         }
         pv.RPC("SetHasLoaded", RpcTarget.MasterClient, load.isDone);
-        _roomCustomProprietes["playerLoaded"] = true;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(_roomCustomProprietes);
+        _playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
+        _playerCustomProprietes["playerLoaded"] = true;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);
         GlobalData.HasSceneLoaded = true;
         CreateController();
         CreateBots();
@@ -52,30 +53,35 @@ public class PlayerManager : MonoBehaviourPun
             pv.RPC("StartGame", RpcTarget.AllBuffered);
         }*/
 
-        allPlayersLoaded = true;
-        foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        
+        do
         {
-            object loaded;
-            if (p.CustomProperties.TryGetValue("playerLoaded", out loaded))
+            allPlayersLoaded = true;
+            foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
             {
-                if (!(bool)loaded)
+                object loaded;
+                if (p.CustomProperties.TryGetValue("playerLoaded", out loaded))
                 {
-                    hasLoaded = false;
+                    if (!(bool)loaded)
+                    {
+                        allPlayersLoaded = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    allPlayersLoaded = false;
                     break;
                 }
             }
-            else
-            {
-                hasLoaded = false;
-                break;
-            }
-        }
+
+            yield return null;
+        } while (allPlayersLoaded == false);
 
         if (allPlayersLoaded)
         {
             Cutscene.instance.PlayCutscene(Camera.main.gameObject);
         }
-        
     }
 
     private bool CheckIfReady()

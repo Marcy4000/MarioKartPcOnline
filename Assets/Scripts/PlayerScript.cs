@@ -388,8 +388,8 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     private void groundNormalRotation()
     {
         RaycastHit hit;
-        Debug.DrawRay(rayPoint.position, -transform.up * 1.2f);
-        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.2f, whatIsGround))
+        Debug.DrawRay(rayPoint.position, -transform.up * 1.5f);
+        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.5f, whatIsGround))
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up * 2, hit.normal) * transform.rotation, 7.5f * Time.deltaTime);
             touchingGround = true;
@@ -610,12 +610,12 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     private void tireSteer()
     {
         if (BulletBill) { return; }
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || steerDirection < -0.2f)
         {
             frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 155, 0), 5 * Time.deltaTime);
             frontRightTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 155, 0), 5 * Time.deltaTime);
         }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || steerDirection > 0.2f)
         {
             frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 205, 0), 5 * Time.deltaTime);
             frontRightTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 205, 0), 5 * Time.deltaTime);
@@ -667,6 +667,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
         
     }
+
     [PunRPC]
     void PlayerGetHitRPC(bool b)
     {
@@ -676,6 +677,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
         GetHit(b);
     }
+
     private Transform GetNextCheckPoint()
     {
         LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();

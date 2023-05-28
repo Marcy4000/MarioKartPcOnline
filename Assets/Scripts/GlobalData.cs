@@ -7,7 +7,7 @@ public static class GlobalData
 {
     public static int SelectedStage = 0;
     public static int SelectedCharacter = 0;
-    public static bool UseController;
+    public static bool UseController, HasIntroPlayed = false;
 
     public const int PlayerCount = 12;
 

@@ -41,7 +41,15 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        MenuManager.instance.OpenMenu("MainMenu");
+        if (GlobalData.HasIntroPlayed)
+        {
+            MenuManager.instance.OpenMenu("MainMenu");
+            MenuManager.instance.PlayMusic();
+        }
+        else
+        {
+            MenuManager.instance.OpenMenu("Intro");
+        }
         Debug.Log("Joined Lobby");
         PhotonNetwork.NickName = PlayerPrefs.GetString("nickname", $"Player N.{UnityEngine.Random.Range(0, 69420)}");
         GlobalData.SelectedCharacter = PlayerPrefs.GetInt("character", 0);
@@ -156,6 +164,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Destroy(child.gameObject);
         }
+
         foreach (RoomInfo room in roomList)
         {
             if (room.RemovedFromList)

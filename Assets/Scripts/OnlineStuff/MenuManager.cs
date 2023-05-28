@@ -52,4 +52,9 @@ public class MenuManager : MonoBehaviour
         music.clip = clip;
         music.Play();
     }
+
+    public void PlayMusic()
+    {
+        music.Play();
+    }
 }
