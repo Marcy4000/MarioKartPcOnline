@@ -63,13 +63,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     public AudioSource[] soundEffects;
 
     //Values that will be synced over network
-    Vector3 latestPos;
+    Vector3 latestPos, latestVel;
     Quaternion latestRot;
     //Lag compensation
     float currentTime = 0;
     double currentPacketTime = 0;
     double lastPacketTime = 0;
     Vector3 positionAtLastPacket = Vector3.zero;
+    Vector3 velocityAtLastPacket = Vector3.zero;
     Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void OnEnable()
@@ -113,6 +114,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             //Update remote player
             transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
             transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
+            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, (float)(currentTime / timeToReachGoal));
             return;
         }
 
@@ -708,12 +710,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             //We own this player: send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(rb.velocity);
         }
         else
         {
             //Network player, receive data
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
+            latestVel = (Vector3)stream.ReceiveNext();
 
             //Lag compensation
             currentTime = 0.0f;
@@ -721,6 +725,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             currentPacketTime = info.SentServerTime;
             positionAtLastPacket = transform.position;
             rotationAtLastPacket = transform.rotation;
+            velocityAtLastPacket = rb.velocity;
         }
     }
 }

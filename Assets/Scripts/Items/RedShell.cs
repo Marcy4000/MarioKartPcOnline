@@ -19,15 +19,17 @@ public class RedShell : MonoBehaviourPun, IPunObservable
     [SerializeField] private bool move = false;
     private bool safeMode = false;
     [SerializeField] bool useNewRedshellCode;
+    private float timer = 0f;
 
     //Values that will be synced over network
-    Vector3 latestPos;
+    Vector3 latestPos, latestVel;
     Quaternion latestRot;
     //Lag compensation
     float currentTime = 0;
     double currentPacketTime = 0;
     double lastPacketTime = 0;
     Vector3 positionAtLastPacket = Vector3.zero;
+    Vector3 velocityAtLastPacket = Vector3.zero;
     Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void Awake()
@@ -108,6 +110,8 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             //Update remote player
             transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
             transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
+            agent.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, (float)(currentTime / timeToReachGoal));
+            
         }
 
         if (!photonView.IsMine || (!agent.isOnNavMesh && ! agent.isOnOffMeshLink))
@@ -115,11 +119,14 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             return;
         }
 
+        timer += Time.deltaTime;
+
         if (!agent.pathPending)
         {
-            if (Mathf.RoundToInt(Time.time) % 1 == 0)
+            if (timer > 0.5f)
             {
                 agent.destination = targetKart.frontPosition.position;
+                timer = 0f;
                 return;
             }
             
@@ -148,12 +155,14 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             //We own this player: send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(agent.velocity);
         }
         else
         {
             //Network player, receive data
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
+            latestVel = (Vector3)stream.ReceiveNext();
 
             //Lag compensation
             currentTime = 0.0f;
@@ -161,6 +170,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             currentPacketTime = info.SentServerTime;
             positionAtLastPacket = transform.position;
             rotationAtLastPacket = transform.rotation;
+            velocityAtLastPacket = agent.velocity;
         }
     }
 }

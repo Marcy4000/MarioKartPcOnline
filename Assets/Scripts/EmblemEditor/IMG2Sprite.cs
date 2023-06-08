@@ -30,11 +30,20 @@ public static class IMG2Sprite
         return NewSprite;
     }
 
-    public static Sprite ConvertTextureToSprite(Texture2D texture, float PixelsPerUnit = 100.0f, SpriteMeshType spriteType = SpriteMeshType.Tight)
+    public static Sprite ConvertTextureToSprite(Texture2D texture, float PixelsPerUnit = 100.0f, SpriteMeshType spriteType = SpriteMeshType.Tight, bool piviotCenter = false)
     {
         // Converts a Texture2D to a sprite, assign this texture to a new sprite and return its reference
+        Sprite NewSprite = null;
 
-        Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), PixelsPerUnit, 0, spriteType);
+        if (piviotCenter)
+        {
+            NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), PixelsPerUnit, 0, spriteType, new Vector4(0, 0, texture.width, texture.height));
+        }
+        else
+        {
+            NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), PixelsPerUnit, 0, spriteType, new Vector4(0, 0, texture.width, texture.height));
+        }
+
 
         return NewSprite;
     }

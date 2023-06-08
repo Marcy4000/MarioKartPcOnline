@@ -10,6 +10,7 @@ public class SkinManager : MonoBehaviourPun
     public GameObject itemThing;
     public int selectedCharacter;
     public SkinnedMeshRenderer skinnedMeshRenderer, emblemMesh;
+    public SpriteRenderer emblemSprite;
     [SerializeField] private Animator characterAnimator;
 
     private void Start()
@@ -22,6 +23,7 @@ public class SkinManager : MonoBehaviourPun
         }
         instance = this;
         emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
+        emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
         SetCharacter(GlobalData.SelectedCharacter);
     }
 
