@@ -19,6 +19,7 @@ public class SkinManager : MonoBehaviourPun
         {
             SetCharacter((int)photonView.Owner.CustomProperties["character"]);
             emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
+            emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
             return;
         }
         instance = this;
