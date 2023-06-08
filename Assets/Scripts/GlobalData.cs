@@ -64,6 +64,7 @@ public static class GlobalData
         "peach",
         "rosalina",
         "eggman",
-        "peppebrescia"
+        "peppebrescia",
+        "peppino"
     };
 }

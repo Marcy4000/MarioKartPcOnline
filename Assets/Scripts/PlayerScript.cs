@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     public float KartMaxSpeed;
     private float MaxSpeed;
     public float boostSpeed;
-    private float RealSpeed; //not the applied speed
+    public float RealSpeed { get; private set; } //not the applied speed
     public bool canMove;
     public bool star= false;
     public bool BulletBill = false;
