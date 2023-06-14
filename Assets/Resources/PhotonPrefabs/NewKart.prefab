@@ -2509,7 +2509,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6312790470151467512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.475, z: 0.66}
+  m_LocalPosition: {x: 0, y: -0.24, z: 0.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2802,6 +2802,7 @@ MonoBehaviour:
   BoostTime: 0
   boostFire: {fileID: 4923200974636876246}
   boostExplosion: {fileID: 2763758869110358614}
+  antiGravity: 0
   soundEffects:
   - {fileID: 702858167338444190}
   - {fileID: 2940107758605211966}
@@ -3051,6 +3052,7 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 0}
   starTheme: {fileID: 8300000, guid: dcd810f89ed59ac44ba48de8793ffed9, type: 3}
   isPlayer: 1
+  antiGravity: 0
 --- !u!114 &7194367450481897056
 MonoBehaviour:
   m_ObjectHideFlags: 0

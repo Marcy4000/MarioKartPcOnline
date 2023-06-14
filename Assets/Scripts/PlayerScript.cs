@@ -58,6 +58,8 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     public Transform boostFire;
     public Transform boostExplosion;
     private bool alreadyDown = false;
+    public bool antiGravity = false;
+    float gravity = 0;
 
     [Header("Sounds")]
     public AudioSource[] soundEffects;
@@ -101,6 +103,11 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         kartAnimator = holder.GetComponent<Animator>();
+        if (GlobalData.SelectedStage == 13)
+        {
+            antiGravity = true;
+            rb.useGravity = false;
+        }
     }
 
     private void Update()
@@ -262,10 +269,6 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             return;
         }
-        if ((driftLeft || driftRight) && !GLIDER_FLY)
-        {
-            rb.AddForce(-transform.up * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
-        }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
         {
@@ -295,11 +298,28 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             }
         }
 
-        if (!GLIDER_FLY)
+        if (!GLIDER_FLY && !antiGravity)
         {
             Vector3 vel = transform.forward * CurrentSpeed;
             vel.y = rb.velocity.y; //gravity
             rb.velocity = vel;
+        }
+        else if (!GLIDER_FLY && antiGravity)
+        {
+            Vector3 vel = transform.forward * CurrentSpeed;
+            rb.velocity = vel;
+            if (!Physics.Raycast(rayPoint.position, -transform.up, 0.75f, whatIsGround))
+            {
+                if (gravity < 75f)
+                {
+                    gravity += 5f;
+                }
+                rb.AddForce(-transform.up * gravity, ForceMode.VelocityChange);
+            }
+            else
+            {
+                gravity = 0;
+            }
         }
         else
         {
@@ -307,6 +327,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             vel.y = rb.velocity.y * 0.7f; //gravity with gliding
             rb.velocity = vel;
         }
+
     }
 
     private void steer()
@@ -348,6 +369,11 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, 0f, 0), 8f * Time.deltaTime);
         }
 
+        if ((driftLeft || driftRight) && !GLIDER_FLY)
+        {
+            rb.AddForce(-transform.up * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
+        }
+
         //since handling is supposed to be stronger when car is moving slower, we adjust steerAmount depending on the real speed of the kart, and then rotate the kart on its y axis with steerAmount
         steerAmount = RealSpeed > 30 ? RealSpeed / 3 * steerDirection : steerAmount = RealSpeed / 1.25f * steerDirection;
 
@@ -360,7 +386,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, -40), 2 * Time.deltaTime);
         } //right
-        else //nothing
+        else if (GLIDER_FLY) //nothing
         {
             transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
         } //nothing
@@ -377,21 +403,32 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             rb.AddForce(Vector3.up * 4000 * Time.deltaTime, ForceMode.Acceleration);
 
         } //rotating up - only use this if you have special triggers around the track which disable this functionality at some point, or the player will be able to just fly around the track the whole time
-        else
+        else if (GLIDER_FLY)
         {
             transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, transform.eulerAngles.z), 2 * Time.deltaTime);
         }
 
-        steerDirVect = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + steerAmount, transform.eulerAngles.z);
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, steerDirVect, 3 * Time.deltaTime);
+        if (!touchingGround && !antiGravity)
+        {
+            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
+        }
 
+        if (!antiGravity)
+        {
+            steerDirVect = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + steerAmount, transform.eulerAngles.z);
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, steerDirVect, 3 * Time.deltaTime);
+        }
+        else
+        {
+            transform.RotateAround(transform.position, transform.up, 3 * steerAmount * Time.deltaTime);
+        }
     }
 
     private void groundNormalRotation()
     {
         RaycastHit hit;
-        Debug.DrawRay(rayPoint.position, -transform.up * 1.5f);
-        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.5f, whatIsGround))
+        Debug.DrawRay(rayPoint.position, -transform.up * 2f);
+        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 2f, whatIsGround))
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up * 2, hit.normal) * transform.rotation, 7.5f * Time.deltaTime);
             touchingGround = true;

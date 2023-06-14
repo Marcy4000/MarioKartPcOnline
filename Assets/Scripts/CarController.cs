@@ -53,6 +53,8 @@ public class CarController : MonoBehaviourPun
     private bool isReady = false;
     public bool isPlayer;
 
+    public bool antiGravity = false;
+
     private void OnEnable()
     {
         Countdown.Instance.OnCountdownEnded += CountdownEnded;
@@ -99,6 +101,11 @@ public class CarController : MonoBehaviourPun
         }
         theRB.transform.parent = null;
 
+        if (GlobalData.SelectedStage == 13)
+        {
+            antiGravity = true;
+        }
+
         if (!botDrive)
         {
             Instance = this;
@@ -112,6 +119,10 @@ public class CarController : MonoBehaviourPun
             int botChar = Random.Range(0, characters.Length);
             SetCharacter(botChar);
             pv.RPC("SyncCharacter", RpcTarget.Others, botChar, pv.ViewID);
+        }
+        if (antiGravity)
+        {
+            theRB.useGravity = false;
         }
         lastValue = kartLap.CheckpointIndex;
         checkpoint = GetNextCheckPoint();
@@ -186,12 +197,13 @@ public class CarController : MonoBehaviourPun
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);*/
         Vector3 lookPos = checkpoint.position - transform.position;
         lookPos += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        lookPos.y = 0;
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        //lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos, transform.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * botTurnSpeed);
         lastValue = kartLap.CheckpointIndex;
-        
-        transform.position = new Vector3(theRB.transform.position.x, theRB.transform.position.y - kartOffset, theRB.transform.position.z);
+
+        //transform.position = new Vector3(theRB.transform.position.x, theRB.transform.position.y - kartOffset, theRB.transform.position.z);
+        transform.position = theRB.position - (transform.up * kartOffset);
     }
 
     private IEnumerator Drifting()
@@ -213,9 +225,9 @@ public class CarController : MonoBehaviourPun
 
         RaycastHit hit;
 
+        Debug.DrawRay(groundRayPoint.position, -transform.up * groundRayLenght);
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
         {
-
             Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, yourRotationSpeedVariable);
             if (hit.collider.CompareTag("Boost Pad"))
@@ -228,9 +240,13 @@ public class CarController : MonoBehaviourPun
         else
         {
             theRB.drag = 0.1f;
-             //theRB.AddForce(100f * -gravityForce * Vector3.up);
+            //theRB.AddForce(100f * -gravityForce * Vector3.up);
         }
-        
+
+        if (antiGravity)
+        {
+            theRB.AddForce(-transform.up * 75f * theRB.mass);
+        }
 
         if (theRB.velocity.magnitude > maxSpeed)
         {

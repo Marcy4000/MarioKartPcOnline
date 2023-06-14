@@ -12,9 +12,18 @@ public class CameraController : MonoBehaviour
     private IEnumerator Start()
     {
         trp = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        
         while (!GlobalData.HasSceneLoaded)
         {
             yield return null;
+        }
+        if (GlobalData.SelectedStage == 13)
+        {
+            trp.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
+        }
+        else
+        {
+            trp.m_BindingMode = CinemachineTransposer.BindingMode.LockToTargetNoRoll;
         }
         PlayerScript[] players = FindObjectsOfType<PlayerScript>();
         foreach (PlayerScript player in players)

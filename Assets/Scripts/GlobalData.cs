@@ -44,7 +44,8 @@ public static class GlobalData
         "GokuStage",
         "LuigisMansion",
         "BabyPark",
-        "WiiRainbowRoad"
+        "WiiRainbowRoad",
+        "8MarioCircuit"
     };
 
     public static string[] charPngNames =

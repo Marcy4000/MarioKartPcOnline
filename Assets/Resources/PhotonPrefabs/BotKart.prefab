@@ -10897,6 +10897,7 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 7475048376372991577}
   starTheme: {fileID: 0}
   isPlayer: 0
+  antiGravity: 0
 --- !u!82 &5249111864412075362
 AudioSource:
   m_ObjectHideFlags: 0

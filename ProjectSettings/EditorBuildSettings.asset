@@ -53,6 +53,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tracks/WiiRainbowRoad.unity
     guid: dd6d14e01de8caf438c7bfaaf6fd86b2
+  - enabled: 1
+    path: Assets/Scenes/Tracks/8MarioCircuit.unity
+    guid: 457ea256281269541a3512db9883c698
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f29ab6143077cf64daa0c884e13cce7f,
       type: 2}
