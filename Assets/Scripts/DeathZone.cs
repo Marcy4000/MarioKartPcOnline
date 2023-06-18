@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
-    private Transform[] checkpoints;
+    [SerializeField] private Transform[] checkpoints;
     
     void Start()
     {
         LapCheckPoint[] checkpointsScripts = FindObjectsOfType<LapCheckPoint>();
         checkpoints = new Transform[checkpointsScripts.Length];
-        for (int i = 0; i < checkpointsScripts.Length - 1; i++)
+        for (int i = 0; i < checkpointsScripts.Length; i++)
         {
             checkpoints[i] = checkpointsScripts[i].transform;
         }

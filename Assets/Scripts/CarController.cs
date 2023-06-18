@@ -223,6 +223,11 @@ public class CarController : MonoBehaviourPun
             return;
         }
 
+        if (!grounded)
+        {
+            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
+        }
+
         RaycastHit hit;
 
         Debug.DrawRay(groundRayPoint.position, -transform.up * groundRayLenght);
@@ -319,6 +324,7 @@ public class CarController : MonoBehaviourPun
 
         return things[0].transform;
     }
+
     [PunRPC]
     void BotGetHitRPC(bool b)
     {

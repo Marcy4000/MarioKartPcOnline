@@ -15,6 +15,7 @@ TagManager:
   - GetHitCollider
   - BulletBillPath
   - BlueShellPath
+  - Mushroom
   layers:
   - Default
   - TransparentFX

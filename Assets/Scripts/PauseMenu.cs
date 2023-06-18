@@ -25,7 +25,7 @@ public class PauseMenu : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2.5f);
         LapCheckPoint[] checkpointsScripts = FindObjectsOfType<LapCheckPoint>();
         checkpoints = new Transform[checkpointsScripts.Length];
-        for (int i = 0; i < checkpointsScripts.Length - 1; i++)
+        for (int i = 0; i < checkpointsScripts.Length; i++)
         {
             checkpoints[i] = checkpointsScripts[i].transform;
         }

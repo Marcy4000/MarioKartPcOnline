@@ -704,7 +704,11 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             gliderAnim.SetBool("GliderOpen", false);
             gliderAnim.SetBool("GliderClose", true);
         }
-        
+
+        if (collision.gameObject.CompareTag("Mushroom"))
+        {
+            rb.AddForce(transform.up * 1500f);
+        }
     }
 
     [PunRPC]

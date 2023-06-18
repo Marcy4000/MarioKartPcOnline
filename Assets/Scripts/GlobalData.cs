@@ -45,7 +45,8 @@ public static class GlobalData
         "LuigisMansion",
         "BabyPark",
         "WiiRainbowRoad",
-        "8MarioCircuit"
+        "8MarioCircuit",
+        "MushroomGorge"
     };
 
     public static string[] charPngNames =
