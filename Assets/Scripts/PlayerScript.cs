@@ -707,7 +707,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
         if (collision.gameObject.CompareTag("Mushroom"))
         {
-            rb.AddForce(transform.up * 1500f);
+            rb.AddForce(transform.up * 2500f);
         }
     }
 

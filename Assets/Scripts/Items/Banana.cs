@@ -18,6 +18,12 @@ public class Banana : MonoBehaviour
             transform.position = hit.point;
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
         }
+        else
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.constraints = RigidbodyConstraints.None;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -8,8 +8,8 @@ public class BulletBill : MonoBehaviourPun
     public PathCreator GlobalPathCreator;
     public PathCreator UsablePath;
     public PathCreator BulletBillPathCreator;
-    public float speed = 100;
-    public const float MAXSPEED = 100;
+    public float speed = 150;
+    public const float MAXSPEED = 150;
     float distanceTravelled;
     PlayerScript ps;
     bool UsingLocalPath = false;

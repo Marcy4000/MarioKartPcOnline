@@ -40,6 +40,13 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
         }
+
+        /*RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up, out hit, 20f, whatIsGround))
+        {
+            transform.position = hit.point + (transform.up * 1.4f);
+        }*/
+
         rb.AddForce(transform.forward * 1500f, ForceMode.Impulse);
     }
 
@@ -52,8 +59,8 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             if (kart.racePlace == currKart.racePlace - 1)
             {
                 targetKart = kart;
-                //agent.destination = targetKart.frontPosition.position;
-                agent.SetDestination(targetKart.frontPosition.position);
+                agent.destination = targetKart.frontPosition.position;
+                //agent.SetDestination(targetKart.frontPosition.position);
                 StartCoroutine(SafeFrames());
                 
                 Debug.Log("Red Shell found target");
@@ -126,8 +133,8 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         {
             if (timer >= 0.1f)
             {
-                //agent.destination = targetKart.frontPosition.position;
-                agent.SetDestination(targetKart.frontPosition.position);
+                agent.destination = targetKart.frontPosition.position;
+                //agent.SetDestination(targetKart.frontPosition.position);
                 timer = 0f;
                 return;
             }
@@ -136,8 +143,8 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             {
                 if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                 {
-                    //agent.destination = targetKart.frontPosition.position;
-                    agent.SetDestination(targetKart.frontPosition.position);
+                    agent.destination = targetKart.frontPosition.position;
+                    //agent.SetDestination(targetKart.frontPosition.position);
                 }
             }
         }

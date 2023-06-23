@@ -18,7 +18,7 @@ public class BlueShell : MonoBehaviourPun
     private KartLap targetKart, currKart;
     private PathCreator path;
     private float distanceAlongPath;
-    private float speed = 100f;
+    private float speed = 200f;
     private bool targetMode = false;
     private bool animationEnded = false;
     private float t = 0;
@@ -31,6 +31,7 @@ public class BlueShell : MonoBehaviourPun
     public GameObject child;
     public LayerMask THISMASK;
     private bool once = false;
+
     private void Awake()
     {
         if (!photonView.IsMine)
