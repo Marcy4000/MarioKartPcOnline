@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class OptionsMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField nameField;
-    [SerializeField] private Toggle fullscreen, useController;
+    [SerializeField] private Toggle fullscreen, useController, showName;
     [SerializeField] private DummyKart dummyKart;
     public TMP_Dropdown resolutionsDropdown, characterDropdown, regionDropdown;
     private Resolution[] resolutions;
@@ -19,6 +19,7 @@ public class OptionsMenu : MonoBehaviour
         resolutions = Screen.resolutions;
         fullscreen.isOn = Screen.fullScreen;
         useController.isOn = GlobalData.UseController;
+        showName.isOn = GlobalData.showName;
 
         _myCustomProprieties["score"] = GlobalData.score;
         resolutionsDropdown.ClearOptions();
@@ -107,5 +108,11 @@ public class OptionsMenu : MonoBehaviour
     public void SetFullscreen(bool value)
     {
         Screen.fullScreen = value;
+    }
+
+    public void SetViewName(bool value)
+    {
+        GlobalData.showName = value;
+        PlayerPrefs.SetInt("showName", boolToInt(value));
     }
 }

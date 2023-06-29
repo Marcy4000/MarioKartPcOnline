@@ -13,6 +13,10 @@ public class NameTag : MonoBehaviourPun
     private void Start()
     {
         SetName();
+        if (photonView.IsMine && !GlobalData.showName)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Update()

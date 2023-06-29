@@ -54,6 +54,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = PlayerPrefs.GetString("nickname", $"Player N.{UnityEngine.Random.Range(0, 69420)}");
         GlobalData.SelectedCharacter = PlayerPrefs.GetInt("character", 0);
         GlobalData.UseController = intToBool(PlayerPrefs.GetInt("controller"));
+        GlobalData.showName = intToBool(PlayerPrefs.GetInt("showName"));
         PhotonNetwork.LocalPlayer.CustomProperties["character"] = GlobalData.SelectedCharacter;
         GlobalData.score = PlayerPrefs.GetInt("score");
         PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.score;

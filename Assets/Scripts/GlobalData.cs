@@ -17,6 +17,8 @@ public static class GlobalData
 
     public static int score = 0;
 
+    public static bool showName = true;
+
     public static string[] regions =
     {
         "eu",
