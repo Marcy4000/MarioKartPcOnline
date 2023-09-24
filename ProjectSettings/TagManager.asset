@@ -16,6 +16,7 @@ TagManager:
   - BulletBillPath
   - BlueShellPath
   - Mushroom
+  - LoadingScreen
   layers:
   - Default
   - TransparentFX

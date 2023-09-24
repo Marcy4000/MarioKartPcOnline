@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviourPun
     public bool allPlayersLoaded;
     public PlayerManager[] players;
     private ExitGames.Client.Photon.Hashtable _playerCustomProprietes = new ExitGames.Client.Photon.Hashtable();
+    private GameObject loadingScreen;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class PlayerManager : MonoBehaviourPun
     private void Start()
     {
         players = FindObjectsOfType<PlayerManager>();
+        loadingScreen = GameObject.FindGameObjectWithTag("LoadingScreen");
         if (pv.IsMine)
         {
             StartCoroutine(DoThing());
@@ -30,7 +32,8 @@ public class PlayerManager : MonoBehaviourPun
 
     IEnumerator DoThing()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}"); 
+        Discord_Controller.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+
         AsyncOperation load = SceneManager.LoadSceneAsync(GlobalData.stages[GlobalData.SelectedStage], LoadSceneMode.Additive);
         load.allowSceneActivation = true;
         while (!load.isDone)
@@ -80,6 +83,7 @@ public class PlayerManager : MonoBehaviourPun
 
         if (allPlayersLoaded)
         {
+            Destroy(loadingScreen);
             Cutscene.instance.PlayCutscene(Camera.main.gameObject);
         }
     }

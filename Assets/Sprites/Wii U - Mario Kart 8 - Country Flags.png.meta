@@ -1,0 +1,1702 @@
+fileFormatVersion: 2
+guid: 79dacd486d9b7e249a0937d75db3488c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81608e346a1bd042961f6e51dfa29d3
+      internalID: 1479275400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_1
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43761f3f77296924a91a8067d5d31df9
+      internalID: 522643476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5db02673c2284eb44ac2838d2d3228a9
+      internalID: 1472773643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_3
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3455910d13e347e49b1f31d28c06fd40
+      internalID: -481392781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_4
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dfa9d5de6ea05d48b0576575d78b7a4
+      internalID: -1281561029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_5
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbb10a2778c5fc247b0d8e20b0cd71ea
+      internalID: 1616967542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_6
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3affc56eedb1ee8459c778654e491cb7
+      internalID: -158732556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_7
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f24ea5bb7c25f945bc74a3e92d3cd48
+      internalID: -422939869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_8
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0914c5f9b54656a4a975056665dfd7dc
+      internalID: 521175111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_9
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 312
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dac5fe57f78c0ee47aa14db6326a57f7
+      internalID: 2134330854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_10
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6130d2c7da1fde543a60fbe51ce1cdc5
+      internalID: -53960347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_11
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e5d3388f0d8d164093348e6e3c020a8
+      internalID: 2007497641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_12
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84ef3fcb42fd41a43940e58d33c2977e
+      internalID: 224828656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_13
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11ad42f548ddec1418fe12eaad0cac3d
+      internalID: 674119918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_14
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 678387105665c6c4ab7cb870183de442
+      internalID: 493720992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_15
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4552875d47fb5f547b205264b3094f35
+      internalID: 333580448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_16
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 269bd7c182ce1d14da76fed929092c3f
+      internalID: 629916745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_17
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bd5d1eb55c7019449f8b29db427f29d
+      internalID: 1604752203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_18
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6838c0ac633e04418b589c361f9d0fd
+      internalID: 2035282177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_19
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 268
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a02b342fa862c74f87dcc219175c5db
+      internalID: 1586947798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_20
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 593a102dac7d7a44c8884ac667336d91
+      internalID: 873266689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_21
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c86e276ced238974cbaf55e8344ffff2
+      internalID: 407235949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_22
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b84f51f4574e0d141933da761abf32ad
+      internalID: 815607014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_23
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c595b35c9ea23a4daa201b6daba6d82
+      internalID: -198019188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_24
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2ce88081b72ffd41ae93e2c685b581e
+      internalID: -1811335340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_25
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c77821f0235c4949b0cea18a4ecf54f
+      internalID: 1002898766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_26
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 480205ad69db7fc469ed0642a856f18b
+      internalID: -353344842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_27
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c2c6c1b519c58f43a5e8c4869a58ac6
+      internalID: -2033006752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_28
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bab494dba9a794488961d9775d89fb2
+      internalID: 1443444348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_29
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 224
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e993e316ec4f544ba905a8e4e89352f
+      internalID: 897037288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_30
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae03719497ab42c4fac6b9e82275bd12
+      internalID: -761112814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_31
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d92ebced5fed62241a080d5bdb5d944b
+      internalID: -1828552540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_32
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf78ae9f807035949a6bc97f87c36a01
+      internalID: 762540034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_33
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86bcc1d535e72794bb0705c8747d962f
+      internalID: 614738259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_34
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d098c29fc92074a8669c075e873caa
+      internalID: -2019129173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_35
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b86d0a80f6f4c5440b6866a654d50608
+      internalID: 1924107477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_36
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc75e0f4c6da88b4d9907e2667ce6bf3
+      internalID: 1180236004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_37
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28af3e06309bd4947b6ca3801fd90d09
+      internalID: 356555195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_38
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b0d30246354b34e994096d4945b7b8
+      internalID: 1622538578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_39
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 180
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09b538972819c5b4d976c703b7cbdcbe
+      internalID: -1832836048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_40
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4a3eaba1dc7ed843ac3dc43d07a5251
+      internalID: 1135509007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_41
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b34286be29b8c76479addce50b5d5081
+      internalID: 275850806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_42
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d73b4e1586cb6648b539ca1968c3d14
+      internalID: 717048950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_43
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afa135797682d3449bb79b5c208d98a8
+      internalID: 637962186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_44
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 926f841a8c931a24aaccff80f4937799
+      internalID: -1739656520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_45
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab8710a128f0fef4785e3711773399fb
+      internalID: -1277190468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_46
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fca3ffaaa29e79941bc4d70fbdf0032c
+      internalID: -1501610225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_47
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60e75596c492bef46993201f9df77f3e
+      internalID: -1731649851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_48
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf7211cc1888e0a4db664a0abc2ad94d
+      internalID: -923544812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_49
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 136
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a30e9a9387da46a46b4b4d9949e76790
+      internalID: 180409264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_50
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf1a4e6688a1939498583d77e3c6b4d9
+      internalID: 1272785767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_51
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3051bd69870960444a9659d192ba7b15
+      internalID: 952476834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_52
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a988c02565564741b9b09df78a209f5
+      internalID: 285403255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_53
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33550969cbc40ca4c91913e1c59db465
+      internalID: -2116894517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_54
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab305a5f5e98a4a4995119a7dbe4decd
+      internalID: 104614839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_55
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed6edfdf38e8cab4eb6ad34ae0474514
+      internalID: -1569529667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_56
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a21e8a1b030f2e4c9f854ee98cbe494
+      internalID: 971927824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_57
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fc737a82af964a4287a50a8e8a88b0e
+      internalID: -681955393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_58
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dc57f1dc59a3974ebdf1d55f8e3de5c
+      internalID: 1654501199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_59
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 92
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d71814c2723ab4fbd2f74990c7df7a
+      internalID: 756566148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_60
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 887b4836fe1acc54689dd65b4a48630c
+      internalID: 1487083421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_61
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3da110935db87234fb03da01ed9718b6
+      internalID: 1327968351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_62
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 225057e1d4db08648a01ba76bac1f1b9
+      internalID: 261053292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_63
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3046e67b7a608d44877b6d0753bca56
+      internalID: -459437647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_64
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47623ab9b0293104889f3384b791ee8e
+      internalID: -2090996780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_65
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e05d9530ab5bf7419e21bc80ec4d713
+      internalID: -921330932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_66
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a72b3c94d67bac84db19a26292e404f8
+      internalID: 1486116159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_67
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 936b743281df57f47b926cbe78ea75cf
+      internalID: 1171931409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_68
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68bb109344945f94e8817572df57bb8c
+      internalID: 418126817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_69
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 48
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c49b3e3875b99e46a95ac8146c0f245
+      internalID: -1957277995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wii U - Mario Kart 8 - Country Flags_70
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 4
+        width: 60
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cebba8d834aa6c54b9ad6de8172a86fb
+      internalID: 1401987833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 8dd915af8e9c60c4a971005f0ccb246c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Wii U - Mario Kart 8 - Country Flags_0: 1479275400
+      Wii U - Mario Kart 8 - Country Flags_1: 522643476
+      Wii U - Mario Kart 8 - Country Flags_10: -53960347
+      Wii U - Mario Kart 8 - Country Flags_11: 2007497641
+      Wii U - Mario Kart 8 - Country Flags_12: 224828656
+      Wii U - Mario Kart 8 - Country Flags_13: 674119918
+      Wii U - Mario Kart 8 - Country Flags_14: 493720992
+      Wii U - Mario Kart 8 - Country Flags_15: 333580448
+      Wii U - Mario Kart 8 - Country Flags_16: 629916745
+      Wii U - Mario Kart 8 - Country Flags_17: 1604752203
+      Wii U - Mario Kart 8 - Country Flags_18: 2035282177
+      Wii U - Mario Kart 8 - Country Flags_19: 1586947798
+      Wii U - Mario Kart 8 - Country Flags_2: 1472773643
+      Wii U - Mario Kart 8 - Country Flags_20: 873266689
+      Wii U - Mario Kart 8 - Country Flags_21: 407235949
+      Wii U - Mario Kart 8 - Country Flags_22: 815607014
+      Wii U - Mario Kart 8 - Country Flags_23: -198019188
+      Wii U - Mario Kart 8 - Country Flags_24: -1811335340
+      Wii U - Mario Kart 8 - Country Flags_25: 1002898766
+      Wii U - Mario Kart 8 - Country Flags_26: -353344842
+      Wii U - Mario Kart 8 - Country Flags_27: -2033006752
+      Wii U - Mario Kart 8 - Country Flags_28: 1443444348
+      Wii U - Mario Kart 8 - Country Flags_29: 897037288
+      Wii U - Mario Kart 8 - Country Flags_3: -481392781
+      Wii U - Mario Kart 8 - Country Flags_30: -761112814
+      Wii U - Mario Kart 8 - Country Flags_31: -1828552540
+      Wii U - Mario Kart 8 - Country Flags_32: 762540034
+      Wii U - Mario Kart 8 - Country Flags_33: 614738259
+      Wii U - Mario Kart 8 - Country Flags_34: -2019129173
+      Wii U - Mario Kart 8 - Country Flags_35: 1924107477
+      Wii U - Mario Kart 8 - Country Flags_36: 1180236004
+      Wii U - Mario Kart 8 - Country Flags_37: 356555195
+      Wii U - Mario Kart 8 - Country Flags_38: 1622538578
+      Wii U - Mario Kart 8 - Country Flags_39: -1832836048
+      Wii U - Mario Kart 8 - Country Flags_4: -1281561029
+      Wii U - Mario Kart 8 - Country Flags_40: 1135509007
+      Wii U - Mario Kart 8 - Country Flags_41: 275850806
+      Wii U - Mario Kart 8 - Country Flags_42: 717048950
+      Wii U - Mario Kart 8 - Country Flags_43: 637962186
+      Wii U - Mario Kart 8 - Country Flags_44: -1739656520
+      Wii U - Mario Kart 8 - Country Flags_45: -1277190468
+      Wii U - Mario Kart 8 - Country Flags_46: -1501610225
+      Wii U - Mario Kart 8 - Country Flags_47: -1731649851
+      Wii U - Mario Kart 8 - Country Flags_48: -923544812
+      Wii U - Mario Kart 8 - Country Flags_49: 180409264
+      Wii U - Mario Kart 8 - Country Flags_5: 1616967542
+      Wii U - Mario Kart 8 - Country Flags_50: 1272785767
+      Wii U - Mario Kart 8 - Country Flags_51: 952476834
+      Wii U - Mario Kart 8 - Country Flags_52: 285403255
+      Wii U - Mario Kart 8 - Country Flags_53: -2116894517
+      Wii U - Mario Kart 8 - Country Flags_54: 104614839
+      Wii U - Mario Kart 8 - Country Flags_55: -1569529667
+      Wii U - Mario Kart 8 - Country Flags_56: 971927824
+      Wii U - Mario Kart 8 - Country Flags_57: -681955393
+      Wii U - Mario Kart 8 - Country Flags_58: 1654501199
+      Wii U - Mario Kart 8 - Country Flags_59: 756566148
+      Wii U - Mario Kart 8 - Country Flags_6: -158732556
+      Wii U - Mario Kart 8 - Country Flags_60: 1487083421
+      Wii U - Mario Kart 8 - Country Flags_61: 1327968351
+      Wii U - Mario Kart 8 - Country Flags_62: 261053292
+      Wii U - Mario Kart 8 - Country Flags_63: -459437647
+      Wii U - Mario Kart 8 - Country Flags_64: -2090996780
+      Wii U - Mario Kart 8 - Country Flags_65: -921330932
+      Wii U - Mario Kart 8 - Country Flags_66: 1486116159
+      Wii U - Mario Kart 8 - Country Flags_67: 1171931409
+      Wii U - Mario Kart 8 - Country Flags_68: 418126817
+      Wii U - Mario Kart 8 - Country Flags_69: -1957277995
+      Wii U - Mario Kart 8 - Country Flags_7: -422939869
+      Wii U - Mario Kart 8 - Country Flags_70: 1401987833
+      Wii U - Mario Kart 8 - Country Flags_8: 521175111
+      Wii U - Mario Kart 8 - Country Flags_9: 2134330854
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
