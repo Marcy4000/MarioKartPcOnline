@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField nameField;
+    [SerializeField] private TMP_InputField nameField, bioField;
     [SerializeField] private Toggle fullscreen, useController, showName;
     [SerializeField] private DummyKart dummyKart;
     public TMP_Dropdown resolutionsDropdown, characterDropdown, regionDropdown;
@@ -56,6 +56,7 @@ public class OptionsMenu : MonoBehaviour
     private void OnEnable()
     {
         nameField.text = PhotonNetwork.NickName;
+        bioField.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["bio"];
         characterDropdown.value = GlobalData.SelectedCharacter;
         regionDropdown.value = GlobalData.selectedRegion;
         useController.isOn = GlobalData.UseController;
@@ -103,6 +104,16 @@ public class OptionsMenu : MonoBehaviour
         }
         PhotonNetwork.NickName = nickname;
         PlayerPrefs.SetString("nickname", nickname);
+    }
+
+    public void SetBio(string bio)
+    {
+        if (string.IsNullOrWhiteSpace(bio))
+        {
+            return;
+        }
+        PlayerPrefs.SetString("bio", bio);
+        _myCustomProprieties["bio"] = bio;
     }
 
     public void SetFullscreen(bool value)

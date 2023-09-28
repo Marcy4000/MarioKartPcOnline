@@ -58,6 +58,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.CustomProperties["character"] = GlobalData.SelectedCharacter;
         GlobalData.score = PlayerPrefs.GetInt("score");
         PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.score;
+        PhotonNetwork.LocalPlayer.CustomProperties["bio"] = PlayerPrefs.GetString("bio");
 
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("emblem")))
         {

@@ -37,4 +37,9 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
     {
         Destroy(gameObject);
     }
+
+    public void ShowProfile()
+    {
+        ProfileMenu.instance.OpenMenu(player);
+    }
 }
