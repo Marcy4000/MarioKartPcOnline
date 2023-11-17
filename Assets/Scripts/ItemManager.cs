@@ -62,7 +62,7 @@ public class ItemManager : MonoBehaviourPun
 
     private void UseItem()
     {
-        if (this.player.BulletBill)
+        if (player.BulletBill)
         {
             return;
         }
@@ -107,11 +107,11 @@ public class ItemManager : MonoBehaviourPun
                 player.BoostTime = 10f;
                 break;
             case Items.blooper:
-                photonView.RPC("UseBlooper", RpcTarget.All, PhotonNetwork.LocalPlayer, KartLap.mainKart.racePlace);
+                photonView.RPC("UseBlooper", RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer, KartLap.mainKart.racePlace);
                 break;
             case Items.lightning:
                 LightningHandler.instance.sender = true;
-                photonView.RPC("UseLightning", RpcTarget.All, PhotonNetwork.LocalPlayer);
+                photonView.RPC("UseLightning", RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
                 break;
         }
         amount--;
@@ -160,25 +160,5 @@ public class ItemManager : MonoBehaviourPun
         MusicManager.instance.Stop();
         MusicManager.instance.ResetAudioClip();
         MusicManager.instance.Play();
-    }
-
-    private IEnumerator BulletBill()
-    {
-        canUseItem = false;
-        CarController.Instance.botTurnSpeed = 0.095f;
-        CarController.Instance.gravityForce *= 12;
-        CarController.Instance.botDrive = true;
-        CarController.Instance.bulletBil = true;
-        CarController.Instance.forwardAccel *= 3.5f;
-        yield return new WaitForSeconds(6f);
-        CarController.Instance.botDrive = false;
-        CarController.Instance.bulletBil = false;
-        CarController.Instance.forwardAccel /= 3.5f;
-        CarController.Instance.gravityForce /= 12;
-        CarController.Instance.botTurnSpeed = Random.Range(0.014f, 0.027f); ;
-        amount = 0;
-        selectedItem = nothing;
-        ItemRoulette.instance.UpdateItem(nothing);
-        canUseItem = true;
     }
 }

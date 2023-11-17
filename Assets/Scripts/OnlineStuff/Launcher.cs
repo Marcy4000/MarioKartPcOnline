@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -19,7 +18,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Instance = this;
         GlobalData.HasSceneLoaded = false;
-        GlobalData.selectedRegion = PlayerPrefs.GetInt("region");
+        GlobalData.AllPlayersLoaded = false;
+        GlobalData.SelectedRegion = PlayerPrefs.GetInt("region");
         Debug.Log("Connecting To Master");
         MenuManager.instance.OpenMenu("Loading");
         PhotonNetwork.ConnectUsingSettings(new AppSettings
@@ -28,7 +28,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             UseNameServer = true,
             Protocol = 0,
             EnableProtocolFallback = true,
-            FixedRegion = GlobalData.regions[GlobalData.selectedRegion]
+            FixedRegion = GlobalData.Regions[GlobalData.SelectedRegion]
         });
     }
 
@@ -51,23 +51,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             MenuManager.instance.OpenMenu("Intro");
         }
         Debug.Log("Joined Lobby");
-        PhotonNetwork.NickName = PlayerPrefs.GetString("nickname", $"Player N.{UnityEngine.Random.Range(0, 69420)}");
-        GlobalData.SelectedCharacter = PlayerPrefs.GetInt("character", 0);
-        GlobalData.UseController = intToBool(PlayerPrefs.GetInt("controller"));
-        GlobalData.showName = intToBool(PlayerPrefs.GetInt("showName"));
-        PhotonNetwork.LocalPlayer.CustomProperties["character"] = GlobalData.SelectedCharacter;
-        GlobalData.score = PlayerPrefs.GetInt("score");
-        PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.score;
-        PhotonNetwork.LocalPlayer.CustomProperties["bio"] = PlayerPrefs.GetString("bio");
+        
+        SetSettingsValues();
 
-        if (!string.IsNullOrEmpty(PlayerPrefs.GetString("emblem")))
-        {
-            Texture2D tex = IMG2Sprite.LoadTextureFromBytes(Convert.FromBase64String(PlayerPrefs.GetString("emblem")));
-            tex = IMG2Sprite.Resize(tex, 64, 64);
-            PhotonNetwork.LocalPlayer.CustomProperties["emblem"] = tex.EncodeToPNG();
-        }
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
-        //GlobalData.UseController = intToBool(PlayerPrefs.GetInt("controller", 0));
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
     }
 
     bool intToBool(int val)
@@ -78,31 +65,20 @@ public class Launcher : MonoBehaviourPunCallbacks
             return false;
     }
 
-    public void CreateRoom()
+    public void CreateRoom(bool privateRoom)
     {
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             return;
         }
-        PhotonNetwork.CreateRoom(roomNameInputField.text, new RoomOptions() { MaxPlayers = GlobalData.PlayerCount });
-        MenuManager.instance.OpenMenu("Loading");
-    }
 
-    public void CreatePrivateRoom()
-    {
-        string roomName = "";
-        char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-        for (int i = 0; i < 12; i++)
-        {
-            roomName += digits[UnityEngine.Random.Range(0, 9)];
-        }
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = GlobalData.PlayerCount, IsVisible = false });
+        PhotonNetwork.CreateRoom(roomNameInputField.text.ToUpper(), new RoomOptions() { MaxPlayers = GlobalData.PlayerCount, IsVisible = !privateRoom });
         MenuManager.instance.OpenMenu("Loading");
     }
 
     public override void OnJoinedRoom()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         MenuManager.instance.OpenMenu("RoomMenu");
         foreach (Transform child in playerListContent)
         {
@@ -119,11 +95,14 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void JoinPrivateRoom()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a private lobby", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}"); if (string.IsNullOrEmpty(privateRoomInputField.text))
+        if (string.IsNullOrEmpty(privateRoomInputField.text))
         {
             return;
         }
-        PhotonNetwork.JoinRoom(privateRoomInputField.text);
+
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a private lobby", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+
+        PhotonNetwork.JoinRoom(privateRoomInputField.text.ToUpper());
         MenuManager.instance.OpenMenu("Loading");
     }
 
@@ -187,5 +166,24 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         errorString.text = "Failed joining room: " + message;
         MenuManager.instance.OpenMenu("ErrorMenu");
+    }
+
+    private void SetSettingsValues()
+    {
+        PhotonNetwork.NickName = PlayerPrefs.GetString("nickname", $"Player N.{UnityEngine.Random.Range(0, 69420)}");
+        GlobalData.SelectedCharacter = PlayerPrefs.GetInt("character", 0);
+        GlobalData.UseController = intToBool(PlayerPrefs.GetInt("controller"));
+        GlobalData.ShowName = intToBool(PlayerPrefs.GetInt("showName"));
+        PhotonNetwork.LocalPlayer.CustomProperties["character"] = GlobalData.SelectedCharacter;
+        GlobalData.Score = PlayerPrefs.GetInt("score");
+        PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.Score;
+        PhotonNetwork.LocalPlayer.CustomProperties["bio"] = PlayerPrefs.GetString("bio");
+
+        if (!string.IsNullOrEmpty(PlayerPrefs.GetString("emblem")))
+        {
+            Texture2D tex = IMG2Sprite.LoadTextureFromBytes(Convert.FromBase64String(PlayerPrefs.GetString("emblem")));
+            tex = IMG2Sprite.Resize(tex, 64, 64);
+            PhotonNetwork.LocalPlayer.CustomProperties["emblem"] = tex.EncodeToPNG();
+        }
     }
 }

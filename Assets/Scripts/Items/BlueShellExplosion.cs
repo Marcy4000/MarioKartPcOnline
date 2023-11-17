@@ -13,7 +13,7 @@ public class BlueShellExplosion : MonoBehaviour
     [SerializeField] LayerMask playerMask;
     public GameObject FrontSphere;
     public GameObject BackSphere;
-    Renderer renderer;
+    Renderer _renderer;
     public Light light1;
     public Light light2;
     Renderer rendererFront;
@@ -25,7 +25,7 @@ public class BlueShellExplosion : MonoBehaviour
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
         rendererFront = FrontSphere.GetComponent<Renderer>();
         rendererBack = BackSphere.GetComponent<Renderer>();
         StartCoroutine(DeleteFront());
@@ -76,13 +76,13 @@ public class BlueShellExplosion : MonoBehaviour
         if (dissolve) 
         {
             
-            float currentProgress = renderer.material.GetFloat("_Progress");
+            float currentProgress = _renderer.material.GetFloat("_Progress");
             if (currentProgress > 1)
             {
                 Destroy(this.gameObject);
                 return;
             }
-            renderer.material.SetFloat("_Progress", currentProgress + 0.02f);    
+            _renderer.material.SetFloat("_Progress", currentProgress + 0.02f);    
         }
 
         

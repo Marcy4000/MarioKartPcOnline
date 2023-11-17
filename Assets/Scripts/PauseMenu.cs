@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 
-public class PauseMenu : MonoBehaviourPunCallbacks
+public class PauseMenu : MonoBehaviour
 {
     public bool isOpen;
     [SerializeField] private GameObject ui;
@@ -80,13 +80,6 @@ public class PauseMenu : MonoBehaviourPunCallbacks
 
     public void ReturnToMainMenu()
     {
-        PhotonNetwork.Disconnect();
-    }
-
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        Destroy(RoomManager.Instance.gameObject);
-        RoomManager.Instance = null;
-        SceneManager.LoadScene(0);
+        RoomManager.Instance.LeaveGame();
     }
 }

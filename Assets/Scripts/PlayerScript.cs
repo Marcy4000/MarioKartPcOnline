@@ -119,9 +119,15 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             currentTime += Time.deltaTime;
 
             //Update remote player
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
-            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, (float)(currentTime / timeToReachGoal));
+            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
+            latestRot = GlobalData.FixQuaternion(latestRot);
+
+            var time = (float)(currentTime / timeToReachGoal);
+            //time = Mathf.Clamp01(time);
+            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
+            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, time);
             return;
         }
 
@@ -749,16 +755,23 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             //We own this player: send the others our data
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(rb.velocity);
+            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
+            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
+            if (rb != null)
+            { 
+                stream.SendNext(SerializationHelper.SerializeVector3(rb.velocity));
+            }
+            else
+            {
+                stream.SendNext(SerializationHelper.SerializeVector3(Vector3.zero));
+            }
         }
-        else
+        else if (stream.IsReading)
         {
             //Network player, receive data
-            latestPos = (Vector3)stream.ReceiveNext();
-            latestRot = (Quaternion)stream.ReceiveNext();
-            latestVel = (Vector3)stream.ReceiveNext();
+            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
+            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream. ReceiveNext());
+            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
 
             //Lag compensation
             currentTime = 0.0f;
@@ -766,7 +779,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             currentPacketTime = info.SentServerTime;
             positionAtLastPacket = transform.position;
             rotationAtLastPacket = transform.rotation;
-            velocityAtLastPacket = rb.velocity;
+            if (rb != null)
+            {
+                velocityAtLastPacket = rb.velocity;
+            }
+            else
+            {
+                velocityAtLastPacket = Vector3.zero;
+            }
         }
     }
 }

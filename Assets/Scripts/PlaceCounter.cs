@@ -7,55 +7,53 @@ public enum RacePlace { first, second, third, fourth, fifth, sixth, seventh, eig
 public class PlaceCounter : MonoBehaviour
 {
     public static PlaceCounter instance { get; private set; }
-    public Animator animator;
+    [SerializeField] private Animator animator;
     public KartLap[] karts;
-    LapCheckPoint[] checkPoints;
-    Transform finishLine;
+    private LapCheckPoint[] checkPoints;
+    private Transform finishLine;
 
     private void Start()
     {
         instance = this;
-        karts = new KartLap[0];
         StartCoroutine(GetKartsAndCheckpoints());
     }
 
     IEnumerator GetKartsAndCheckpoints()
     {
-        while (!GlobalData.HasSceneLoaded)
-        {
-            yield return null;
-        }
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitUntil(() => GlobalData.AllPlayersLoaded);
+
+        yield return new WaitForSeconds(0.2f);
+
         karts = FindObjectsOfType<KartLap>();
         checkPoints = FindObjectsOfType<LapCheckPoint>();
         finishLine = FindObjectOfType<LapHandle>().transform;
     }
 
-    public RacePlace GetCurrentPlace(KartLap kart)
+    public RacePlace GetCurrentPlace(KartLap targetKart)
     {
-        int currPlace = GlobalData.PlayerCount - 1;
+        int currPlace = karts.Length - 1;
         RacePlace newPlace;
 
-        foreach (var thingKart in karts)
+        foreach (var kart in karts)
         {
-            if (thingKart == kart)
+            if (kart == targetKart)
             {
                 continue;
             }
 
-            if (thingKart.lapNumber < kart.lapNumber)
+            if (kart.lapNumber < targetKart.lapNumber)
             {
                 currPlace--;
             }
-            else if (thingKart.lapNumber == kart.lapNumber)
+            else if (kart.lapNumber == targetKart.lapNumber)
             {
-                if (thingKart.CheckpointIndex < kart.CheckpointIndex)
+                if (kart.CheckpointIndex < targetKart.CheckpointIndex)
                 {
                     currPlace--;
                 }
-                else if (thingKart.CheckpointIndex == kart.CheckpointIndex)
+                else if (kart.CheckpointIndex == targetKart.CheckpointIndex)
                 {
-                    if (Vector3.Distance(kart.transform.position, GetCheckpointTransformByIndex(kart.CheckpointIndex + 1).position) < Vector3.Distance(thingKart.transform.position, GetCheckpointTransformByIndex(thingKart.CheckpointIndex + 1).position))
+                    if (Vector3.Distance(targetKart.transform.position, GetCheckpointTransformByIndex(targetKart.CheckpointIndex + 1).position) < Vector3.Distance(kart.transform.position, GetCheckpointTransformByIndex(kart.CheckpointIndex + 1).position))
                     {
                         currPlace--;
                     }

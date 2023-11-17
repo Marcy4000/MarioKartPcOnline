@@ -16,8 +16,6 @@ public class RedShell : MonoBehaviourPun, IPunObservable
     [SerializeField] private KartLap targetKart, currKart;
     public int currentCheckpoint;
     [SerializeField] private Transform nextCheckPoint;
-    [SerializeField] private bool move = false;
-    private bool safeMode = false;
     [SerializeField] bool useNewRedshellCode;
     private float timer = 0f;
 
@@ -116,9 +114,14 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             currentTime += Time.deltaTime;
 
             //Update remote player
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
-            agent.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, (float)(currentTime / timeToReachGoal));
+            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
+            latestRot = GlobalData.FixQuaternion(latestRot);
+
+            var time = (float)(currentTime / timeToReachGoal);
+            time = Mathf.Clamp(time, 0.0f, 1.0f);
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
+            agent.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, time);
             
         }
 
@@ -163,16 +166,16 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             //We own this player: send the others our data
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(agent.velocity);
+            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
+            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
+            stream.SendNext(SerializationHelper.SerializeVector3(agent.velocity));
         }
-        else
+        else if (stream.IsReading)
         {
             //Network player, receive data
-            latestPos = (Vector3)stream.ReceiveNext();
-            latestRot = (Quaternion)stream.ReceiveNext();
-            latestVel = (Vector3)stream.ReceiveNext();
+            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
+            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
+            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
 
             //Lag compensation
             currentTime = 0.0f;

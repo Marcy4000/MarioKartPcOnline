@@ -19,9 +19,9 @@ public class OptionsMenu : MonoBehaviour
         resolutions = Screen.resolutions;
         fullscreen.isOn = Screen.fullScreen;
         useController.isOn = GlobalData.UseController;
-        showName.isOn = GlobalData.showName;
+        showName.isOn = GlobalData.ShowName;
 
-        _myCustomProprieties["score"] = GlobalData.score;
+        _myCustomProprieties["score"] = GlobalData.Score;
         resolutionsDropdown.ClearOptions();
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
@@ -58,7 +58,7 @@ public class OptionsMenu : MonoBehaviour
         nameField.text = PhotonNetwork.NickName;
         bioField.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["bio"];
         characterDropdown.value = GlobalData.SelectedCharacter;
-        regionDropdown.value = GlobalData.selectedRegion;
+        regionDropdown.value = GlobalData.SelectedRegion;
         useController.isOn = GlobalData.UseController;
         //dummyKart.SetCharacter(GlobalData.SelectedCharacter);
         _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
@@ -78,7 +78,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetRegion(int newReg)
     {
-        GlobalData.selectedRegion = newReg;
+        GlobalData.SelectedRegion = newReg;
         PlayerPrefs.SetInt("region", newReg);
     }
 
@@ -91,7 +91,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void Save()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
         PlayerPrefs.Save();
         PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProprieties;
     }
@@ -123,7 +123,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetViewName(bool value)
     {
-        GlobalData.showName = value;
+        GlobalData.ShowName = value;
         PlayerPrefs.SetInt("showName", boolToInt(value));
     }
 }

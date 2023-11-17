@@ -1,21 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.AI;
-using NUnit.Framework.Internal.Execution;
 using PathCreation;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEngine.UIElements;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting;
 using System.IO;
-using UnityEngine.UI;
 
 public class BlueShell : MonoBehaviourPun
 {
-    private Rigidbody rb;
-    private KartLap targetKart, currKart;
+    private KartLap targetKart;
     private PathCreator path;
     private float distanceAlongPath;
     private float speed = 200f;
@@ -36,9 +27,9 @@ public class BlueShell : MonoBehaviourPun
     {
         if (!photonView.IsMine)
         {
-            rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
         }
+
         foreach (PathCreator p in FindObjectsOfType<PathCreator>())
         {
             if (p.gameObject.tag == "BlueShellPath")
@@ -47,12 +38,13 @@ public class BlueShell : MonoBehaviourPun
                 break;
             }
         }
+
         distanceAlongPath = path.path.GetClosestDistanceAlongPath(transform.position) + 30f;
         transform.position = path.path.GetPointAtDistance(distanceAlongPath);
     }
+
     public void SetCurrentKartLap(KartLap _kart)
     {
-        currKart = _kart;
         foreach (var kart in PlaceCounter.instance.karts)
         {
             if (kart.racePlace == RacePlace.first)
@@ -66,12 +58,14 @@ public class BlueShell : MonoBehaviourPun
         }
         AskToDestroy();
     }
+
     private IEnumerator SafeFrames()
     {
         GetComponent<SphereCollider>().enabled = false;
         yield return new WaitForSeconds(0.2f);
         GetComponent<SphereCollider>().enabled = true;
     }
+
     private void Update()
     {
         if (!photonView.IsMine)
@@ -101,10 +95,12 @@ public class BlueShell : MonoBehaviourPun
         }
 
     }
+
     bool CheckLineOfSight()
     {
         return !Physics.Linecast(transform.position, targetKart.transform.position + Vector3.up * SHELL_HEIGHT,THISMASK);
     }
+
     private void TargetMode()
     {
         if (animationEnded)
@@ -160,8 +156,10 @@ public class BlueShell : MonoBehaviourPun
             transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
+
     private void AnimationEnd()
-    {if (!once)
+    {
+        if (!once)
         {
             child.transform.rotation = Quaternion.Euler(child.transform.rotation.eulerAngles.x, child.transform.rotation.eulerAngles.y + 90, child.transform.rotation.eulerAngles.z);
             once = true;
@@ -169,10 +167,12 @@ public class BlueShell : MonoBehaviourPun
         transform.LookAt(targetKart.transform.position);
         transform.position += transform.forward * speed * Time.deltaTime;
     }
+
     public void HitAnimationEvent()
     {
-        this.animationEnded = true;
+        animationEnded = true;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<KartLap>().racePlace == targetKart.racePlace)
@@ -180,6 +180,7 @@ public class BlueShell : MonoBehaviourPun
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Explosion"), transform.position, Quaternion.identity);
             photonView.RPC("AskToDestroy", RpcTarget.All);
         }
+
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
@@ -212,6 +213,7 @@ public class BlueShell : MonoBehaviourPun
             SkinManager.instance.characters[SkinManager.instance.selectedCharacter].modelAnimator.SetTrigger("Hit");
         }
     }
+
     float Distance2dVector3xz(Vector3 a, Vector3 b)
     {
         return Vector2.Distance(new Vector2(a.x, a.z), new Vector2(b.x, b.z));

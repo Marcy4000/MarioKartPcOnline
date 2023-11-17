@@ -1198,17 +1198,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 2
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 2
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 12
+  m_CharacterLimit: 20
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123377861, guid: be07945c784203c48aa833023cc86bf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dc120f19bbebce4587e74b4e41130e0, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6452,7 +6452,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123377861, guid: be07945c784203c48aa833023cc86bf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dc120f19bbebce4587e74b4e41130e0, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8517,15 +8517,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 842172375}
         m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
-        m_MethodName: CreatePrivateRoom
-        m_Mode: 1
+        m_MethodName: CreateRoom
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &329843936
 MonoBehaviour:
@@ -13877,7 +13877,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter private room code...
+  m_text: Enter private room name...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98b730f781a303b478a78197772c96e1, type: 2}
   m_sharedMaterial: {fileID: -2718251700098128330, guid: 98b730f781a303b478a78197772c96e1,
@@ -14640,7 +14640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b62d664ff7ac640896deff91b6aa4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedStage: 0
 --- !u!4 &531172124
 Transform:
   m_ObjectHideFlags: 0
@@ -23700,7 +23699,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 965477078, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ca3a8ac9c57d6b49be90fa9d5205139, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25069,7 +25068,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 790175265, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b6a7f2f1cf72ed48bd134bcf332a089, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25446,7 +25445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -194845263, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 229d068d866950141b59553b4172a8a9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30998,7 +30997,7 @@ MonoBehaviour:
       - m_Target: {fileID: 842172375}
         m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
         m_MethodName: CreateRoom
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -37443,7 +37442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -513193472, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fc87a7c71f3da324da09e74c68f2b75b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -38299,7 +38298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 625612750, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c97cbac2cfbb50c479e9f339942bdd91, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -38600,7 +38599,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123377861, guid: be07945c784203c48aa833023cc86bf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dc120f19bbebce4587e74b4e41130e0, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -44666,7 +44665,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123377861, guid: be07945c784203c48aa833023cc86bf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dc120f19bbebce4587e74b4e41130e0, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -48662,7 +48661,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 99460326, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76a7f9d6ed4118f4fa0ee524d6c42852, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -50047,7 +50046,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123377861, guid: be07945c784203c48aa833023cc86bf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0dc120f19bbebce4587e74b4e41130e0, type: 3}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -56945,7 +56944,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1702517089, guid: 30bff1ea77df1754e8181107efb56138, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8444f7c5c4c9079418558e958d0bca57, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

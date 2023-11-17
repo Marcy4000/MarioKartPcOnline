@@ -41,13 +41,12 @@ public class ItemRoulette : MonoBehaviour
     public Item GetRandomItem(KartLap lap)
     {
         int random = Random.Range(0, itemIcons[(int)lap.racePlace].items.Length);
-        return ItemRoulette.instance.itemIcons[(int)lap.racePlace].items[random];
+        return itemIcons[(int)lap.racePlace].items[random];
     }
 
     public void Spin()
     {
         if (spinning || selectedItem != nothing) { return; }
-        Debug.Log(KartLap.mainKart);
         int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
         selectedItem = itemIcons[(int)KartLap.mainKart.racePlace].items[random];
         StartCoroutine(DoTheSpinning());

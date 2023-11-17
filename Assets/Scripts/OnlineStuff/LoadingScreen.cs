@@ -13,7 +13,7 @@ public class LoadingScreen : MonoBehaviour
     void Start()
     {
         loadingScreen = GameObject.FindGameObjectWithTag("LoadingScreen");
-        courseName.text = $"Next Track: {GlobalData.stages[GlobalData.SelectedStage]}";
+        courseName.text = $"Next Track: {GlobalData.Stages[GlobalData.SelectedStage]}";
 
         foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
         {

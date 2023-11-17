@@ -21,7 +21,7 @@ public class CharacterSelectScreen : MonoBehaviour
         dummyKart.SetCharacter(GlobalData.SelectedCharacter);
         foreach (var name in names)
         {
-            name.text = GlobalData.charPngNames[GlobalData.SelectedCharacter];
+            name.text = GlobalData.CharPngNames[GlobalData.SelectedCharacter];
         }
     }
 
@@ -35,7 +35,7 @@ public class CharacterSelectScreen : MonoBehaviour
         selectedChar = chara;
         foreach (var name in names)
         {
-            name.text = GlobalData.charPngNames[chara];
+            name.text = GlobalData.CharPngNames[chara];
         }
     }
 

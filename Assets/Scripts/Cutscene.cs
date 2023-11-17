@@ -9,7 +9,8 @@ public class Cutscene : MonoBehaviour
     private GameObject mainCam;
     Animator animator;
     public bool isPlaying = false;
-    private void Start()
+
+    private void Awake()
     {
         instance = this;
         animator = GetComponent<Animator>();
@@ -17,6 +18,7 @@ public class Cutscene : MonoBehaviour
 
     public void PlayCutscene(GameObject mainCamera)
     {
+        Debug.Log(animator);
         isPlaying = true;
         mainCam = mainCamera;
         mainCamera.SetActive(false);

@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Diagnostics;
 using Photon.Pun;
 
 public class LapHandle : MonoBehaviour
@@ -11,8 +9,7 @@ public class LapHandle : MonoBehaviour
     public AudioSource lapSource;
     public AudioClip lastThing, finalLapClip;
     public AudioClip[] finishThemes;
-    public TMP_Text lapCounter;
-    public KartLap[] orderedKarts;
+    [SerializeField] private TMP_Text lapCounter;
 
     private void Start()
     {
@@ -22,78 +19,80 @@ public class LapHandle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<KartLap>())
-        {
-            KartLap tempKart = other.GetComponent<KartLap>();
+        KartLap tempKart = other.GetComponent<KartLap>();
 
-            if (tempKart.CheckpointIndex == CheckpointAmt)
+        if (tempKart == null)
+        {
+            return;
+        }
+
+        if (tempKart.CheckpointIndex == CheckpointAmt)
+        {
+            tempKart.CheckpointIndex = 0;
+            tempKart.lapNumber++;
+            if (tempKart.lapNumber < nLaps + 1)
             {
-                tempKart.CheckpointIndex = 0;
-                tempKart.lapNumber++;
-                if (tempKart.lapNumber < nLaps + 1)
+                if (tempKart.carController.pv.IsMine && tempKart.carController.isPlayer)
                 {
-                    if (tempKart.carController.pv.IsMine && !tempKart.carController.botDrive || tempKart.carController.pv.IsMine && tempKart.carController.botDrive && tempKart.carController.bulletBil)
+                    if (tempKart.lapNumber == nLaps)
                     {
-                        if (tempKart.lapNumber == nLaps)
-                        {
-                            lapSource.clip = finalLapClip;
-                            lapSource.Play();
-                            MusicManager.instance.Stop();
-                            MusicManager.instance.ChangeSpeed(1.15f);
-                            MusicManager.instance.PlayDelayed(finalLapClip.length);
-                        }
-                        else
-                        {
-                            lapSource.Play();
-                        }
-                        lapCounter.text = $"Lap {tempKart.lapNumber}/{nLaps}";
-                    }
-                    tempKart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(tempKart));
-                }
-                else
-                {
-                    if (tempKart.carController.pv.IsMine && !tempKart.carController.botDrive && !tempKart.hasFinished || tempKart.carController.pv.IsMine && tempKart.carController.botDrive && tempKart.carController.bulletBil && !tempKart.hasFinished)
-                    {
-                        lapSource.clip = lastThing;
+                        lapSource.clip = finalLapClip;
                         lapSource.Play();
                         MusicManager.instance.Stop();
-                        if (tempKart.racePlace == RacePlace.first)
-                        {
-                            MusicManager.instance.SetAudioClip(finishThemes[0]);
-                        }
-                        else if ((int)tempKart.racePlace > 0 && (int)tempKart.racePlace < 6)
-                        {
-                            MusicManager.instance.SetAudioClip(finishThemes[1]);
-                        }
-                        else
-                        {
-                            MusicManager.instance.SetAudioClip(finishThemes[2]);
-                        }
-                        MusicManager.instance.ChangeSpeed(1f);
-                        MusicManager.instance.Play();
-                        tempKart.lapNumber = nLaps;
-                        //tempKart.carController.botDrive = true;
-                        tempKart.hasFinished = true;
-                        lapCounter.text = $"Lap {tempKart.lapNumber}/{nLaps}";
-                        tempKart.lapNumber = 1000 - (int)tempKart.racePlace;
-                        GlobalData.score += 7 - (int)tempKart.racePlace;
-                        PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.score;
-                        PlayerPrefs.SetInt("score", GlobalData.score);
-                        StartCoroutine(EndGame());
+                        MusicManager.instance.ChangeSpeed(1.15f);
+                        MusicManager.instance.PlayDelayed(finalLapClip.length);
                     }
                     else
                     {
-                        //tempKart.lapNumber = nLaps;
-                        tempKart.lapNumber = 1000 - (int)tempKart.racePlace;
-                        tempKart.carController.botDrive = true;
-                        tempKart.hasFinished = true;
+                        lapSource.Play();
                     }
-                    
+                    lapCounter.text = $"Lap {tempKart.lapNumber}/{nLaps}";
                 }
-                
+                tempKart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(tempKart));
             }
-            CheckIfGameEnded();
+            else
+            {
+                if (tempKart.carController.pv.IsMine && tempKart.carController.isPlayer && !tempKart.hasFinished)
+                {
+                    lapSource.clip = lastThing;
+                    lapSource.Play();
+                    MusicManager.instance.Stop();
+                    if (tempKart.racePlace == RacePlace.first)
+                    {
+                        MusicManager.instance.SetAudioClip(finishThemes[0]);
+                    }
+                    else if ((int)tempKart.racePlace > 0 && (int)tempKart.racePlace < 6)
+                    {
+                        MusicManager.instance.SetAudioClip(finishThemes[1]);
+                    }
+                    else
+                    {
+                        MusicManager.instance.SetAudioClip(finishThemes[2]);
+                    }
+                    MusicManager.instance.ChangeSpeed(1f);
+                    MusicManager.instance.Play();
+                    tempKart.lapNumber = nLaps;
+                    //tempKart.carController.botDrive = true;
+                    tempKart.hasFinished = true;
+                    lapCounter.text = $"Lap {tempKart.lapNumber}/{nLaps}";
+                    tempKart.lapNumber = 1000 - (int)tempKart.racePlace;
+                    GlobalData.Score += 7 - (int)tempKart.racePlace;
+                    PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.Score;
+                    PlayerPrefs.SetInt("score", GlobalData.Score);
+                    StartCoroutine(EndGame());
+                }
+                else
+                {
+                    //tempKart.lapNumber = nLaps;
+                    tempKart.lapNumber = 1000 - (int)tempKart.racePlace;
+                    tempKart.carController.botDrive = true;
+                    tempKart.hasFinished = true;
+                }
+
+            }
+
         }
+        CheckIfGameEnded();
     }
 
     private IEnumerator EndGame()
@@ -116,7 +115,7 @@ public class LapHandle : MonoBehaviour
 
         if (everyoneEnded)
         {
-            orderedKarts = PlaceCounter.instance.karts;
+            KartLap[] orderedKarts = PlaceCounter.instance.karts;
             KartLap temp;
 
             for (int i = 0; i < orderedKarts.Length - 1; i++)
@@ -146,7 +145,7 @@ public class LapHandle : MonoBehaviour
                 }
                 else
                 {
-                    VictoryScreen.instance.resultText.text += $"{i + 1}) {GlobalData.charPngNames[orderedKarts[i].carController.selectedCharacter]} (Bot {i+1})\n";
+                    VictoryScreen.instance.resultText.text += $"{i + 1}) {GlobalData.CharPngNames[orderedKarts[i].carController.selectedCharacter]} (Bot {i+1})\n";
                 }
             }
 

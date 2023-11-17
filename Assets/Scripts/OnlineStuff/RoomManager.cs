@@ -10,19 +10,16 @@ using Photon.Realtime;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
-    public int SelectedStage;
-    PhotonView pv;
 
     private void Awake()
     {
-        if (Instance)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
-        pv = GetComponent<PhotonView>();
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnEnable()
@@ -38,27 +35,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
-    public void CallCommand(int thing)
+    public void CallCommand(int selectedStage)
     {
-        pv.RPC("ChangeSelectedStage", RpcTarget.All, thing);
+        photonView.RPC("ChangeSelectedStage", RpcTarget.All, selectedStage);
     }
 
     [PunRPC]
     public void ChangeSelectedStage(int newStage)
     {
-        SelectedStage = newStage;
         GlobalData.SelectedStage = newStage;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        pv.RPC("ChangeSelectedStage", RpcTarget.All, GlobalData.SelectedStage);
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+        photonView.RPC("ChangeSelectedStage", RpcTarget.All, GlobalData.SelectedStage);
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -80,5 +76,20 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.IsVisible = true;
             }
         }
+    }
+
+    public void LeaveGame()
+    {
+        PlaceCounter.instance.karts = new KartLap[0];
+        GlobalData.AllPlayersLoaded = false;
+        GlobalData.HasSceneLoaded = false;
+        PhotonNetwork.Disconnect();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Instance = null;
+        PhotonNetwork.Destroy(gameObject);
+        SceneManager.LoadScene(0);
     }
 }

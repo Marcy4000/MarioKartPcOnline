@@ -8,59 +8,42 @@ using Photon.Realtime;
 
 public class PlayerManager : MonoBehaviourPun
 {
-    PhotonView pv;
-    public bool hasLoaded = false;
-    public bool allPlayersLoaded;
-    public PlayerManager[] players;
+    private bool allPlayersLoaded;
     private ExitGames.Client.Photon.Hashtable _playerCustomProprietes = new ExitGames.Client.Photon.Hashtable();
     private GameObject loadingScreen;
 
-    private void Awake()
-    {
-        pv = GetComponent<PhotonView>();
-    }
-
     private void Start()
     {
-        players = FindObjectsOfType<PlayerManager>();
         loadingScreen = GameObject.FindGameObjectWithTag("LoadingScreen");
-        if (pv.IsMine)
+        if (photonView.IsMine)
         {
-            StartCoroutine(DoThing());
+            StartCoroutine(LoadTrack());
         }
     }
 
-    IEnumerator DoThing()
+    private IEnumerator LoadTrack()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.charPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.charPngNames[GlobalData.SelectedCharacter]}");
+        Discord_Controller.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.Stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
 
-        AsyncOperation load = SceneManager.LoadSceneAsync(GlobalData.stages[GlobalData.SelectedStage], LoadSceneMode.Additive);
+        AsyncOperation load = SceneManager.LoadSceneAsync(GlobalData.Stages[GlobalData.SelectedStage], LoadSceneMode.Additive);
         load.allowSceneActivation = true;
-        while (!load.isDone)
-        {
-            yield return null;
-        }
-        pv.RPC("SetHasLoaded", RpcTarget.MasterClient, load.isDone);
+
+        yield return new WaitUntil(() => load.isDone);
+
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.Stages[GlobalData.SelectedStage]));
+
         _playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
         _playerCustomProprietes["playerLoaded"] = true;
         PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);
         GlobalData.HasSceneLoaded = true;
         CreateController();
         CreateBots();
-        /*if (PhotonNetwork.IsMasterClient)
-        {
-            while (!CheckIfReady())
-            {
-                yield return null;
-            }
-            pv.RPC("StartGame", RpcTarget.AllBuffered);
-        }*/
-
         
+        GlobalData.AllPlayersLoaded = false;
         do
         {
             allPlayersLoaded = true;
-            foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+            foreach (Player p in PhotonNetwork.PlayerList)
             {
                 object loaded;
                 if (p.CustomProperties.TryGetValue("playerLoaded", out loaded))
@@ -79,26 +62,15 @@ public class PlayerManager : MonoBehaviourPun
             }
 
             yield return null;
-        } while (allPlayersLoaded == false);
+        } while (!allPlayersLoaded);
 
-        if (allPlayersLoaded)
-        {
-            Destroy(loadingScreen);
-            Cutscene.instance.PlayCutscene(Camera.main.gameObject);
-        }
-    }
+        GlobalData.AllPlayersLoaded = true;
 
-    private bool CheckIfReady()
-    {
-        bool readyToStart = true;
-        for (int i = 0; i < players.Length; i++)
+        //Cutscene.instance.PlayCutscene(Camera.main.gameObject);
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (players[i].hasLoaded == false)
-            {
-                readyToStart = false;
-            }
+            photonView.RPC("StartGame", RpcTarget.AllViaServer);
         }
-        return readyToStart;
     }
 
     private void CreateController()
@@ -132,22 +104,18 @@ public class PlayerManager : MonoBehaviourPun
         {
             Transform spawnPoint = SpawnManager.Instance.getSpawnPoint(i);
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BotKart"), spawnPoint.position, spawnPoint.rotation);
-            Debug.Log("Spawned thing!");
-        }
-    }
-
-    [PunRPC]
-    public void SetHasLoaded(bool value, PhotonMessageInfo info)
-    {
-        if (info.Sender == pv.Owner)
-        {
-            hasLoaded = value;
+            Debug.Log("Spawned bot!");
         }
     }
 
     [PunRPC]
     public void StartGame()
     {
+        Debug.Log("Starting Game!");
+        Destroy(loadingScreen);
         Cutscene.instance.PlayCutscene(Camera.main.gameObject);
+        _playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
+        _playerCustomProprietes["playerLoaded"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);
     }
 }

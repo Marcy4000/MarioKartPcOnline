@@ -12,14 +12,15 @@ public static class GlobalData
     public const int PlayerCount = 12;
 
     public static bool HasSceneLoaded = false;
+    public static bool AllPlayersLoaded = false;
 
-    public static int selectedRegion = 0;
+    public static int SelectedRegion = 0;
 
-    public static int score = 0;
+    public static int Score = 0;
 
-    public static bool showName = true;
+    public static bool ShowName = true;
 
-    public static string[] regions =
+    public static string[] Regions =
     {
         "eu",
         "us",
@@ -32,7 +33,7 @@ public static class GlobalData
         "cae"
     };
 
-    public static string[] stages =
+    public static string[] Stages =
     {
         "LuigiCircuit",
         "Figure8Circuit",
@@ -51,7 +52,7 @@ public static class GlobalData
         "MushroomGorge"
     };
 
-    public static string[] charPngNames =
+    public static string[] CharPngNames =
     {
         "mario",
         "luigi",
@@ -71,4 +72,17 @@ public static class GlobalData
         "peppebrescia",
         "peppino"
     };
+
+
+    public static Quaternion FixQuaternion(Quaternion original)
+    {
+        Quaternion result = original;
+
+        if (original.x + original.y + original.z + original.w == 0)
+        {
+            result = Quaternion.identity;
+        }
+
+        return result;
+    }
 }

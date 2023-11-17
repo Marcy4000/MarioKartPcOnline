@@ -12,7 +12,7 @@ public class GreenShell : MonoBehaviour, IPunObservable
     [SerializeField] bool grounded;
     [SerializeField] float maxSpeed = 200f;
     PhotonView pv;
-    bool bitch, thing;
+    bool floorIsAlsoWall, hasHitWall;
 
     //Values that will be synced over network
     Vector3 latestPos, latestVel;
@@ -40,19 +40,19 @@ public class GreenShell : MonoBehaviour, IPunObservable
 
     IEnumerator Timer()
     {
-        yield return new WaitForSeconds(50);
+        yield return new WaitForSeconds(50f);
         PhotonNetwork.Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall") && !bitch && pv.IsMine)
+        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
         {
             Vector3 v = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, v);
             transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             rb.AddForce(transform.forward * 2500f, ForceMode.Impulse);
-            thing = true;
+            hasHitWall = true;
         }
         else if (collision.gameObject.GetComponent<PlayerScript>())
         {
@@ -79,21 +79,21 @@ public class GreenShell : MonoBehaviour, IPunObservable
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!thing && collision.gameObject.CompareTag("Wall") && !bitch && pv.IsMine)
+        if (!hasHitWall && collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
         {
             Vector3 v = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, v);
             transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             rb.AddForce(transform.forward * 2500f, ForceMode.Impulse);
-            thing = true;
+            hasHitWall = true;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall") && !bitch && pv.IsMine)
+        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
         {
-            thing = false;
+            hasHitWall = false;
         }
     }
 
@@ -116,9 +116,15 @@ public class GreenShell : MonoBehaviour, IPunObservable
             currentTime += Time.deltaTime;
 
             //Update remote player
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, (float)(currentTime / timeToReachGoal));
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, (float)(currentTime / timeToReachGoal));
-            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, (float)(currentTime / timeToReachGoal));
+            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
+            latestRot = GlobalData.FixQuaternion(latestRot);
+
+            var time = (float)(currentTime / timeToReachGoal);
+            //time = Mathf.Clamp01(time);
+            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
+            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, time);
         }
     }
 
@@ -128,6 +134,7 @@ public class GreenShell : MonoBehaviour, IPunObservable
         {
             return;
         }
+
         grounded = false;
         RaycastHit hit;
 
@@ -139,11 +146,11 @@ public class GreenShell : MonoBehaviour, IPunObservable
 
         if (hit.collider != null && hit.collider.CompareTag("Wall"))
         {
-            bitch = true;
+            floorIsAlsoWall = true;
         }
         else
         {
-            bitch = false;
+            floorIsAlsoWall = false;
         }
 
         if (!grounded)
@@ -156,7 +163,6 @@ public class GreenShell : MonoBehaviour, IPunObservable
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -164,16 +170,16 @@ public class GreenShell : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             //We own this player: send the others our data
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(rb.velocity);
+            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
+            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
+            stream.SendNext(SerializationHelper.SerializeVector3(rb.velocity));
         }
-        else
+        else if (stream.IsReading)
         {
             //Network player, receive data
-            latestPos = (Vector3)stream.ReceiveNext();
-            latestRot = (Quaternion)stream.ReceiveNext();
-            latestVel = (Vector3)stream.ReceiveNext();
+            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
+            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
+            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
 
             //Lag compensation
             currentTime = 0.0f;

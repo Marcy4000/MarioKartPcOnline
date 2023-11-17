@@ -6,7 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 
-public class VictoryScreen : MonoBehaviourPunCallbacks
+public class VictoryScreen : MonoBehaviour
 {
     public static VictoryScreen instance { get; private set; }
     public TMP_Text resultText;
@@ -19,13 +19,6 @@ public class VictoryScreen : MonoBehaviourPunCallbacks
 
     public void ReturnToMainMenu()
     {
-        PhotonNetwork.Disconnect();
-    }
-
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        Destroy(RoomManager.Instance.gameObject);
-        RoomManager.Instance = null;
-        SceneManager.LoadScene(0);
+        RoomManager.Instance.LeaveGame();
     }
 }

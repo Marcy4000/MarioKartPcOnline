@@ -19,32 +19,27 @@ public class KartLap : MonoBehaviourPun, IPunObservable
         lapNumber = 1;
         CheckpointIndex = 0;
 
-        StartCoroutine(DoThing());
+        StartCoroutine(SetMainKart());
     }
 
     private void LateUpdate()
     {
-        if (!ready || hasFinished)
+        if (!ready || hasFinished || !carController.pv.IsMine)
         {
             return;
         }
         UpdatePlace(PlaceCounter.instance.GetCurrentPlace(this));
     }
 
-    private IEnumerator DoThing()
+    private IEnumerator SetMainKart()
     {
-        while (!GlobalData.HasSceneLoaded)
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => GlobalData.AllPlayersLoaded);
 
-        yield return null;
-
-        if (carController.pv.IsMine && !carController.botDrive)
+        if (carController.pv.IsMine && carController.isPlayer)
         {
             mainKart = this;
-            ready = true;
         }
+         ready = true;
     }
 
     public void UpdatePlace(RacePlace place)
@@ -55,7 +50,7 @@ public class KartLap : MonoBehaviourPun, IPunObservable
         }
 
         racePlace = place;
-        if (carController.pv.IsMine && !carController.botDrive || carController.pv.IsMine && carController.botDrive && carController.bulletBil)
+        if (carController.pv.IsMine && carController.isPlayer)
         {
             PlaceCounter.instance.ChangePosition(racePlace);
         }
@@ -70,12 +65,14 @@ public class KartLap : MonoBehaviourPun, IPunObservable
             stream.SendNext(lapNumber);
             stream.SendNext(hasFinished);
         }
-        else
+        else if (stream.IsReading)
         {
             // Receive checkpoint index and lap number from network
             CheckpointIndex = (int)stream.ReceiveNext();
             lapNumber = (int)stream.ReceiveNext();
             hasFinished = (bool)stream.ReceiveNext();
+
+            UpdatePlace(PlaceCounter.instance.GetCurrentPlace(this));
         }
     }
 }

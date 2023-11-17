@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using Photon.Pun;
 
-public class CarController : MonoBehaviourPun
+public class CarController : MonoBehaviourPun, IPunObservable
 {
     public Character[] characters;
     public int selectedCharacter;
@@ -41,7 +41,7 @@ public class CarController : MonoBehaviourPun
     public float botTurnSpeed;
     public bool star { get; private set; }
     public bool bulletBil;
-    private bool isDrifting, miniTurbo;
+    private bool isDrifting;
     [SerializeField] private ParticleSystem[] driftingParticles;
 
     public PhotonView pv { get; private set; }
@@ -54,6 +54,17 @@ public class CarController : MonoBehaviourPun
     public bool isPlayer;
 
     public bool antiGravity = false;
+
+    //Values that will be synced over network
+    Vector3 latestPos, latestVel;
+    Quaternion latestRot;
+    //Lag compensation
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Vector3 velocityAtLastPacket = Vector3.zero;
+    Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void OnEnable()
     {
@@ -97,6 +108,7 @@ public class CarController : MonoBehaviourPun
             lastValue = kartLap.CheckpointIndex;
             checkpoint = GetNextCheckPoint();
             //SetCharacter((int)pv.Owner.CustomProperties["character"]);
+            isReady = true;
             yield break;
         }
         theRB.transform.parent = null;
@@ -171,6 +183,19 @@ public class CarController : MonoBehaviourPun
 
         if (!pv.IsMine)
         {
+            //Lag compensation
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+
+            //Update remote player
+            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
+            latestRot = GlobalData.FixQuaternion(latestRot);
+
+            var time = (float)(currentTime / timeToReachGoal);
+            //time = Mathf.Clamp01(time);
+            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
+            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
+            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
             return;
         }
 
@@ -179,7 +204,7 @@ public class CarController : MonoBehaviourPun
             return;
         }
 
-        
+
         if (!moving.isPlaying)
         {
             idle.Stop();
@@ -213,7 +238,6 @@ public class CarController : MonoBehaviourPun
         {
             item.Play();
         }
-        miniTurbo = true;
     }
 
     private void FixedUpdate()
@@ -333,5 +357,28 @@ public class CarController : MonoBehaviourPun
             return;
         }
         GetHit();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //We own this player: send the others our data
+            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
+            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
+        }
+        else if (stream.IsReading)
+        {
+            //Network player, receive data
+            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
+            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
+
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            rotationAtLastPacket = transform.rotation;
+        }
     }
 }
