@@ -17,6 +17,7 @@ TagManager:
   - BlueShellPath
   - Mushroom
   - LoadingScreen
+  - MinimapCam
   layers:
   - Default
   - TransparentFX

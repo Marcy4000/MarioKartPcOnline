@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviourPun
 
         yield return new WaitUntil(() => load.isDone);
 
-        //SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.Stages[GlobalData.SelectedStage]));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.Stages[GlobalData.SelectedStage]));
 
         _playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
         _playerCustomProprietes["playerLoaded"] = true;
