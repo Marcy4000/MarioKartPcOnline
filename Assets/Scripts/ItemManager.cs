@@ -41,7 +41,7 @@ public class ItemManager : MonoBehaviourPun
             {
                 itemModels[i].SetActive(i == (int)selectedItem.itemType);
             }
-            skinManager.characters[skinManager.selectedCharacter].modelAnimator.SetBool("HoldingItem", selectedItem != nothing);
+            skinManager.SetCharacterBoolValue("HoldingItem", selectedItem != nothing);
         }
 
         if (!GlobalData.UseController)
@@ -156,7 +156,7 @@ public class ItemManager : MonoBehaviourPun
         yield return new WaitForSeconds(8f);
         player.star = false;
         player.kartAnimator.SetBool("Star", false);
-        skinManager.skinnedMeshRenderer.material = skinManager.characters[skinManager.selectedCharacter].kartMaterial;
+        skinManager.skinnedMeshRenderer.material = skinManager.characters[skinManager.selectedCharacter].KartMaterial;
         MusicManager.instance.Stop();
         MusicManager.instance.ResetAudioClip();
         MusicManager.instance.Play();

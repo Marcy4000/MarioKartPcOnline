@@ -7,8 +7,9 @@ using Photon.Pun;
 
 public class CarController : MonoBehaviourPun, IPunObservable
 {
-    public Character[] characters;
+    public KartCharacter[] characters;
     public int selectedCharacter;
+    [SerializeField] private Transform characterSpawnParent;
 
     public Rigidbody theRB;
     public static CarController Instance { get; private set; }
@@ -156,13 +157,9 @@ public class CarController : MonoBehaviourPun, IPunObservable
     public void SetCharacter(int character)
     {
         selectedCharacter = character;
-        skinnedMeshRenderer.material = characters[character].kartMaterial;
-        foreach (var model in characters)
-        {
-            model.model.SetActive(false);
-        }
-        characters[character].model.SetActive(true);
-        animator = characters[character].modelAnimator;
+        skinnedMeshRenderer.material = characters[character].KartMaterial;
+        GameObject newCharacter = Instantiate(characters[character].CharacterModel, characterSpawnParent);
+        animator = newCharacter.GetComponentInChildren<Animator>();
     }
 
     [PunRPC]//old stuff

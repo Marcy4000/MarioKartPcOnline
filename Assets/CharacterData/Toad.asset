@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2307dd65701a0db47a05a07456685d55, type: 3}
+  m_Name: Toad
+  m_EditorClassIdentifier: 
+  characterName: Toad
+  characterModel: {fileID: 1675656703278323296, guid: 3ad0f59f125447a4682737dd6145a72f,
+    type: 3}
+  kartMaterial: {fileID: 2100000, guid: 73d2890fc76d63649975d6f482b46572, type: 2}

@@ -210,7 +210,7 @@ public class BlueShell : MonoBehaviourPun
         if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.characters[SkinManager.instance.selectedCharacter].modelAnimator.SetTrigger("Hit");
+            SkinManager.instance.SetCharacterHitAnimation();
         }
     }
 

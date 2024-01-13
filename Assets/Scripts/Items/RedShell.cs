@@ -101,7 +101,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.characters[SkinManager.instance.selectedCharacter].modelAnimator.SetTrigger("Hit");
+            SkinManager.instance.SetCharacterHitAnimation();
         }
     }
 

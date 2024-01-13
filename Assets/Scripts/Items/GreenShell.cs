@@ -103,7 +103,7 @@ public class GreenShell : MonoBehaviour, IPunObservable
         if (pv.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.characters[SkinManager.instance.selectedCharacter].modelAnimator.SetTrigger("Hit");
+            SkinManager.instance.SetCharacterHitAnimation();
         }
     }
 

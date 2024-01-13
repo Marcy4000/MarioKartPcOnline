@@ -5808,7 +5808,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1542730215}
   - component: {fileID: 1542730214}
-  - component: {fileID: 1542730213}
   - component: {fileID: 1542730212}
   m_Layer: 0
   m_Name: MinimapCam
@@ -5861,14 +5860,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!81 &1542730213
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542730211}
-  m_Enabled: 1
 --- !u!20 &1542730214
 Camera:
   m_ObjectHideFlags: 0

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2307dd65701a0db47a05a07456685d55, type: 3}
+  m_Name: Vegito
+  m_EditorClassIdentifier: 
+  characterName: Vegito
+  characterModel: {fileID: 3612692218140106899, guid: 121d6c017052ae44daee7ea5101241ba,
+    type: 3}
+  kartMaterial: {fileID: 2100000, guid: 8bdb161621473114c948ae1e536e0a5c, type: 2}

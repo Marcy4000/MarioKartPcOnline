@@ -18,6 +18,7 @@ TagManager:
   - Mushroom
   - LoadingScreen
   - MinimapCam
+  - CharacterItemPlace
   layers:
   - Default
   - TransparentFX

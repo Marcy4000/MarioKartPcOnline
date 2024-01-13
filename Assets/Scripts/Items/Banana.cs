@@ -58,7 +58,7 @@ public class Banana : MonoBehaviour
         if (pv.IsMine)
         {
             PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.characters[SkinManager.instance.selectedCharacter].modelAnimator.SetTrigger("Hit");
+            SkinManager.instance.SetCharacterHitAnimation();
         }
     }
 }
