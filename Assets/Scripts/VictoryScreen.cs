@@ -19,6 +19,7 @@ public class VictoryScreen : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        GlobalData.ReturnToLobby = true;
         RoomManager.Instance.LeaveGame();
     }
 }

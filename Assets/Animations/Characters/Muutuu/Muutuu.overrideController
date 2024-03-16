@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Muutuu
+  m_Controller: {fileID: 9100000, guid: 8df04f37db6205244ac024f2799f1ffe, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: ec3815853b843d24a90848a1cf064486, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 093b9d29ed6378d4ea69ca3ace2f3054, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a5604f9df8ba84941acea5792561a0a8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 282433292f751fd43aef607f945912ab, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 30fb380620e7d204598157d338c899bc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6b095c62c5ada6946bd5f7cc5ed331ad, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c3997cbee7ece2d489da798f631d5d11, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 67af2c55625b99c41909768548e68e48, type: 2}

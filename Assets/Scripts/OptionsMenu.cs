@@ -91,7 +91,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void Save()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
         PlayerPrefs.Save();
         PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProprieties;
     }

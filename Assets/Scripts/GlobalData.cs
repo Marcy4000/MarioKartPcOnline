@@ -20,6 +20,10 @@ public static class GlobalData
 
     public static bool ShowName = true;
 
+    public static bool ReturnToLobby = false;
+
+    public static bool SpawnBots = true;
+
     public static string[] Regions =
     {
         "eu",
@@ -70,7 +74,8 @@ public static class GlobalData
         "rosalina",
         "eggman",
         "peppebrescia",
-        "peppino"
+        "peppino",
+        "muutuu"
     };
 
 

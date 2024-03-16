@@ -2555,13 +2555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27346fd197114424e925521a332fd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  characters: []
   selectedCharacter: 0
   characterSpawnParent: {fileID: 0}
   theRB: {fileID: 2312950184684985447}
@@ -2577,7 +2571,7 @@ MonoBehaviour:
     m_Bits: 576
   groundRayLenght: 0.75
   groundRayPoint: {fileID: 6312790470151467495}
-  yourRotationSpeedVariable: 0.1
+  rotationSpeed: 0
   kartOffset: 1.5
   tires:
   - {fileID: 5161005882683172896, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
@@ -2630,6 +2624,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5cadf56a9b15c6429fa6ad28eee493c, type: 2}
   - {fileID: 11400000, guid: f5deb7a5e2760644987486b322b2788b, type: 2}
   - {fileID: 11400000, guid: 81fc2084c3e8aa14ea092c28c180d2b4, type: 2}
+  - {fileID: 11400000, guid: b1bfbb62a9dda5a428807cf52660b42e, type: 2}
   itemThing: {fileID: 6517944126610793038}
   selectedCharacter: 0
   skinnedMeshRenderer: {fileID: 8376346930861751985}

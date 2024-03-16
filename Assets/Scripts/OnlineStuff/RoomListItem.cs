@@ -13,7 +13,7 @@ public class RoomListItem : MonoBehaviour
     public void SetUp(RoomInfo _info)
     {
         info = _info;
-        text.text = info.Name;
+        text.text = $"{_info.Name} ({_info.PlayerCount}/{_info.MaxPlayers})";
     }
 
     public void OnClick()

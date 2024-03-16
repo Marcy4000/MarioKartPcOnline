@@ -11,6 +11,7 @@ public class GreenShell : MonoBehaviour, IPunObservable
     [SerializeField] private Transform groundRayPoint;
     [SerializeField] bool grounded;
     [SerializeField] float maxSpeed = 200f;
+    [SerializeField] private float rotationSpeed;
     PhotonView pv;
     bool floorIsAlsoWall, hasHitWall;
 
@@ -142,6 +143,8 @@ public class GreenShell : MonoBehaviour, IPunObservable
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
         {
             grounded = true;
+            Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed);
         }
 
         if (hit.collider != null && hit.collider.CompareTag("Wall"))

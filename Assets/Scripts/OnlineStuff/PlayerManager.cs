@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviourPun
 
     private IEnumerator LoadTrack()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.Stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        DiscordController.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.Stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
 
         AsyncOperation load = SceneManager.LoadSceneAsync(GlobalData.Stages[GlobalData.SelectedStage], LoadSceneMode.Additive);
         load.allowSceneActivation = true;
@@ -37,8 +37,11 @@ public class PlayerManager : MonoBehaviourPun
         PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);
         GlobalData.HasSceneLoaded = true;
         CreateController();
-        CreateBots();
-        
+        if (GlobalData.SpawnBots)
+        {
+            CreateBots();
+        }
+
         GlobalData.AllPlayersLoaded = false;
         do
         {

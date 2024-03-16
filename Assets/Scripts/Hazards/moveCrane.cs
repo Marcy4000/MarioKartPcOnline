@@ -13,23 +13,22 @@ public class moveCrane : MonoBehaviour
     bool canGo = true;
     PhotonView pv;
     List<GameObject > Updatable = new List< GameObject>();
-    // Start is called before the first frame update
+
     void Start()
     {
         pv = GetComponent<PhotonView>();    
         startingPosition = transform.position;
     }
 
-    // Update is called once per frame
-    
     void FixedUpdate()
     {
-        
         if (!canGo ) { return; }
+
         if (pv.IsMine)
         {
             transform.position += Vector3.right * speed;
         }
+
         foreach (GameObject updateObj in Updatable) {
             if (updateObj == null) continue;
             Debug.Log(updateObj.name);
@@ -42,22 +41,21 @@ public class moveCrane : MonoBehaviour
         
         if (Mathf.Abs (transform.position.x - startingPosition.x ) > 31)
         {
-            
             speed *= -1;
-            
             StartCoroutine(Wait5());
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-     
         Updatable.Add(collision.collider.gameObject);
-        
     }
+
     private void OnCollisionExit(Collision collision)
     {
         Updatable.Remove(collision.collider.gameObject);
     }
+
     IEnumerator Wait5()
     {
         canGo = false;
@@ -66,8 +64,9 @@ public class moveCrane : MonoBehaviour
         canGo = true;
         pv.RPC("syncVariable", RpcTarget.All, speed, canGo);
     }
+
     [PunRPC]
-     public void syncVariable(float speed, bool canGo )
+    public void syncVariable(float speed, bool canGo)
     {
         this.canGo = canGo; 
         this.speed = speed;

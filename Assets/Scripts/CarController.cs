@@ -24,7 +24,7 @@ public class CarController : MonoBehaviourPun, IPunObservable
     [SerializeField] public LayerMask whatIsGround;
     [SerializeField] private float groundRayLenght;
     [SerializeField] private Transform groundRayPoint;
-    [SerializeField] private float yourRotationSpeedVariable;
+    [SerializeField] private float rotationSpeed;
     [SerializeField] private float kartOffset = 1.14f;
     [SerializeField] private Animator[] tires;
 
@@ -255,7 +255,7 @@ public class CarController : MonoBehaviourPun, IPunObservable
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
         {
             Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, yourRotationSpeedVariable);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed);
             if (hit.collider.CompareTag("Boost Pad"))
             {
                 theRB.AddForce(transform.forward * 12000f);

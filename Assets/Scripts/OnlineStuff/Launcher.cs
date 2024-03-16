@@ -4,6 +4,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using System;
+using System.Collections;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -12,16 +13,32 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField roomNameInputField, privateRoomInputField;
     [SerializeField] TMP_Text errorString, roomNameText;
     [SerializeField] RectTransform roomListContent, playerListContent;
-    [SerializeField] GameObject roomListItemPrefab, playerListPrefab, startGameButton, selectedCourse;
+    [SerializeField] GameObject roomListItemPrefab, playerListPrefab, startGameButton, selectedCourse, roomSettingsButton;
 
     void Start()
     {
         Instance = this;
         GlobalData.HasSceneLoaded = false;
         GlobalData.AllPlayersLoaded = false;
+
+        if (PhotonNetwork.IsConnected)
+        {
+            MenuManager.instance.PlayMusic();
+            if (GlobalData.ReturnToLobby)
+            {
+                OnJoinedRoom();
+            }
+            else
+            {
+                LeaveRoom();
+            }
+            return;
+        }
+
         GlobalData.SelectedRegion = PlayerPrefs.GetInt("region");
         Debug.Log("Connecting To Master");
         MenuManager.instance.OpenMenu("Loading");
+        PhotonNetwork.EnableCloseConnection = true;
         PhotonNetwork.ConnectUsingSettings(new AppSettings
         {
             AppIdRealtime = "b7c9977c-c203-4d1f-8e73-1941233841cd",
@@ -54,7 +71,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         
         SetSettingsValues();
 
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
     }
 
     bool intToBool(int val)
@@ -76,9 +93,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.instance.OpenMenu("Loading");
     }
 
+    public void StartSingleplayerMode()
+    {
+        PhotonNetwork.CreateRoom($"{PhotonNetwork.LocalPlayer.NickName}'s Singleplayer Room", new RoomOptions() { MaxPlayers = 1, IsVisible = false, IsOpen = false });
+        MenuManager.instance.OpenMenu("Loading");
+    }
+
     public override void OnJoinedRoom()
     {
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({PhotonNetwork.PlayerList.Length}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         MenuManager.instance.OpenMenu("RoomMenu");
         foreach (Transform child in playerListContent)
         {
@@ -91,6 +114,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomListContent.sizeDelta = new Vector2(roomListContent.sizeDelta.x, 75 * PhotonNetwork.PlayerList.Length);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
         selectedCourse.SetActive(PhotonNetwork.IsMasterClient);
+        roomSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
     public void JoinPrivateRoom()
@@ -100,7 +124,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             return;
         }
 
-        Discord_Controller.instance.UpdateStatusInfo("Enjoying the online experience", $"In a private lobby", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", $"In a private lobby", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
 
         PhotonNetwork.JoinRoom(privateRoomInputField.text.ToUpper());
         MenuManager.instance.OpenMenu("Loading");
@@ -114,6 +138,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        selectedCourse.SetActive(PhotonNetwork.IsMasterClient);
+        roomSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
+        foreach (Transform child in playerListContent)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            Instantiate(playerListPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(player);
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

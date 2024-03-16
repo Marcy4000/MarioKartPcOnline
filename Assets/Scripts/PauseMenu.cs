@@ -80,6 +80,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        GlobalData.ReturnToLobby = false;
         RoomManager.Instance.LeaveGame();
     }
 }

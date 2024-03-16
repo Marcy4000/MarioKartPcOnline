@@ -4902,13 +4902,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -9731,13 +9733,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -10462,6 +10466,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a5cadf56a9b15c6429fa6ad28eee493c, type: 2}
   - {fileID: 11400000, guid: f5deb7a5e2760644987486b322b2788b, type: 2}
   - {fileID: 11400000, guid: 81fc2084c3e8aa14ea092c28c180d2b4, type: 2}
+  - {fileID: 11400000, guid: b1bfbb62a9dda5a428807cf52660b42e, type: 2}
   selectedCharacter: 0
   characterSpawnParent: {fileID: 8098012860110806315}
   theRB: {fileID: 4907233369227756325}
@@ -10477,7 +10482,7 @@ MonoBehaviour:
     m_Bits: 576
   groundRayLenght: 0.75
   groundRayPoint: {fileID: 4907233368967043343}
-  yourRotationSpeedVariable: 0.1
+  rotationSpeed: 0.5
   kartOffset: 1.5
   tires:
   - {fileID: 5161005882683172896}
@@ -10735,21 +10740,6 @@ MonoBehaviour:
   - {fileID: 5249111864412075364}
   - {fileID: 4596558630711697985}
   - {fileID: 4907233369227756323}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
