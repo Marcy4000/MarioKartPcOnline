@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class LapCheckPoint : MonoBehaviour
+public class LapCheckPoint : NetworkBehaviour
 {
     public int Index;
 
@@ -47,13 +48,18 @@ public class LapCheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         if (other.GetComponent<KartLap>())
         {
             KartLap Kart = other.GetComponent<KartLap>();
             //Debug.LogWarning(Mathf.Abs(Kart.CheckpointIndex - Index));
             if ( Mathf.Abs(Kart.CheckpointIndex - Index   )<10 )
             {
-                Kart.CheckpointIndex = Index;
+                Kart.SetCheckpointIndex(Index);
                 Kart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(Kart));
             }
         }
@@ -61,7 +67,7 @@ public class LapCheckPoint : MonoBehaviour
         {
             RedShell shell = other.GetComponent<RedShell>();
 
-            if (!shell.photonView.IsMine)
+            if (!shell.IsOwner)
             {
                 return;
             }

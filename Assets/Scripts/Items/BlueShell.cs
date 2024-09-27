@@ -1,10 +1,10 @@
-using System.Collections;
-using UnityEngine;
-using Photon.Pun;
 using PathCreation;
+using System.Collections;
 using System.IO;
+using Unity.Netcode;
+using UnityEngine;
 
-public class BlueShell : MonoBehaviourPun
+public class BlueShell : NetworkBehaviour
 {
     private KartLap targetKart;
     private PathCreator path;
@@ -25,7 +25,7 @@ public class BlueShell : MonoBehaviourPun
 
     private void Awake()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             return;
         }
@@ -47,7 +47,7 @@ public class BlueShell : MonoBehaviourPun
     {
         foreach (var kart in PlaceCounter.instance.karts)
         {
-            if (kart.racePlace == RacePlace.first)
+            if (kart.RacePlace == RacePlace.first)
             {
                 targetKart = kart;
                 StartCoroutine(SafeFrames());
@@ -56,7 +56,7 @@ public class BlueShell : MonoBehaviourPun
                 return;
             }
         }
-        AskToDestroy();
+        AskToDestroyRPC();
     }
 
     private IEnumerator SafeFrames()
@@ -68,7 +68,7 @@ public class BlueShell : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             return;
         }
@@ -82,11 +82,11 @@ public class BlueShell : MonoBehaviourPun
         distanceAlongPath += speed * Time.deltaTime;
         transform.position = path.path.GetPointAtDistance(distanceAlongPath);
 
-        if (targetKart.racePlace != RacePlace.first || !targetKart)
+        if (targetKart.RacePlace != RacePlace.first || !targetKart)
         {
             foreach (var kart in PlaceCounter.instance.karts)
             {
-                if (kart.racePlace == RacePlace.first)
+                if (kart.RacePlace == RacePlace.first)
                 {
                     targetKart = kart;
                     Debug.Log("blue Shell found target");
@@ -175,16 +175,16 @@ public class BlueShell : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<KartLap>().racePlace == targetKart.racePlace)
+        if (collision.gameObject.GetComponent<KartLap>().RacePlace == targetKart.RacePlace)
         {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Explosion"), transform.position, Quaternion.identity);
-            photonView.RPC("AskToDestroy", RpcTarget.All);
+            //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Explosion"), transform.position, Quaternion.identity);
+            AskToDestroyRPC();
         }
 
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
-            if (!player.photonView.IsMine)
+            if (!player.IsOwner)
             {
                 return;
             }
@@ -193,10 +193,9 @@ public class BlueShell : MonoBehaviourPun
             return;
         }
        
-        if (collision.gameObject.GetComponent<KartLap>())
+        if (collision.gameObject.TryGetComponent(out KartLap kart))
         {
-            KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.carController.IsOwner)
             {
                 return;
             }
@@ -204,14 +203,11 @@ public class BlueShell : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    private void AskToDestroy()
+    [Rpc(SendTo.Server)]
+    private void AskToDestroyRPC()
     {
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.SetCharacterHitAnimation();
-        }
+        NetworkObject.Despawn(true);
+        //SkinManager.instance.SetCharacterHitAnimation();
     }
 
     float Distance2dVector3xz(Vector3 a, Vector3 b)

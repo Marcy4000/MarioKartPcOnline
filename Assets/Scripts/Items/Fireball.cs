@@ -1,38 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
 
-public class Fireball : MonoBehaviour
+public class Fireball : NetworkBehaviour
 {
     private Rigidbody rb;
-    private PhotonView pv;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<KartLap>())
+        if (collision.gameObject.TryGetComponent(out KartLap kart))
         {
-            KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.carController.IsOwner)
             {
                 return;
             }
             kart.carController.theRB.velocity = Vector3.zero;
             kart.carController.theRB.angularVelocity = Vector3.zero;
             kart.carController.theRB.AddForce(transform.up * 1200f, ForceMode.Impulse);
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
         }
-        else if (collision.collider.CompareTag("Wall") && pv.IsMine)
+        else if (collision.collider.CompareTag("Wall") && IsOwner)
         {
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
         }
     }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        pv = GetComponent<PhotonView>();
-        if (!pv.IsMine)
+        if (!IsOwner)
         {
             rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
@@ -40,24 +36,21 @@ public class Fireball : MonoBehaviour
         StartCoroutine(Timer());
     }
 
-    [PunRPC]
-    private void AskToDestroy()
+    [Rpc(SendTo.Server)]
+    private void AskToDestroyRPC()
     {
-        if (pv.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
+        NetworkObject.Despawn(true);
     }
 
     IEnumerator Timer()
     {
         yield return new WaitForSeconds(4f);
-        pv.RPC("AskToDestroy", RpcTarget.All);
+        AskToDestroyRPC();
     }
     
     private void FixedUpdate()
     {
-        if (pv.IsMine)
+        if (IsOwner)
         {
             rb.AddForce(16000f * transform.forward);
         }

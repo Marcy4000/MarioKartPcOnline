@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
 
-public class SkinManager : MonoBehaviourPun
+public class SkinManager : NetworkBehaviour
 {
     public static SkinManager instance { get; private set; }
     public KartCharacter[] characters;
@@ -16,16 +15,16 @@ public class SkinManager : MonoBehaviourPun
 
     private void Start()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
-            SetCharacter((int)photonView.Owner.CustomProperties["character"]);
-            emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
-            emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
+            //SetCharacter((int)photonView.Owner.CustomProperties["character"]);
+            //emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
+            //emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
             return;
         }
         instance = this;
-        emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
-        emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
+        //emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
+        //emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
         SetCharacter(GlobalData.SelectedCharacter);
     }
 
@@ -53,7 +52,7 @@ public class SkinManager : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (IsOwner)
         {
             return;
         }

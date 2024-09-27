@@ -1,30 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
 
-public class KartLap : MonoBehaviourPun, IPunObservable
+public class KartLap : NetworkBehaviour
 {
-    public int lapNumber;
-    public int CheckpointIndex;
-    public RacePlace racePlace;
+    private NetworkVariable<int> lapNumber = new NetworkVariable<int>();
+    private NetworkVariable<int> checkpointIndex = new NetworkVariable<int>();
+    private NetworkVariable<bool> hasFinished = new NetworkVariable<bool>(false);
+    private NetworkVariable<RacePlace> racePlace = new NetworkVariable<RacePlace>();
+
+    public int LapNumber => lapNumber.Value;
+    public int CheckpointIndex => checkpointIndex.Value;
+    public bool HasFinished => hasFinished.Value;
+    public RacePlace RacePlace => racePlace.Value;
+
     public CarController carController;
-    public bool hasFinished = false;
     private bool ready = false;
     public Transform shellBackSPos, frontPosition;
     public static KartLap mainKart;
 
     void Awake()
     {
-        lapNumber = 1;
-        CheckpointIndex = 0;
+        lapNumber.Value = 1;
+        checkpointIndex.Value = 0;
 
         StartCoroutine(SetMainKart());
     }
 
     private void LateUpdate()
     {
-        if (!ready || hasFinished || !carController.pv.IsMine)
+        if (!ready || hasFinished.Value || !carController.IsOwner)
         {
             return;
         }
@@ -35,11 +40,11 @@ public class KartLap : MonoBehaviourPun, IPunObservable
     {
         yield return new WaitUntil(() => GlobalData.AllPlayersLoaded);
 
-        if (carController.pv.IsMine && carController.isPlayer)
+        if (carController.IsOwner && carController.isPlayer)
         {
             mainKart = this;
         }
-         ready = true;
+        ready = true;
     }
 
     public void UpdatePlace(RacePlace place)
@@ -49,30 +54,31 @@ public class KartLap : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        racePlace = place;
-        if (carController.pv.IsMine && carController.isPlayer)
+        racePlace.Value = place;
+        if (carController.IsOwner && carController.isPlayer)
         {
-            PlaceCounter.instance.ChangePosition(racePlace);
+            PlaceCounter.instance.ChangePosition(racePlace.Value);
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void IncreaseLapCount()
     {
-        if (stream.IsWriting)
-        {
-            // Send checkpoint index and lap number to other clients
-            stream.SendNext(CheckpointIndex);
-            stream.SendNext(lapNumber);
-            stream.SendNext(hasFinished);
-        }
-        else if (stream.IsReading)
-        {
-            // Receive checkpoint index and lap number from network
-            CheckpointIndex = (int)stream.ReceiveNext();
-            lapNumber = (int)stream.ReceiveNext();
-            hasFinished = (bool)stream.ReceiveNext();
+        lapNumber.Value++;
+        checkpointIndex.Value = 0;
+    }
 
-            UpdatePlace(PlaceCounter.instance.GetCurrentPlace(this));
-        }
+    public void SetLapNumber(int lap)
+    {
+        lapNumber.Value = lap;
+    }
+
+    public void SetCheckpointIndex(int index)
+    {
+        checkpointIndex.Value = index;
+    }
+
+    public void SetHasFinished(bool finished)
+    {
+        hasFinished.Value = finished;
     }
 }

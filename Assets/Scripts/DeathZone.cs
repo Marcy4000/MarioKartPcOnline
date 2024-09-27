@@ -10,7 +10,7 @@ public class DeathZone : MonoBehaviour
         {
             KartLap kartLap = other.GetComponent<KartLap>();
 
-            if (!kartLap.carController.pv.IsMine)
+            if (!kartLap.carController.IsOwner)
             {
                 return;
             }

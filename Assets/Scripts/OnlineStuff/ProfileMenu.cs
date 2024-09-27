@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
-using Photon.Realtime;
-using System.Net.NetworkInformation;
 
 public class ProfileMenu : MonoBehaviour
 {
@@ -27,10 +23,10 @@ public class ProfileMenu : MonoBehaviour
 
     public void OpenMenu(Player _player)
     {
-        playerName.text = _player.NickName;
-        playerPFP.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])_player.CustomProperties["emblem"]));
+        playerName.text = _player.Data["PlayerName"].Value;
+        //playerPFP.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])_player.CustomProperties["emblem"]));
 
-        playerInfo.text = $"Points: {(int)_player.CustomProperties["score"]}\nBio: {(string)_player.CustomProperties["bio"]}";
+        //playerInfo.text = $"Points: {(int)_player.CustomProperties["score"]}\nBio: {(string)_player.CustomProperties["bio"]}";
 
         holder.SetActive(true);
     }

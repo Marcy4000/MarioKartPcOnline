@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
 using Cinemachine;
-using Photon.Pun;
+using System.Collections;
+using Unity.Netcode;
+using UnityEngine;
 
-public class CarController : MonoBehaviourPun, IPunObservable
+public class CarController : NetworkBehaviour
 {
     public KartCharacter[] characters;
     public int selectedCharacter;
@@ -45,7 +43,6 @@ public class CarController : MonoBehaviourPun, IPunObservable
     private bool isDrifting;
     [SerializeField] private ParticleSystem[] driftingParticles;
 
-    public PhotonView pv { get; private set; }
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
     [SerializeField] private AudioClip starTheme;
     private float turnStrBackup;
@@ -94,7 +91,6 @@ public class CarController : MonoBehaviourPun, IPunObservable
             yield return null;
         }
 
-        pv = GetComponent<PhotonView>();
         turnStrBackup = turnStrenght;
         botTurnSpeed = Random.Range(1.4f, 1.8f);
         if (autoDisable)
@@ -103,7 +99,7 @@ public class CarController : MonoBehaviourPun, IPunObservable
             yield break;
         }
 
-        if (!pv.IsMine)
+        if (!IsOwner)
         {
             theRB.constraints = RigidbodyConstraints.FreezeAll;
             lastValue = kartLap.CheckpointIndex;
@@ -131,7 +127,7 @@ public class CarController : MonoBehaviourPun, IPunObservable
         {
             int botChar = Random.Range(0, characters.Length);
             SetCharacter(botChar);
-            pv.RPC("SyncCharacter", RpcTarget.Others, botChar, pv.ViewID);
+            SyncCharacterRPC(botChar, NetworkObjectId);
         }
         if (antiGravity)
         {
@@ -162,10 +158,10 @@ public class CarController : MonoBehaviourPun, IPunObservable
         animator = newCharacter.GetComponentInChildren<Animator>();
     }
 
-    [PunRPC]//old stuff
-    public void SyncCharacter(int character, int viewid)
+    [Rpc(SendTo.Everyone)]//old stuff
+    public void SyncCharacterRPC(int character, ulong viewid)
     {
-        if (photonView.ViewID == viewid)
+        if (NetworkObjectId == viewid)
         {
             SetCharacter(character);
         }
@@ -178,7 +174,7 @@ public class CarController : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        if (!pv.IsMine)
+        if (!IsOwner)
         {
             //Lag compensation
             double timeToReachGoal = currentPacketTime - lastPacketTime;
@@ -346,36 +342,13 @@ public class CarController : MonoBehaviourPun, IPunObservable
         return things[0].transform;
     }
 
-    [PunRPC]
+    [Rpc(SendTo.Owner)]
     void BotGetHitRPC(bool b)
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             return;
         }
         GetHit();
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            //We own this player: send the others our data
-            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
-            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
-        }
-        else if (stream.IsReading)
-        {
-            //Network player, receive data
-            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
-
-            //Lag compensation
-            currentTime = 0.0f;
-            lastPacketTime = currentPacketTime;
-            currentPacketTime = info.SentServerTime;
-            positionAtLastPacket = transform.position;
-            rotationAtLastPacket = transform.rotation;
-        }
     }
 }

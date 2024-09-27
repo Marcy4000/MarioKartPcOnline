@@ -1,47 +1,42 @@
-using NUnit.Framework.Constraints;
-using Photon.Pun;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class moveCrane : MonoBehaviour
+public class moveCrane : NetworkBehaviour
 {
     Vector3 startingPosition;
-    float speed = 0.3f;
-    bool canGo = true;
-    PhotonView pv;
+    private NetworkVariable<float> speed = new NetworkVariable<float>(0.3f);
+    private NetworkVariable<bool> canGo = new NetworkVariable<bool>(true);
     List<GameObject > Updatable = new List< GameObject>();
 
     void Start()
     {
-        pv = GetComponent<PhotonView>();    
         startingPosition = transform.position;
     }
 
     void FixedUpdate()
     {
-        if (!canGo ) { return; }
+        if (!canGo.Value ) { return; }
 
-        if (pv.IsMine)
+        if (IsOwner)
         {
-            transform.position += Vector3.right * speed;
+            transform.position += Vector3.right * speed.Value;
         }
 
         foreach (GameObject updateObj in Updatable) {
             if (updateObj == null) continue;
             Debug.Log(updateObj.name);
-            PhotonView pvo = updateObj.GetComponent<PhotonView>();
-            if (pvo != null && pvo.IsMine)
+            NetworkObject pvo = updateObj.GetComponent<NetworkObject>();
+            if (pvo != null && pvo.IsOwner)
             {               
-                updateObj.transform.position += Vector3.right * speed;
+                updateObj.transform.position += Vector3.right * speed.Value;
             }
         }
         
         if (Mathf.Abs (transform.position.x - startingPosition.x ) > 31)
         {
-            speed *= -1;
+            speed.Value *= -1;
             StartCoroutine(Wait5());
         }
     }
@@ -58,18 +53,8 @@ public class moveCrane : MonoBehaviour
 
     IEnumerator Wait5()
     {
-        canGo = false;
-        pv.RPC("syncVariable", RpcTarget.All, speed,canGo);
+        canGo.Value = false;
         yield return new WaitForSeconds(5f);
-        canGo = true;
-        pv.RPC("syncVariable", RpcTarget.All, speed, canGo);
+        canGo.Value = true;
     }
-
-    [PunRPC]
-    public void syncVariable(float speed, bool canGo)
-    {
-        this.canGo = canGo; 
-        this.speed = speed;
-    }
-    
 }

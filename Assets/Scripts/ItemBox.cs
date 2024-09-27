@@ -16,11 +16,11 @@ public class ItemBox : MonoBehaviour
             breakSound.Play();
             thing.SetActive(false);
             boxCollider.enabled = false;
-            if (kart.carController.pv.IsMine && !kart.carController.botDrive)
+            if (kart.carController.IsOwner && !kart.carController.botDrive)
             {
                 ItemRoulette.instance.Spin();
             }
-            else if (kart.carController.pv.IsMine && kart.carController.botDrive && !kart.carController.bulletBil && !kart.hasFinished)
+            else if (kart.carController.IsOwner && kart.carController.botDrive && !kart.carController.bulletBil && !kart.HasFinished)
             {
                 kart.carController.gameObject.GetComponent<BotItemManager>().SelectItem();
             }

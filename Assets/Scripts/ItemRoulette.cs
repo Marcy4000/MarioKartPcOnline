@@ -1,6 +1,4 @@
-using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,21 +32,21 @@ public class ItemRoulette : MonoBehaviour
     public void ChangeToRandomItem()
     {
         firstImage.sprite = secondImage.sprite;
-        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        secondImage.sprite = itemIcons[(int)KartLap.mainKart.racePlace].items[random].activeSprite;
+        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.RacePlace].items.Length);
+        secondImage.sprite = itemIcons[(int)KartLap.mainKart.RacePlace].items[random].activeSprite;
     }
 
     public Item GetRandomItem(KartLap lap)
     {
-        int random = Random.Range(0, itemIcons[(int)lap.racePlace].items.Length);
-        return itemIcons[(int)lap.racePlace].items[random];
+        int random = Random.Range(0, itemIcons[(int)lap.RacePlace].items.Length);
+        return itemIcons[(int)lap.RacePlace].items[random];
     }
 
     public void Spin()
     {
         if (spinning || selectedItem != nothing) { return; }
-        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        selectedItem = itemIcons[(int)KartLap.mainKart.racePlace].items[random];
+        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.RacePlace].items.Length);
+        selectedItem = itemIcons[(int)KartLap.mainKart.RacePlace].items[random];
         StartCoroutine(DoTheSpinning());
     }
 

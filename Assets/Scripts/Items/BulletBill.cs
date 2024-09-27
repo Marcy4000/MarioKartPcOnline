@@ -1,9 +1,9 @@
 using PathCreation;
-using Photon.Pun;
 using System.IO;
+using Unity.Netcode;
 using UnityEngine;
 
-public class BulletBill : MonoBehaviourPun
+public class BulletBill : NetworkBehaviour
 {
     public PathCreator GlobalPathCreator;
     public PathCreator UsablePath;
@@ -21,10 +21,11 @@ public class BulletBill : MonoBehaviourPun
     public float MaxDistSPawnBulletBill = 2.0f;
     private Vector3 aimPoint;
     private float gdist;
-    void Start()
+
+    private void Start()
     {
         mask = LayerMask.GetMask("Ground", "OffRoad");
-        BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+        //BulletBillGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BulletBill"), new Vector3(transform.position.x + 0.11f, transform.position.y + 2.91f, transform.position.z - 1.08f), Quaternion.Euler(90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
         PathKeeper = Instantiate(new GameObject("BulletPathKeeper"));
         BulletBillPathCreator = PathKeeper.AddComponent<PathCreator>();
         ps = gameObject.GetComponent<PlayerScript>();
@@ -53,19 +54,19 @@ public class BulletBill : MonoBehaviourPun
         Vector3 v = aimPoint - transform.position;
         float dist = Mathf.Sqrt(v.x * v.x + v.z * v.z);
         
-            Vector3[] waypoints = { transform.position, aimPoint };
-            BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xz);
-            bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
-            bezierPath.SetPoint(0, transform.position);
-            bezierPath.SetPoint(3, aimPoint);
-            bezierPath.SetPoint(1, bezierPath.GetPoint(0));
-            bezierPath.SetPoint(2, bezierPath.GetPoint(3));
+        Vector3[] waypoints = { transform.position, aimPoint };
+        BezierPath bezierPath = new BezierPath(waypoints, false, PathSpace.xz);
+        bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
+        bezierPath.SetPoint(0, transform.position);
+        bezierPath.SetPoint(3, aimPoint);
+        bezierPath.SetPoint(1, bezierPath.GetPoint(0));
+        bezierPath.SetPoint(2, bezierPath.GetPoint(3));
 
-            speed = MAXSPEED;
-            UsingLocalPath = true;
-            distanceTravelled = 0;
-            BulletBillPathCreator.bezierPath = bezierPath;
-            UsablePath = BulletBillPathCreator;
+        speed = MAXSPEED;
+        UsingLocalPath = true;
+        distanceTravelled = 0;
+        BulletBillPathCreator.bezierPath = bezierPath;
+        UsablePath = BulletBillPathCreator;
     }
 
     void Update()
@@ -155,11 +156,10 @@ public class BulletBill : MonoBehaviourPun
 
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
         ps.BulletBill = false;
-        PhotonNetwork.Destroy(BulletBillGameObject);
+        NetworkObject.Despawn(BulletBillGameObject);
         CartDisplayGameObject.SetActive(true);
-
     }
 }

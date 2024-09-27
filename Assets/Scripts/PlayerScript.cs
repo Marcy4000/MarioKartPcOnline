@@ -1,16 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 
-public class PlayerScript : MonoBehaviour, IPunObservable
+public class PlayerScript : NetworkBehaviour
 {
     private Rigidbody rb;
 
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask slowGround;
-    public PhotonView photonView { get; private set; }
     private int lastValue;
     private float CurrentSpeed = 0;
     public float KartMaxSpeed;
@@ -100,7 +97,6 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         kartAnimator = holder.GetComponent<Animator>();
         if (GlobalData.SelectedStage == 13)
@@ -112,7 +108,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             //Lag compensation
             double timeToReachGoal = currentPacketTime - lastPacketTime;
@@ -169,7 +165,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
     void FixedUpdate()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             return;
         }
@@ -717,10 +713,10 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
     }
 
-    [PunRPC]
+    [Rpc(SendTo.Owner)]
     void PlayerGetHitRPC(bool b)
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             return;
         }
@@ -748,45 +744,5 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         }
 
         return things[0].transform;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            //We own this player: send the others our data
-            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
-            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
-            if (rb != null)
-            { 
-                stream.SendNext(SerializationHelper.SerializeVector3(rb.velocity));
-            }
-            else
-            {
-                stream.SendNext(SerializationHelper.SerializeVector3(Vector3.zero));
-            }
-        }
-        else if (stream.IsReading)
-        {
-            //Network player, receive data
-            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream. ReceiveNext());
-            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-
-            //Lag compensation
-            currentTime = 0.0f;
-            lastPacketTime = currentPacketTime;
-            currentPacketTime = info.SentServerTime;
-            positionAtLastPacket = transform.position;
-            rotationAtLastPacket = transform.rotation;
-            if (rb != null)
-            {
-                velocityAtLastPacket = rb.velocity;
-            }
-            else
-            {
-                velocityAtLastPacket = Vector3.zero;
-            }
-        }
     }
 }

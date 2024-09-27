@@ -1,17 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
-using UnityEngine.ProBuilder;
 
-public class Banana : MonoBehaviour
+public class Banana : NetworkBehaviour
 {
-    PhotonView pv;
     [SerializeField] LayerMask whatIsGround;
 
     private void Start()
     {
-        pv = GetComponent<PhotonView>();
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, 1000f, whatIsGround))
         {
@@ -31,34 +26,30 @@ public class Banana : MonoBehaviour
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
-            if (!player.photonView.IsMine)
+            if (!player.IsOwner)
             {
                 return;
             }
             player.GetHit(true);
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
             return;
         }
 
-        if (collision.gameObject.GetComponent<KartLap>())
+        if (collision.gameObject.TryGetComponent(out KartLap kart))
         {
-            KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.carController.IsOwner)
             {
                 return;
             }
             kart.carController.GetHit();
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
         }
     }
 
-    [PunRPC]
-    private void AskToDestroy()
+    [Rpc(SendTo.Server)]
+    private void AskToDestroyRPC()
     {
-        if (pv.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.SetCharacterHitAnimation();
-        }
+        NetworkObject.Despawn(gameObject);
+        //SkinManager.instance.SetCharacterHitAnimation();
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum RacePlace { first, second, third, fourth, fifth, sixth, seventh, eighth, nineth, tenth, eleventh, twelveth }
@@ -41,11 +40,11 @@ public class PlaceCounter : MonoBehaviour
                 continue;
             }
 
-            if (kart.lapNumber < targetKart.lapNumber)
+            if (kart.LapNumber < targetKart.LapNumber)
             {
                 currPlace--;
             }
-            else if (kart.lapNumber == targetKart.lapNumber)
+            else if (kart.LapNumber == targetKart.LapNumber)
             {
                 if (kart.CheckpointIndex < targetKart.CheckpointIndex)
                 {

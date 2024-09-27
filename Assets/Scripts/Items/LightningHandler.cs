@@ -1,6 +1,4 @@
-using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightningHandler : MonoBehaviour
@@ -22,7 +20,7 @@ public class LightningHandler : MonoBehaviour
         {
             if (!kart.carController.isPlayer)
             {
-                if (!kart.carController.pv.IsMine)
+                if (!kart.carController.IsOwner)
                 {
                     continue;
                 }
@@ -31,7 +29,7 @@ public class LightningHandler : MonoBehaviour
             }
             else
             {
-                if (!kart.photonView.IsMine)
+                if (!kart.IsOwner)
                 {
                     continue;
                 }

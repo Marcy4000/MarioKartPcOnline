@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using SimpleFileBrowser;
-using Photon.Pun;
 using System;
-using Unity.VisualScripting;
+using System.Collections;
+using UnityEngine;
 
 public class EmblemEditor : MonoBehaviour
 {
@@ -13,7 +9,6 @@ public class EmblemEditor : MonoBehaviour
     private Material dummyKartMat;
     private Texture2D emblem;
     [SerializeField] private GameObject dummyKart;
-    private ExitGames.Client.Photon.Hashtable _myCustomProprieties = new ExitGames.Client.Photon.Hashtable();
 
     private void Start()
     {
@@ -25,13 +20,13 @@ public class EmblemEditor : MonoBehaviour
             tex = IMG2Sprite.Resize(tex, 64, 64);
             emblem = tex;
             dummyKartMat.SetTexture("_DetailAlbedoMap", tex);
-            _myCustomProprieties["emblem"] = tex.EncodeToPNG();
+            //_myCustomProprieties["emblem"] = tex.EncodeToPNG();
         }
     }
 
     private void OnEnable()
     {
-        _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
+        //_myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
         dummyKart.SetActive(true);
     }
 
@@ -68,7 +63,7 @@ public class EmblemEditor : MonoBehaviour
             emblem = tex;
             dummyKartMat.SetTexture("_DetailAlbedoMap", tex);
             PlayerPrefs.SetString("emblem", Convert.ToBase64String(tex.EncodeToPNG()));
-            _myCustomProprieties["emblem"] = tex.EncodeToPNG();
+            //_myCustomProprieties["emblem"] = tex.EncodeToPNG();
         }
     }
 }

@@ -1,22 +1,16 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
 using TMPro;
-using System;
+using UnityEngine;
 
 public class CharacterSelectScreen : MonoBehaviour
 {
     public DummyKart dummyKart;
     public int selectedChar;
     public TMP_Text[] names;
-    private ExitGames.Client.Photon.Hashtable _myCustomProprieties = new ExitGames.Client.Photon.Hashtable();
 
     private void OnEnable()
     {
         selectedChar = GlobalData.SelectedCharacter;
-        _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
+        //_myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
         dummyKart.gameObject.SetActive(true);
         dummyKart.SetCharacter(GlobalData.SelectedCharacter);
         foreach (var name in names)
@@ -43,6 +37,6 @@ public class CharacterSelectScreen : MonoBehaviour
     {
         GlobalData.SelectedCharacter = selectedChar;
         PlayerPrefs.SetInt("character", selectedChar);
-        _myCustomProprieties["character"] = selectedChar;
+        //_myCustomProprieties["character"] = selectedChar;
     }
 }

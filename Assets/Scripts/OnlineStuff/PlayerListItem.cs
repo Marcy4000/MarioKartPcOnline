@@ -1,49 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
+using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
+using UnityEngine;
 
-public class PlayerListItem : MonoBehaviourPunCallbacks
+public class PlayerListItem : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
     [SerializeField] GameObject banButton;
 
     Player player;
 
-    public void SetUp(Player _player)
+    public void Initialize(Player _player)
     {
         player = _player;
-        text.text = _player.NickName;
+        text.text = _player.Data["PlayerName"].Value;
 
-        if (_player.IsMasterClient)
+        if (_player.Id == LobbyController.Instance.Lobby.HostId)
         {
             text.color = Color.yellow;
         }
 
-        if (PhotonNetwork.LocalPlayer.IsMasterClient && PhotonNetwork.LocalPlayer != _player)
+        if (_player.Id == LobbyController.Instance.Lobby.HostId && LobbyController.Instance.Player != _player)
         {
             banButton.SetActive(true);
         }
 
-        if (string.Equals(_player.NickName, "JustMarcy", System.StringComparison.OrdinalIgnoreCase))
-        {
-            text.color = Color.green;
-        }
+        NetworkManager.Singleton.OnConnectionEvent += OnConnectionEvent;
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    private void OnConnectionEvent(NetworkManager manager, ConnectionEventData connectionEvent)
     {
-        if (otherPlayer == player)
+        if (connectionEvent.EventType == ConnectionEvent.PeerDisconnected && connectionEvent.ClientId == ulong.Parse(player.Data["OwnerID"].Value))
         {
             Destroy(gameObject);
         }
-    }
-
-    public override void OnLeftRoom()
-    {
-        Destroy(gameObject);
     }
 
     public void ShowProfile()
@@ -53,9 +43,6 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
 
     public void BanPlayer()
     {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            PhotonNetwork.CloseConnection(player);
-        }
+        LobbyController.Instance.KickPlayer(player.Id);
     }
 }

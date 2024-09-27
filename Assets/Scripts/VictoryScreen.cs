@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
+using UnityEngine;
 
 public class VictoryScreen : MonoBehaviour
 {
@@ -20,6 +15,6 @@ public class VictoryScreen : MonoBehaviour
     public void ReturnToMainMenu()
     {
         GlobalData.ReturnToLobby = true;
-        RoomManager.Instance.LeaveGame();
+        LobbyController.Instance.ReturnToLobby(false);
     }
 }

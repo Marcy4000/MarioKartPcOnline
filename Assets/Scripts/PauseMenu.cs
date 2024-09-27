@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using UnityEngine.SceneManagement;
-using Photon.Realtime;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -58,7 +54,7 @@ public class PauseMenu : MonoBehaviour
     {
         KartLap kartLap = KartLap.mainKart;
 
-        if (!kartLap.carController.pv.IsMine)
+        if (!kartLap.carController.IsOwner)
         {
             return;
         }
@@ -81,6 +77,6 @@ public class PauseMenu : MonoBehaviour
     public void ReturnToMainMenu()
     {
         GlobalData.ReturnToLobby = false;
-        RoomManager.Instance.LeaveGame();
+        LobbyController.Instance.ReturnToLobby(true);
     }
 }

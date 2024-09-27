@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon.Pun;
-using UnityEngine.Rendering;
 
-public class RedShell : MonoBehaviourPun, IPunObservable
+public class RedShell : NetworkBehaviour
 {
     private Rigidbody rb;
     [SerializeField] private NavMeshAgent agent;
@@ -33,7 +31,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
@@ -54,7 +52,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         currentCheckpoint = _kart.CheckpointIndex;
         foreach (var kart in PlaceCounter.instance.karts)
         {
-            if (kart.racePlace == currKart.racePlace - 1)
+            if (kart.RacePlace == currKart.RacePlace - 1)
             {
                 targetKart = kart;
                 agent.destination = targetKart.frontPosition.position;
@@ -65,7 +63,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
                 return;
             }
         }
-        AskToDestroy();
+        AskToDestroyRPC();
     }
 
 
@@ -74,40 +72,36 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
-            if (!player.photonView.IsMine)
+            if (!player.IsOwner)
             {
                 return;
             }
             player.GetHit(false);
-            photonView.RPC("AskToDestroy", RpcTarget.All);
+            //photonView.RPC("AskToDestroy", RpcTarget.All);
             return;
         }
 
-        if (collision.gameObject.GetComponent<KartLap>())
+        if (collision.gameObject.TryGetComponent(out KartLap kart))
         {
-            KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.carController.IsOwner)
             {
                 return;
             }
             kart.carController.GetHit();
-            photonView.RPC("AskToDestroy", RpcTarget.All);
+            //photonView.RPC("AskToDestroy", RpcTarget.All);
         }
     }
 
-    [PunRPC]
-    private void AskToDestroy()
+    [Rpc(SendTo.Server)]
+    private void AskToDestroyRPC()
     {
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.SetCharacterHitAnimation();
-        }
+        NetworkObject.Despawn(true);
+        //SkinManager.instance.SetCharacterHitAnimation(); This one hurts
     }
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             //Lag compensation
             double timeToReachGoal = currentPacketTime - lastPacketTime;
@@ -125,7 +119,7 @@ public class RedShell : MonoBehaviourPun, IPunObservable
             
         }
 
-        if (!photonView.IsMine || (!agent.isOnNavMesh && ! agent.isOnOffMeshLink))
+        if (!IsOwner || (!agent.isOnNavMesh && ! agent.isOnOffMeshLink))
         {
             return;
         }
@@ -159,31 +153,5 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         GetComponent<SphereCollider>().enabled = false;
         yield return new WaitForSeconds(1f);
         GetComponent<SphereCollider>().enabled = true;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            //We own this player: send the others our data
-            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
-            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
-            stream.SendNext(SerializationHelper.SerializeVector3(agent.velocity));
-        }
-        else if (stream.IsReading)
-        {
-            //Network player, receive data
-            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
-            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-
-            //Lag compensation
-            currentTime = 0.0f;
-            lastPacketTime = currentPacketTime;
-            currentPacketTime = info.SentServerTime;
-            positionAtLastPacket = transform.position;
-            rotationAtLastPacket = transform.rotation;
-            velocityAtLastPacket = agent.velocity;
-        }
     }
 }

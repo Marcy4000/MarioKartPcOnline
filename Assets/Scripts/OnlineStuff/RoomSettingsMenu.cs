@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Photon.Pun;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class RoomSettingsMenu : MonoBehaviour
@@ -24,8 +21,8 @@ public class RoomSettingsMenu : MonoBehaviour
 
     private void UpdateSettingsValue()
     {
-        privateRoomToggle.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
-        maxPlayersInput.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+        privateRoomToggle.isOn = LobbyController.Instance.Lobby.IsPrivate;
+        maxPlayersInput.text = LobbyController.Instance.Lobby.MaxPlayers.ToString();
         botsToggle.isOn = GlobalData.SpawnBots;
     }
 
@@ -44,7 +41,7 @@ public class RoomSettingsMenu : MonoBehaviour
     {
         if (players > 0 && players <= GlobalData.PlayerCount)
         {
-            PhotonNetwork.CurrentRoom.MaxPlayers = players;
+            //PhotonNetwork.CurrentRoom.MaxPlayers = players;
         }
     }
 
@@ -54,7 +51,7 @@ public class RoomSettingsMenu : MonoBehaviour
 
         if (maxPlayers < 0 || maxPlayers > 12)
         {
-            maxPlayersInput.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+            maxPlayersInput.text = LobbyController.Instance.Lobby.MaxPlayers.ToString();
             return;
         }
 
@@ -63,7 +60,7 @@ public class RoomSettingsMenu : MonoBehaviour
 
     public void SetRoomVisibility(bool visible)
     {
-        PhotonNetwork.CurrentRoom.IsVisible = !visible;
+        LobbyController.Instance.ChangeLobbyVisibility(!visible);
     }
 
     public void SetSpawnBots(bool value)

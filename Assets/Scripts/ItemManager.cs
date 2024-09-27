@@ -1,8 +1,9 @@
-using Photon.Pun;
 using System.Collections;
 using System.IO;
+using Unity.Netcode;
 using UnityEngine;
-public class ItemManager : MonoBehaviourPun
+
+public class ItemManager : NetworkBehaviour
 {
     private Item selectedItem;
     private PlayerScript player;
@@ -21,7 +22,7 @@ public class ItemManager : MonoBehaviourPun
         selectedItem = nothing;
         player = GetComponent<PlayerScript>();
         skinManager = GetComponent<SkinManager>();
-        if (!photonView.IsMine)
+        if (!IsOwner)
         {
             enabled = false;
         }
@@ -66,7 +67,7 @@ public class ItemManager : MonoBehaviourPun
         {
             return;
         }
-        switch (selectedItem.itemType)
+        /*switch (selectedItem.itemType)
         {
             case Items.mushroom:
                 player.BoostTime = 2f;
@@ -113,7 +114,7 @@ public class ItemManager : MonoBehaviourPun
                 LightningHandler.instance.sender = true;
                 photonView.RPC("UseLightning", RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
                 break;
-        }
+        }*/
         amount--;
        
         if (amount <= 0)
@@ -128,18 +129,18 @@ public class ItemManager : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    public void UseBlooper(Photon.Realtime.Player sender, RacePlace racePlace)
+    [Rpc(SendTo.Everyone)]
+    public void UseBlooperRPC(ulong sender, RacePlace racePlace)
     {
-        if (sender == PhotonNetwork.LocalPlayer)
+        if (sender == NetworkObjectId)
         {
             return;
         }
         Blooper.insance.Splat(racePlace);
     }
 
-    [PunRPC]
-    public void UseLightning(Photon.Realtime.Player sender)
+    [Rpc(SendTo.Everyone)]
+    public void UseLightningRPC()
     {
         LightningHandler.instance.Strike();
     }

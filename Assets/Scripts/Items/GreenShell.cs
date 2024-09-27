@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using Photon.Pun;
 
-public class GreenShell : MonoBehaviour, IPunObservable
+public class GreenShell : NetworkBehaviour
 {
     private Rigidbody rb;
     [SerializeField] private LayerMask whatIsGround;
@@ -12,25 +11,12 @@ public class GreenShell : MonoBehaviour, IPunObservable
     [SerializeField] bool grounded;
     [SerializeField] float maxSpeed = 200f;
     [SerializeField] private float rotationSpeed;
-    PhotonView pv;
     bool floorIsAlsoWall, hasHitWall;
-
-    //Values that will be synced over network
-    Vector3 latestPos, latestVel;
-    Quaternion latestRot;
-    //Lag compensation
-    float currentTime = 0;
-    double currentPacketTime = 0;
-    double lastPacketTime = 0;
-    Vector3 positionAtLastPacket = Vector3.zero;
-    Vector3 velocityAtLastPacket = Vector3.zero;
-    Quaternion rotationAtLastPacket = Quaternion.identity;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        pv = GetComponent<PhotonView>();
-        if (!pv.IsMine)
+        if (!IsOwner)
         {
             rb.constraints = RigidbodyConstraints.FreezeAll;
             return;
@@ -42,12 +28,12 @@ public class GreenShell : MonoBehaviour, IPunObservable
     IEnumerator Timer()
     {
         yield return new WaitForSeconds(50f);
-        PhotonNetwork.Destroy(gameObject);
+        NetworkObject.Despawn(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
+        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && IsOwner)
         {
             Vector3 v = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, v);
@@ -58,29 +44,28 @@ public class GreenShell : MonoBehaviour, IPunObservable
         else if (collision.gameObject.GetComponent<PlayerScript>())
         {
             PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
-            if (!player.photonView.IsMine)
+            if (!player.IsOwner)
             {
                 return;
             }
             player.GetHit(false);
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
             return;
         }
-        else if (collision.gameObject.GetComponent<KartLap>())
+        else if (collision.gameObject.TryGetComponent(out KartLap kart))
         {
-            KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.carController.IsOwner)
             {
                 return;
             }
             kart.carController.GetHit();
-            pv.RPC("AskToDestroy", RpcTarget.All);
+            AskToDestroyRPC();
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (!hasHitWall && collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
+        if (!hasHitWall && collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && IsOwner)
         {
             Vector3 v = Vector3.Reflect(transform.forward, collision.GetContact(0).normal);
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, v);
@@ -92,46 +77,22 @@ public class GreenShell : MonoBehaviour, IPunObservable
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && pv.IsMine)
+        if (collision.gameObject.CompareTag("Wall") && !floorIsAlsoWall && IsOwner)
         {
             hasHitWall = false;
         }
     }
 
-    [PunRPC]
-    private void AskToDestroy()
+    [Rpc(SendTo.Server)]
+    private void AskToDestroyRPC()
     {
-        if (pv.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-            SkinManager.instance.SetCharacterHitAnimation();
-        }
-    }
-
-    private void Update()
-    {
-        if (!pv.IsMine)
-        {
-            //Lag compensation
-            double timeToReachGoal = currentPacketTime - lastPacketTime;
-            currentTime += Time.deltaTime;
-
-            //Update remote player
-            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
-            latestRot = GlobalData.FixQuaternion(latestRot);
-
-            var time = (float)(currentTime / timeToReachGoal);
-            //time = Mathf.Clamp01(time);
-            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
-            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, time);
-        }
+        NetworkObject.Despawn(true);
+        //SkinManager.instance.SetCharacterHitAnimation();
     }
 
     private void FixedUpdate()
     {
-        if (!pv.IsMine)
+        if (!IsOwner)
         {
             return;
         }
@@ -165,32 +126,6 @@ public class GreenShell : MonoBehaviour, IPunObservable
         if (rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            //We own this player: send the others our data
-            stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
-            stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
-            stream.SendNext(SerializationHelper.SerializeVector3(rb.velocity));
-        }
-        else if (stream.IsReading)
-        {
-            //Network player, receive data
-            latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
-            latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-
-            //Lag compensation
-            currentTime = 0.0f;
-            lastPacketTime = currentPacketTime;
-            currentPacketTime = info.SentServerTime;
-            positionAtLastPacket = transform.position;
-            rotationAtLastPacket = transform.rotation;
-            velocityAtLastPacket = rb.velocity;
         }
     }
 }

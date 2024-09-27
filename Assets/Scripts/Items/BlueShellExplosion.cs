@@ -1,11 +1,8 @@
-using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class BlueShellExplosion : MonoBehaviour
+public class BlueShellExplosion : NetworkBehaviour
 {
     public float ExplosionRange = 10f;
     [Range(0.001f , 1.0f )] public float explosionSpeed = 0.25f;
@@ -20,7 +17,6 @@ public class BlueShellExplosion : MonoBehaviour
     Renderer rendererBack;
     bool dissolve = false;
     bool lightdown = false;
-    public PhotonView pv;
     // Start is called before the first frame update
 
     private void Start()
@@ -87,32 +83,35 @@ public class BlueShellExplosion : MonoBehaviour
 
         
     }
+
     IEnumerator DeleteFront()
     {
         yield return new WaitForSeconds(0.2f);
         Destroy(FrontSphere.gameObject);
     }
+
     void CheckCollision()
     {
-        if (!pv.IsMine) return;   
-        Collider[] colliders = Physics.OverlapSphere(transform.position,ExplosionRange,playerMask);
+        if (!IsOwner) return;   
+        Collider[] colliders = Physics.OverlapSphere(transform.position, ExplosionRange, playerMask);
         foreach (Collider c in colliders)
         {
-            var pv = c.gameObject.GetComponent<PhotonView>();
+            var pv = c.gameObject.GetComponent<NetworkObject>();
             var ps = c.gameObject.GetComponent<PlayerScript>();
             if (pv) {
                 if (ps)
                 {
-                    pv.RPC("PlayerGetHitRPC", RpcTarget.All, false);
+                    //pv.RPC("PlayerGetHitRPC", RpcTarget.All, false);
                 }
                 else
                 {
-                    pv.RPC("BotGetHitRPC", RpcTarget.All, false);
+                    //pv.RPC("BotGetHitRPC", RpcTarget.All, false);
                 }
                 
             }
         }
     }
+
     IEnumerator WaitToDestoy()
     {
         lightdown = true;

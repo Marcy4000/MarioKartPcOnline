@@ -1,23 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Photon.Realtime;
 using TMPro;
+using Unity.Services.Lobbies.Models;
+using UnityEngine;
 
 public class RoomListItem : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
 
-    public RoomInfo info;
+    public Lobby info;
 
-    public void SetUp(RoomInfo _info)
+    public void SetUp(Lobby _info)
     {
         info = _info;
-        text.text = $"{_info.Name} ({_info.PlayerCount}/{_info.MaxPlayers})";
+        text.text = $"{_info.Name} ({_info.Players.Count}/{_info.MaxPlayers})";
     }
 
     public void OnClick()
     {
-        Launcher.Instance.JoinRoom(info);
+        LobbyController.Instance.TryLobbyJoin(info.LobbyCode);
     }
 }

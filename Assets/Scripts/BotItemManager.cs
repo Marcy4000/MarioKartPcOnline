@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using System.IO;
+using Unity.Netcode;
 
-public class BotItemManager : MonoBehaviourPun
+public class BotItemManager : NetworkBehaviour
 {
     private Item selectedItem;
     public bool canUseItem = true;
@@ -16,7 +16,7 @@ public class BotItemManager : MonoBehaviourPun
     private void Start()
     {
         selectedItem = nothing;
-        if (!photonView.IsMine)
+        if (IsOwner)
         {
             enabled = false;
         }
@@ -42,7 +42,7 @@ public class BotItemManager : MonoBehaviourPun
 
     private void UseItem()
     {
-        switch (selectedItem.itemType)
+        /*switch (selectedItem.itemType)
         {
             case Items.mushroom:
                 if (kart.carController.grounded)
@@ -89,7 +89,7 @@ public class BotItemManager : MonoBehaviourPun
             case Items.lightning:
                 photonView.RPC("UseLightning", RpcTarget.All, PhotonNetwork.LocalPlayer);
                 break;
-        }
+        }*/
         amount--;
         if (amount <= 0)
         {
@@ -97,13 +97,13 @@ public class BotItemManager : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
-    public void UseBlooper(Photon.Realtime.Player sender, RacePlace racePlace)
+    [Rpc(SendTo.Everyone)]
+    public void UseBlooperRPC(RacePlace racePlace)
     {
         Blooper.insance.Splat(racePlace);
     }
 
-    [PunRPC]
+    /*[Rpc(SendTo.Everyone)]
     public void UseLightning(Photon.Realtime.Player sender)
     {
         if (sender == PhotonNetwork.LocalPlayer && !PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -116,5 +116,5 @@ public class BotItemManager : MonoBehaviourPun
         }
 
         LightningHandler.instance.Strike();
-    }
+    }*/
 }

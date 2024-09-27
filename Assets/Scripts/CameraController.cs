@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Cinemachine;
+using System.Collections;
 using System.Linq;
-using Photon.Realtime;
+using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class CameraController : MonoBehaviour
             trp.m_BindingMode = CinemachineTransposer.BindingMode.LockToTargetNoRoll;
         }
         PlayerScript[] players = FindObjectsOfType<PlayerScript>();
-        PlayerScript mainPlayer = players.Where(p => p.photonView.IsMine).FirstOrDefault();
+        PlayerScript mainPlayer = players.Where(p => p.IsOwner).FirstOrDefault();
 
         virtualCamera.Follow = mainPlayer.transform;
         virtualCamera.LookAt = mainPlayer.transform;

@@ -1,7 +1,5 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class LoadingScreen : MonoBehaviour
@@ -9,15 +7,17 @@ public class LoadingScreen : MonoBehaviour
     public GameObject loadingScreenPlayerPrefab;
     public TMP_Text courseName;
     private GameObject loadingScreen;
+    private Transform namesArea;
 
     void Start()
     {
         loadingScreen = GameObject.FindGameObjectWithTag("LoadingScreen");
         courseName.text = $"Next Track: {GlobalData.Stages[GlobalData.SelectedStage]}";
+        namesArea = loadingScreen.transform.Find("NamesArea");
 
-        foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        foreach (Player p in LobbyController.Instance.Lobby.Players)
         {
-            LoadingScreenPlayerElement element = Instantiate(loadingScreenPlayerPrefab, loadingScreen.transform.Find("NamesArea")).GetComponent<LoadingScreenPlayerElement>();
+            LoadingScreenPlayerElement element = Instantiate(loadingScreenPlayerPrefab, namesArea).GetComponent<LoadingScreenPlayerElement>();
             element.SetUp(p);
         }
     }

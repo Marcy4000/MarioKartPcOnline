@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using Photon.Pun;
+using Unity.Netcode;
+using UnityEngine;
 
-public class NameTag : MonoBehaviourPun
+public class NameTag : NetworkBehaviour
 {
     [SerializeField] private TMP_Text nametagText;
     [SerializeField] private float Speed = 2f;
@@ -13,7 +11,7 @@ public class NameTag : MonoBehaviourPun
     private void Start()
     {
         SetName();
-        if (photonView.IsMine && !GlobalData.ShowName)
+        if (IsOwner && !GlobalData.ShowName)
         {
             gameObject.SetActive(false);
         }
@@ -38,6 +36,6 @@ public class NameTag : MonoBehaviourPun
 
     private void SetName()
     {
-        nametagText.text = photonView.Owner.NickName;
+        //nametagText.text = photonView.Owner.NickName;
     }
 }

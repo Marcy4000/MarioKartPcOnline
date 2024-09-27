@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
@@ -12,7 +10,6 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private DummyKart dummyKart;
     public TMP_Dropdown resolutionsDropdown, characterDropdown, regionDropdown;
     private Resolution[] resolutions;
-    private ExitGames.Client.Photon.Hashtable _myCustomProprieties = new ExitGames.Client.Photon.Hashtable();
 
     private void Start()
     {
@@ -21,7 +18,7 @@ public class OptionsMenu : MonoBehaviour
         useController.isOn = GlobalData.UseController;
         showName.isOn = GlobalData.ShowName;
 
-        _myCustomProprieties["score"] = GlobalData.Score;
+        //_myCustomProprieties["score"] = GlobalData.Score;
         resolutionsDropdown.ClearOptions();
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
@@ -55,19 +52,12 @@ public class OptionsMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        nameField.text = PhotonNetwork.NickName;
-        bioField.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["bio"];
+        //nameField.text = PhotonNetwork.NickName;
+        //bioField.text = (string)PhotonNetwork.LocalPlayer.CustomProperties["bio"];
         characterDropdown.value = GlobalData.SelectedCharacter;
         regionDropdown.value = GlobalData.SelectedRegion;
         useController.isOn = GlobalData.UseController;
-        //dummyKart.SetCharacter(GlobalData.SelectedCharacter);
-        _myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
-        //dummyKart.gameObject.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        //dummyKart.gameObject.SetActive(false);
+        //_myCustomProprieties = PhotonNetwork.LocalPlayer.CustomProperties;
     }
 
     public void SetResolution(int resolutionIndex)
@@ -86,14 +76,14 @@ public class OptionsMenu : MonoBehaviour
     {
         GlobalData.SelectedCharacter = newChar;
         PlayerPrefs.SetInt("character", newChar);
-        _myCustomProprieties["character"] = newChar;
+        //_myCustomProprieties["character"] = newChar;
     }
 
     public void Save()
     {
         DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
         PlayerPrefs.Save();
-        PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProprieties;
+        //PhotonNetwork.LocalPlayer.CustomProperties = _myCustomProprieties;
     }
 
     public void SetName(string nickname)
@@ -102,7 +92,7 @@ public class OptionsMenu : MonoBehaviour
         {
             return;
         }
-        PhotonNetwork.NickName = nickname;
+        //PhotonNetwork.NickName = nickname;
         PlayerPrefs.SetString("nickname", nickname);
     }
 
@@ -113,7 +103,7 @@ public class OptionsMenu : MonoBehaviour
             return;
         }
         PlayerPrefs.SetString("bio", bio);
-        _myCustomProprieties["bio"] = bio;
+        //_myCustomProprieties["bio"] = bio;
     }
 
     public void SetFullscreen(bool value)
