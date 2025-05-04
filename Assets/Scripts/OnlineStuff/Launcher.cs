@@ -15,6 +15,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] RectTransform roomListContent, playerListContent;
     [SerializeField] GameObject roomListItemPrefab, playerListPrefab, startGameButton, selectedCourse, roomSettingsButton;
 
+    private bool isSwitchingRegion = false; // Flag to track region switching
+
     void Start()
     {
         Instance = this;
@@ -30,7 +32,21 @@ public class Launcher : MonoBehaviourPunCallbacks
             }
             else
             {
-                LeaveRoom();
+                if (PhotonNetwork.InRoom)
+                {
+                    LeaveRoom();
+                }
+                else if (!PhotonNetwork.InLobby)
+                {
+                    PhotonNetwork.JoinLobby();
+                }
+                else
+                {
+                    if (MenuManager.instance != null && MenuManager.instance.CurrentMenuName() == "Loading")
+                    {
+                        MenuManager.instance.OpenMenu("MainMenu");
+                    }
+                }
             }
             return;
         }
@@ -39,6 +55,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Connecting To Master");
         MenuManager.instance.OpenMenu("Loading");
         PhotonNetwork.EnableCloseConnection = true;
+        ConnectToSelectedRegion();
+    }
+
+    private void ConnectToSelectedRegion()
+    {
+        Debug.Log($"Connecting to region: {GlobalData.Regions[GlobalData.SelectedRegion]}");
         PhotonNetwork.ConnectUsingSettings(new AppSettings
         {
             AppIdRealtime = "b7c9977c-c203-4d1f-8e73-1941233841cd",
@@ -54,6 +76,23 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log($"Connected To Master ({PhotonNetwork.GetPing()})");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log($"Disconnected from Master: {cause}");
+        if (isSwitchingRegion)
+        {
+            isSwitchingRegion = false;
+            ConnectToSelectedRegion();
+        }
+        else
+        {
+            if (MenuManager.instance != null && MenuManager.instance.CurrentMenuName() != "Intro")
+            {
+                MenuManager.instance.OpenMenu("MainMenu");
+            }
+        }
     }
 
     public override void OnJoinedLobby()
@@ -164,6 +203,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        if (!isSwitchingRegion)
+        {
+            PhotonNetwork.JoinLobby();
+        }
         MenuManager.instance.OpenMenu("MainMenu");
     }
 
@@ -218,6 +261,22 @@ public class Launcher : MonoBehaviourPunCallbacks
             Texture2D tex = IMG2Sprite.LoadTextureFromBytes(Convert.FromBase64String(PlayerPrefs.GetString("emblem")));
             tex = IMG2Sprite.Resize(tex, 64, 64);
             PhotonNetwork.LocalPlayer.CustomProperties["emblem"] = tex.EncodeToPNG();
+        }
+    }
+
+    public void SwitchRegion(int newRegionIndex)
+    {
+        Debug.Log($"Switching region initiated to index {newRegionIndex}");
+        MenuManager.instance.OpenMenu("Loading");
+        isSwitchingRegion = true;
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+        }
+        else
+        {
+            isSwitchingRegion = false;
+            ConnectToSelectedRegion();
         }
     }
 }

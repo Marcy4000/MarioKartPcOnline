@@ -78,8 +78,16 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetRegion(int newReg)
     {
-        GlobalData.SelectedRegion = newReg;
-        PlayerPrefs.SetInt("region", newReg);
+        if (newReg != GlobalData.SelectedRegion)
+        {
+            GlobalData.SelectedRegion = newReg;
+            PlayerPrefs.SetInt("region", newReg);
+            // Trigger region switch in Launcher
+            if (Launcher.Instance != null)
+            {
+                Launcher.Instance.SwitchRegion(newReg);
+            }
+        }
     }
 
     public void ChangeCharacter(int newChar)

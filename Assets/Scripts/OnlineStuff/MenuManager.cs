@@ -57,4 +57,16 @@ public class MenuManager : MonoBehaviour
     {
         music.Play();
     }
+
+    public string CurrentMenuName()
+    {
+        for (int i = 0; i < menus.Length; i++)
+        {
+            if (menus[i].open)
+            {
+                return menus[i].menuName;
+            }
+        }
+        return null;
+    }
 }
