@@ -1,22 +1,23 @@
-using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode;
+using System.Collections;
+using UnityEngine.InputSystem;
+using Unity.Netcode.Components;
 
 public class PlayerScript : NetworkBehaviour
 {
     private Rigidbody rb;
-
+    
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask slowGround;
-    private int lastValue;
     private float CurrentSpeed = 0;
     public float KartMaxSpeed;
     private float MaxSpeed;
     public float boostSpeed;
-    public float RealSpeed { get; private set; } //not the applied speed
-    public bool canMove;
-    public bool star= false;
-    public bool BulletBill = false;
+    public NetworkVariable<float> RealSpeed = new NetworkVariable<float>();
+    public NetworkVariable<bool> canMove = new NetworkVariable<bool>();
+    public NetworkVariable<bool> star = new NetworkVariable<bool>();
+    public NetworkVariable<bool> BulletBill = new NetworkVariable<bool>();
     public Transform rayPoint;
     public Transform holder;
     private Transform checkpoint;
@@ -32,14 +33,13 @@ public class PlayerScript : NetworkBehaviour
     public Transform backRightTire;
 
     //drift and steering stuffz
-    private float steerDirection;
+    private NetworkVariable<float> steerDirection = new NetworkVariable<float>();
     private float driftTime;
-    
     bool driftLeft = false;
     bool driftRight = false;
     float outwardsDriftForce = 50000f;
 
-    public bool isSliding = false;
+    public NetworkVariable<bool> isSliding = new NetworkVariable<bool>();
 
     private bool touchingGround;
 
@@ -55,694 +55,159 @@ public class PlayerScript : NetworkBehaviour
     public Transform boostFire;
     public Transform boostExplosion;
     private bool alreadyDown = false;
-    public bool antiGravity = false;
+    public NetworkVariable<bool> antiGravity = new NetworkVariable<bool>();
     float gravity = 0;
 
     [Header("Sounds")]
     public AudioSource[] soundEffects;
 
-    //Values that will be synced over network
-    Vector3 latestPos, latestVel;
-    Quaternion latestRot;
-    //Lag compensation
-    float currentTime = 0;
-    double currentPacketTime = 0;
-    double lastPacketTime = 0;
-    Vector3 positionAtLastPacket = Vector3.zero;
-    Vector3 velocityAtLastPacket = Vector3.zero;
-    Quaternion rotationAtLastPacket = Quaternion.identity;
+    private StandardInput controls;
+    private NetworkAnimator networkAnimator;
 
-    private void OnEnable()
+    public override void OnNetworkSpawn()
     {
-        Countdown.Instance.OnCountdownEnded += CountdownEnded;
-    }
-
-    private void OnDisable()
-    {
-        Countdown.Instance.OnCountdownEnded -= CountdownEnded;
-    }
-
-    private void CountdownEnded()
-    {
-        canMove = true;
-    }
-    private void AddBostAfterCountDownEnded()
-    {
-        BoostTime = 5f;
-    }
-    private void StallAfterCountDownEnded()
-    {
-        GetHit(true);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
+        if (!IsOwner) return;
+        
+        controls = new StandardInput();
+        controls.Enable();
+        controls.KartInput.Move.performed += OnMove;
+        controls.KartInput.Move.canceled += OnMove;
+        controls.KartInput.Turn.performed += OnTurn;
+        controls.KartInput.Turn.canceled += OnTurn;
+        
         rb = GetComponent<Rigidbody>();
-        kartAnimator = holder.GetComponent<Animator>();
-        if (GlobalData.SelectedStage == 13)
-        {
-            antiGravity = true;
-            rb.useGravity = false;
-        }
-    }
-
-    private void Update()
-    {
-        if (!IsOwner)
-        {
-            //Lag compensation
-            double timeToReachGoal = currentPacketTime - lastPacketTime;
-            currentTime += Time.deltaTime;
-
-            //Update remote player
-            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
-            latestRot = GlobalData.FixQuaternion(latestRot);
-
-            var time = (float)(currentTime / timeToReachGoal);
-            //time = Mathf.Clamp01(time);
-            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
-            rb.velocity = Vector3.Lerp(velocityAtLastPacket, latestVel, time);
-            return;
-        }
-
-        if (!canMove)
-        {
-            if (Cutscene.instance.isPlaying) return;
-            if (alreadyDown) return;
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetButton("Fire2"))
-            {
-                alreadyDown = true;
-                if (Countdown.Instance.canDoRocketBoost)
-                {
-                    Countdown.Instance.OnCountdownEnded += AddBostAfterCountDownEnded;
-                }
-                else
-                {
-
-                    Countdown.Instance.OnCountdownEnded += StallAfterCountDownEnded;
-                }
-            }
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && touchingGround || Input.GetButtonDown("Drift") && touchingGround)
-        {
-            kartAnimator.SetTrigger("Hop");
-            if (steerDirection > 0)
-            {
-                driftRight = true;
-                driftLeft = false;
-            }
-            else if (steerDirection < 0)
-            {
-                driftRight = false;
-                driftLeft = true;
-            }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (!IsOwner)
-        {
-            return;
-        }
-
-        if (!canMove)
-        {
-            return;
-        }
+        kartAnimator = GetComponent<Animator>();
+        networkAnimator = GetComponent<NetworkAnimator>();
         
-        move();
-        RaycastHit hit;
-        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.2f, whatIsGround))
-        {
-            if (hit.collider.CompareTag("Boost Pad"))
-            {
-                BoostTime = 1.2f;
-            }
-        }
-        tireSteer();
-        steer();
-        groundNormalRotation();
-        drift();
-        boosts();
-        if (BoostTime <= 0)
-        {
-            if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.2f, whatIsGround))
-            {
-                if (hit.collider.gameObject.CompareTag("SlowGround"))
-                {
-                    MaxSpeed = KartMaxSpeed * 45 / 100;
-                    if (CurrentSpeed > MaxSpeed)
-                    {
-                        CurrentSpeed = MaxSpeed;
-                    }
-                }
-                else
-                {
-                    MaxSpeed = KartMaxSpeed;
-                }
-            }
-        }
-    }
-    public void GetHit(bool spin)
-    {
-        if (star || BulletBill)
-        {
-            return;
-        }
-
-        StopAllCoroutines();
-        StartCoroutine(GetHitAnimation(spin));
+        MaxSpeed = KartMaxSpeed;
     }
 
-    IEnumerator GetHitAnimation(bool spin)
+    public override void OnNetworkDespawn()
     {
-        stopDrift();
-        canMove = false;
-        CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Time.deltaTime * 1.5f);
-        if (spin)
-        {
-            //kartAnimator.Play("HitSpin");
-            kartAnimator.SetTrigger("Spin");
-            yield return new WaitForSeconds(1.1f);
-        }
-        else
-        {
-            //kartAnimator.Play("HitFlip");
-            kartAnimator.SetTrigger("Flip");
-            yield return new WaitForSeconds(1.3f);
-        }
-        
-        canMove = true;
+        if (!IsOwner) return;
+
+        controls.KartInput.Move.performed -= OnMove;
+        controls.KartInput.Move.canceled -= OnMove;
+        controls.KartInput.Turn.performed -= OnTurn;
+        controls.KartInput.Turn.canceled -= OnTurn;
+        controls.Disable();
     }
 
-    public void stopDrift()
+    private void OnMove(InputAction.CallbackContext context)
     {
-        driftRight = false;
-        driftLeft = false;
-        RealSpeed = 0;
-        CurrentSpeed = 0;
-        //reset everything
-        driftTime = 0;
-        //stop particles
-        for (int i = 0; i < 5; i++)
+        if (!IsOwner) return;
+        float value = context.ReadValue<float>();
+        HandleMoveServerRpc(value);
+    }
+
+    private void OnTurn(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        float value = context.ReadValue<float>();
+        HandleTurnServerRpc(value);
+    }
+
+    [ServerRpc]
+    private void HandleMoveServerRpc(float value)
+    {
+        CurrentSpeed = Mathf.Lerp(CurrentSpeed, value * MaxSpeed, Time.deltaTime * 2f);
+        RealSpeed.Value = CurrentSpeed;
+    }
+
+    [ServerRpc]
+    private void HandleTurnServerRpc(float value)
+    {
+        steerDirection.Value = value;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsOwner) return;
+
+        if (canMove.Value)
         {
-            ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-            ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-            ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-            ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-            DriftPS.Stop();
-            DriftPS2.Stop();
+            move();
+            steer();
         }
 
-
+        // Drift checks and physics
+        if (touchingGround)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation, Time.deltaTime * 8f);
+        }
     }
 
     private void move()
     {
-        RealSpeed = transform.InverseTransformDirection(rb.velocity).z; //real velocity before setting the value. This can be useful if say you want to have hair moving on the player, but don't want it to move if you are accelerating into a wall, since checking velocity after it has been applied will always be the applied value, and not real
-        if (BulletBill)
-        {
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
-        {
-            CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, Time.deltaTime * 0.5f); //speed
-            if (!soundEffects[1].isPlaying)
-            {
-                soundEffects[0].Stop();
-                soundEffects[1].Play();
-            }
-        }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetButton("Fire1"))
-        {
-            CurrentSpeed = Mathf.Lerp(CurrentSpeed, -MaxSpeed / 1.75f, 1f * Time.deltaTime);
-            if (!soundEffects[1].isPlaying)
-            {
-                soundEffects[0].Stop();
-                soundEffects[1].Play();
-            }
-        }
-        else
-        {
-            CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Time.deltaTime * 1.5f); //speed
-            if (!soundEffects[0].isPlaying)
-            {
-                soundEffects[1].Stop();
-                soundEffects[0].Play();
-            }
-        }
-
-        if (!GLIDER_FLY && !antiGravity)
+        if (!GLIDER_FLY && !antiGravity.Value)
         {
             Vector3 vel = transform.forward * CurrentSpeed;
-            vel.y = rb.velocity.y; //gravity
+            vel.y = rb.velocity.y;
             rb.velocity = vel;
         }
-        else if (!GLIDER_FLY && antiGravity)
+        else if (!GLIDER_FLY && antiGravity.Value)
         {
             Vector3 vel = transform.forward * CurrentSpeed;
             rb.velocity = vel;
-            if (!Physics.Raycast(rayPoint.position, -transform.up, 0.75f, whatIsGround))
-            {
-                if (gravity < 75f)
-                {
-                    gravity += 5f;
-                }
-                rb.AddForce(-transform.up * gravity, ForceMode.VelocityChange);
-            }
-            else
-            {
-                gravity = 0;
-            }
         }
-        else
-        {
-            Vector3 vel = transform.forward * CurrentSpeed;
-            vel.y = rb.velocity.y * 0.7f; //gravity with gliding
-            rb.velocity = vel;
-        }
-
     }
 
     private void steer()
     {
-        if (BulletBill)
+        if (isSliding.Value)
         {
+            float steerInput = steerDirection.Value;
+            
+            if (driftRight)
+                steerInput = 1;
+            else if (driftLeft)
+                steerInput = -1;
+                
+            transform.Rotate(Vector3.up * steerInput * 2.5f, Space.World);
+
+            if (driftRight)
+                rb.AddForce(transform.right * outwardsDriftForce * Time.deltaTime);
+            else if (driftLeft)
+                rb.AddForce(-transform.right * outwardsDriftForce * Time.deltaTime);
+
             return;
         }
-        steerDirection = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
-        Vector3 steerDirVect; //this is used for the final rotation of the kart for steering
 
-        float steerAmount;
-
-        if (driftLeft && !driftRight)
-        {
-            //steerDirection = Input.GetAxis("Horizontal") < 0 ? -1.5f : -0.5f;
-            steerDirection = Mathf.Lerp(-1.5f, -0.3f, (Input.GetAxis("Horizontal") + 1) / 2);
-            holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, -20f, 0), 8f * Time.deltaTime);
-
-
-            if (isSliding && touchingGround)
-            {
-                rb.AddForce(transform.right * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
-            }
-        }
-        else if (driftRight && !driftLeft)
-        {
-            //steerDirection = Input.GetAxis("Horizontal") > 0 ? 1.5f : 0.5f;
-            steerDirection = Mathf.Lerp(1.5f, 0.3f, (Input.GetAxis("Horizontal") - 1) / -2);
-            holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, 20f, 0), 8f * Time.deltaTime);
-
-            if (isSliding && touchingGround)
-            {
-                rb.AddForce(-transform.right * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
-            }   
-        }
-        else
-        {
-            holder.localRotation = Quaternion.Lerp(holder.localRotation, Quaternion.Euler(0, 0f, 0), 8f * Time.deltaTime);
-        }
-
-        if ((driftLeft || driftRight) && !GLIDER_FLY)
-        {
-            rb.AddForce(-transform.up * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
-        }
-
-        //since handling is supposed to be stronger when car is moving slower, we adjust steerAmount depending on the real speed of the kart, and then rotate the kart on its y axis with steerAmount
-        steerAmount = RealSpeed > 30 ? RealSpeed / 3 * steerDirection : steerAmount = RealSpeed / 1.25f * steerDirection;
-
-        //glider movements
-        if (Input.GetKey(KeyCode.LeftArrow) && GLIDER_FLY || Input.GetKey(KeyCode.A) && GLIDER_FLY)  //left
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 40), 2 * Time.deltaTime);
-        } // left 
-        else if (Input.GetKey(KeyCode.RightArrow) && GLIDER_FLY || Input.GetKey(KeyCode.D) && GLIDER_FLY) //right
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, -40), 2 * Time.deltaTime);
-        } //right
-        else if (GLIDER_FLY) //nothing
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
-        } //nothing
-
-        if (Input.GetKey(KeyCode.UpArrow) && GLIDER_FLY)
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(25, transform.eulerAngles.y, transform.eulerAngles.z), 2 * Time.deltaTime);
-
-            rb.AddForce(Vector3.down * 8000 * Time.deltaTime, ForceMode.Acceleration);
-        } //moving down
-        else if (Input.GetKey(KeyCode.DownArrow) && GLIDER_FLY)
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(-25, transform.eulerAngles.y, transform.eulerAngles.z), 2 * Time.deltaTime);
-            rb.AddForce(Vector3.up * 4000 * Time.deltaTime, ForceMode.Acceleration);
-
-        } //rotating up - only use this if you have special triggers around the track which disable this functionality at some point, or the player will be able to just fly around the track the whole time
-        else if (GLIDER_FLY)
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, transform.eulerAngles.z), 2 * Time.deltaTime);
-        }
-
-        if (!touchingGround && !antiGravity)
-        {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
-        }
-
-        if (!antiGravity)
-        {
-            steerDirVect = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + steerAmount, transform.eulerAngles.z);
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, steerDirVect, 3 * Time.deltaTime);
-        }
-        else
-        {
-            transform.RotateAround(transform.position, transform.up, 3 * steerAmount * Time.deltaTime);
-        }
+        transform.Rotate(Vector3.up * steerDirection.Value * 2.5f, Space.World);
     }
 
-    private void groundNormalRotation()
+    [ServerRpc]
+    public void GetHitServerRpc(bool spin)
     {
-        RaycastHit hit;
-        Debug.DrawRay(rayPoint.position, -transform.up * 2f);
-        if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 2f, whatIsGround))
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.up * 2, hit.normal) * transform.rotation, 7.5f * Time.deltaTime);
-            touchingGround = true;
-        }
-        else
-        {
-            touchingGround = false;
-        }
+        GetHitClientRpc(spin);
     }
 
-    private void drift()
+    [ClientRpc]
+    private void GetHitClientRpc(bool spin)
     {
-        if (driftLeft || driftRight) 
-        {
-            if (Input.GetKey(KeyCode.Space) && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0 || Input.GetButton("Drift") && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0)
-            {
-                driftTime += Time.deltaTime;
-
-                //particle effects (sparks)
-                if (driftTime >= 1.5 && driftTime < 4)
-                {
-                    if (!soundEffects[2].isPlaying)
-                    {
-                        soundEffects[2].Play();
-                        soundEffects[3].Stop();
-                        soundEffects[4].Stop();
-                    }
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-                        ParticleSystem DriftPS2 = leftDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-                        PSMAIN.startColor = drift1;
-                        PSMAIN2.startColor = drift1;
-
-                        if (!DriftPS.isPlaying && !DriftPS2.isPlaying)
-                        {
-                            DriftPS.Play();
-                            DriftPS2.Play();
-                        }
-                    }
-                }
-                if (driftTime >= 4 && driftTime < 6)
-                {
-                    if (!soundEffects[3].isPlaying)
-                    {
-                        soundEffects[3].Play();
-                        soundEffects[4].Stop();
-                        soundEffects[2].Stop();
-                    }
-                    //drift color particles
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-                        ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-                        PSMAIN.startColor = drift2;
-                        PSMAIN2.startColor = drift2;
-                    }
-
-                }
-                if (driftTime >= 6)
-                {
-                    if (!soundEffects[4].isPlaying)
-                    {
-                        soundEffects[4].Play();
-                        soundEffects[3].Stop();
-                        soundEffects[2].Stop();
-                    }
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-                        ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-                        PSMAIN.startColor = drift3;
-                        PSMAIN2.startColor = drift3;
-                    }
-                }
-            }
-        }
-
-        if (!GlobalData.UseController)
-        {
-            if (!Input.GetKey(KeyCode.Space) || RealSpeed < 35)
-            {
-                driftLeft = false;
-                driftRight = false;
-                isSliding = false;
-
-                //give a boost
-                if (driftTime > 1.5 && driftTime < 4)
-                {
-                    BoostTime = 0.75f;
-                    soundEffects[2].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[4].Stop();
-                    soundEffects[5].Play();
-                }
-                if (driftTime >= 4 && driftTime < 7)
-                {
-                    BoostTime = 1.5f;
-                    soundEffects[2].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[4].Stop();
-                    soundEffects[5].Play();
-
-                }
-                if (driftTime >= 6)
-                {
-                    BoostTime = 2.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
-
-                //reset everything
-                driftTime = 0;
-                //stop particles
-                for (int i = 0; i < 5; i++)
-                {
-                    ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                    ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-                    ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                    ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-                    DriftPS.Stop();
-                    DriftPS2.Stop();
-                }
-            }
-        }
-        else
-        {
-            if (!Input.GetButton("Drift") || RealSpeed < 35)
-            {
-                driftLeft = false;
-                driftRight = false;
-                isSliding = false;
-
-                //give a boost
-                if (driftTime > 1.5 && driftTime < 4)
-                {
-                    BoostTime = 0.75f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
-                if (driftTime >= 4 && driftTime < 7)
-                {
-                    BoostTime = 1.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-
-                }
-                if (driftTime >= 6)
-                {
-                    BoostTime = 2.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
-
-                //reset everything
-                driftTime = 0;
-                //stop particles
-                for (int i = 0; i < 5; i++)
-                {
-                    ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                    ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-                    ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                    ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-                    DriftPS.Stop();
-                    DriftPS2.Stop();
-                }
-            }
-        }
+        StartCoroutine(GetHitAnimation(spin));
     }
 
-    private void boosts()
+    private IEnumerator GetHitAnimation(bool spin)
     {
-        BoostTime -= Time.deltaTime;
-        if (BoostTime > 0)
+        canMove.Value = false;
+        if (spin)
         {
-            for (int i = 0; i < boostFire.childCount; i++)
+            for (float t = 0; t < 1; t += Time.deltaTime)
             {
-                if (!boostFire.GetChild(i).GetComponent<ParticleSystem>().isPlaying)
-                {
-                    boostFire.GetChild(i).GetComponent<ParticleSystem>().Play();
-                }
-            }
-            MaxSpeed = boostSpeed;
-
-            CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, 1 * Time.deltaTime);
-        }
-        else
-        {
-            for (int i = 0; i < boostFire.childCount; i++)
-            {
-                boostFire.GetChild(i).GetComponent<ParticleSystem>().Stop();
-            }
-            BulletBill = false;
-            MaxSpeed = boostSpeed - 20;
-        }
-    }
-
-    private void tireSteer()
-    {
-        if (BulletBill) { return; }
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || steerDirection < -0.2f)
-        {
-            frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 155, 0), 5 * Time.deltaTime);
-            frontRightTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 155, 0), 5 * Time.deltaTime);
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || steerDirection > 0.2f)
-        {
-            frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 205, 0), 5 * Time.deltaTime);
-            frontRightTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 205, 0), 5 * Time.deltaTime);
-        }
-        else
-        {
-            frontLeftTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 180, 0), 5 * Time.deltaTime);
-            frontRightTire.localEulerAngles = Vector3.Lerp(frontLeftTire.localEulerAngles, new Vector3(0, 180, 0), 5 * Time.deltaTime);
-        }
-
-        //tire spinning
-        if (CurrentSpeed > 30)
-        {
-            frontLeftTire.GetChild(0).Rotate(-90 * Time.deltaTime * CurrentSpeed * 0.5f, 0, 0);
-            frontRightTire.GetChild(0).Rotate(-90 * Time.deltaTime * CurrentSpeed * 0.5f, 0, 0);
-            backLeftTire.Rotate(90 * Time.deltaTime * CurrentSpeed * 0.5f, 0, 0);
-            backRightTire.Rotate(90 * Time.deltaTime * CurrentSpeed * 0.5f, 0, 0);
-        }
-        else
-        {
-            frontLeftTire.GetChild(0).Rotate(-90 * Time.deltaTime * RealSpeed * 0.5f, 0, 0);
-            frontRightTire.GetChild(0).Rotate(-90 * Time.deltaTime * RealSpeed * 0.5f, 0, 0);
-            backLeftTire.Rotate(90 * Time.deltaTime * RealSpeed * 0.5f, 0, 0);
-            backRightTire.Rotate(90 * Time.deltaTime * RealSpeed * 0.5f, 0, 0);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("GliderPad"))
-        {
-            GLIDER_FLY = true;
-            gliderAnim.SetBool("GliderOpen", true);
-            gliderAnim.SetBool("GliderClose", false);
-        }
-        if (other.gameObject.tag == "GetHitCollider")
-        {
-            this.GetHit(true);
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (LayerMask.LayerToName(collision.gameObject.layer) == "Ground" || LayerMask.LayerToName(collision.gameObject.layer) == "OffRoad")
-        {
-            GLIDER_FLY = false;
-            gliderAnim.SetBool("GliderOpen", false);
-            gliderAnim.SetBool("GliderClose", true);
-        }
-
-        if (collision.gameObject.CompareTag("Mushroom"))
-        {
-            rb.AddForce(transform.up * 2500f);
-        }
-    }
-
-    [Rpc(SendTo.Owner)]
-    void PlayerGetHitRPC(bool b)
-    {
-        if (!IsOwner)
-        {
-            return;
-        }
-        GetHit(b);
-    }
-
-    private Transform GetNextCheckPoint()
-    {
-        LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
-
-        foreach (var item in things)
-        {
-            if (item.Index == KartLap.mainKart.CheckpointIndex)
-            {
-                return item.next;
+                transform.Rotate(Vector3.up * 360 * Time.deltaTime, Space.World);
+                yield return null;
             }
         }
+        yield return new WaitForSeconds(0.5f);
+        canMove.Value = true;
+    }
 
-        foreach (var item in things)
-        {
-            if (item.Index == 1)
-            {
-                return item.transform;
-            }
-        }
-
-        return things[0].transform;
+    [ServerRpc]
+    public void StopDriftServerRpc()
+    {
+        isSliding.Value = false;
+        driftLeft = false;
+        driftRight = false;
     }
 }

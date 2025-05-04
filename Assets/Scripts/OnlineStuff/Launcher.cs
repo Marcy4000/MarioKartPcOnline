@@ -1,21 +1,62 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Core;
+using Unity.Services.Authentication;
+using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Netcode;
 using UnityEngine;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using Unity.Netcode.Transports.UTP;
 
 public class Launcher : MonoBehaviour
 {
-    public static Launcher Instance;
+    public static Launcher Instance { get; private set; }
 
-    [SerializeField] TMP_InputField roomNameInputField, privateRoomInputField;
-    [SerializeField] TMP_Text errorString, roomNameText;
-    [SerializeField] RectTransform roomListContent, playerListContent;
-    [SerializeField] GameObject roomListItemPrefab, playerListPrefab, startGameButton, selectedCourse, roomSettingsButton;
+    [Header("UI References")]
+    [SerializeField] private TMP_InputField roomNameInputField;
+    [SerializeField] private TMP_InputField privateRoomInputField;
+    [SerializeField] private TMP_Text errorText;
+    [SerializeField] private TMP_Text roomNameText;
+    [SerializeField] private RectTransform roomListContent;
+    [SerializeField] private RectTransform playerListContent;
 
-    void Start()
+    [Header("Prefabs")]
+    [SerializeField] private GameObject roomListItemPrefab;
+    [SerializeField] private GameObject playerListPrefab;
+    [SerializeField] private GameObject startGameButton;
+    [SerializeField] private GameObject selectedCourse;
+    [SerializeField] private GameObject roomSettingsButton;
+
+    private Lobby currentLobby;
+    private string playerId;
+
+    private async void Start()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+
+        try
+        {
+            await UnityServices.InitializeAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            playerId = AuthenticationService.Instance.PlayerId;
+            Debug.Log($"Player signed in with ID: {playerId}");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to initialize Unity Services: {e.Message}");
+            errorText.text = "Failed to initialize networking services";
+            MenuManager.instance.OpenMenu("ErrorMenu");
+            return;
+        }
+
         GlobalData.HasSceneLoaded = false;
         GlobalData.AllPlayersLoaded = false;
 
@@ -28,133 +69,178 @@ public class Launcher : MonoBehaviour
         {
             MenuManager.instance.OpenMenu("Intro");
         }
-        Debug.Log("Joined Lobby");
 
         SetSettingsValues();
-
-        LobbyController.Instance.OnJoinedLobby += OnJoinedLobby;
-
-        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", "Browsing the menus...", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        UpdateDiscordStatus();
     }
 
-    bool intToBool(int val)
+    private void OnDestroy()
     {
-        if (val != 0)
-            return true;
-        else
-            return false;
+        if (currentLobby != null)
+        {
+            LeaveLobby();
+        }
     }
 
-    public void CreateRoom(bool privateRoom)
+    public async void CreateRoom(bool isPrivate)
     {
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             return;
         }
 
-        LobbyController.Instance.CreateLobby(roomNameInputField.text, privateRoom);
-        MenuManager.instance.OpenMenu("Loading");
+        try
+        {
+            MenuManager.instance.OpenMenu("Loading");
+
+            // Creo il Relay server per il networking
+            hostData = await RelayService.Instance.CreateAllocationAsync(GlobalData.PlayerCount);
+            string joinCode = await RelayService.Instance.GetJoinCodeAsync(hostData.AllocationId);
+
+            // Creo la lobby
+            CreateLobbyOptions options = new CreateLobbyOptions
+            {
+                IsPrivate = isPrivate,
+                Data = new Dictionary<string, DataObject>
+                {
+                    { "RelayJoinCode", new DataObject(DataObject.VisibilityOptions.Member, joinCode) }
+                }
+            };
+
+            currentLobby = await LobbyService.Instance.CreateLobbyAsync(roomNameInputField.text, GlobalData.PlayerCount, options);
+            
+            // Avvio il networking come host
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(hostData);
+            NetworkManager.Singleton.StartHost();
+
+            OnJoinedLobby();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to create room: {e.Message}");
+            errorText.text = $"Failed to create room: {e.Message}";
+            MenuManager.instance.OpenMenu("ErrorMenu");
+        }
     }
 
-    public void StartSingleplayerMode()
+    public async void StartSingleplayerMode()
     {
-        LobbyController.Instance.CreateLobby($"{LobbyController.Instance.Player.Data["PlayerName"].Value}'s Singleplayer Room", true);
-        MenuManager.instance.OpenMenu("Loading");
+        try
+        {
+            var hostData = await RelayService.Instance.CreateAllocationAsync(1);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(hostData);
+            NetworkManager.Singleton.StartHost();
+            // Carica direttamente la scena in single player
+            NetworkManager.Singleton.SceneManager.LoadScene("GameScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to start singleplayer: {e.Message}");
+            errorText.text = $"Failed to start singleplayer mode";
+            MenuManager.instance.OpenMenu("ErrorMenu");
+        }
     }
 
-    public void OnJoinedLobby()
+    private void OnJoinedLobby()
     {
-        //DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", $"In a lobby ({LobbyController.Instance.Lobby.Players.Count}/{GlobalData.PlayerCount})", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"); roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         MenuManager.instance.OpenMenu("RoomMenu");
-
-        foreach (Transform child in playerListContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (Player player in LobbyController.Instance.Lobby.Players)
-        {
-            Instantiate(playerListPrefab, playerListContent).GetComponent<PlayerListItem>().Initialize(player);
-        }
-
-        roomListContent.sizeDelta = new Vector2(roomListContent.sizeDelta.x, 75 * LobbyController.Instance.Lobby.Players.Count);
-        startGameButton.SetActive(LobbyController.Instance.IsLocalPlayerHost());
-        selectedCourse.SetActive(LobbyController.Instance.IsLocalPlayerHost());
-        roomSettingsButton.SetActive(LobbyController.Instance.IsLocalPlayerHost());
+        roomNameText.text = currentLobby.Name;
+        UpdatePlayerList();
+        UpdateUIElements();
+        UpdateDiscordStatus();
     }
 
-    public void JoinPrivateRoom()
+    public async void JoinPrivateRoom()
     {
         if (string.IsNullOrEmpty(privateRoomInputField.text))
         {
             return;
         }
 
-        DiscordController.instance.UpdateStatusInfo("Enjoying the online experience", $"In a private lobby", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        try
+        {
+            MenuManager.instance.OpenMenu("Loading");
+            
+            currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(privateRoomInputField.text);
+            string relayJoinCode = currentLobby.Data["RelayJoinCode"].Value;
+            
+            joinData = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(joinData);
+            NetworkManager.Singleton.StartClient();
 
-        LobbyController.Instance.TryLobbyJoin(privateRoomInputField.text);
-        MenuManager.instance.OpenMenu("Loading");
+            OnJoinedLobby();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to join room: {e.Message}");
+            errorText.text = $"Failed to join room: {e.Message}";
+            MenuManager.instance.OpenMenu("ErrorMenu");
+        }
     }
 
-    /*public override void OnMasterClientSwitched(Player newMasterClient)
+    private void UpdatePlayerList()
     {
-        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
-        selectedCourse.SetActive(PhotonNetwork.IsMasterClient);
-        roomSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
         foreach (Transform child in playerListContent)
         {
             Destroy(child.gameObject);
         }
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            Instantiate(playerListPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(player);
-        }
-    }*/
 
-    /*public void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        foreach (Transform child in roomListContent)
+        foreach (Player player in currentLobby.Players)
         {
-            Destroy(child.gameObject);
+            Instantiate(playerListPrefab, playerListContent).GetComponent<PlayerListItem>().Initialize(player);
         }
 
-        foreach (RoomInfo room in roomList)
-        {
-            if (room.RemovedFromList)
-            {
-                continue;
-            }
-            Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(room);
-        }
-        roomListContent.sizeDelta = new Vector2(roomListContent.sizeDelta.x, 75 * roomList.Count);
-    }*/
-
-    public void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        Instantiate(playerListPrefab, playerListContent).GetComponent<PlayerListItem>().Initialize(newPlayer);
+        roomListContent.sizeDelta = new Vector2(roomListContent.sizeDelta.x, 75 * currentLobby.Players.Count);
     }
 
-    public void OnJoinRoomFailed(short returnCode, string message)
+    private void UpdateUIElements()
     {
-        errorString.text = "Failed joining room: " + message;
-        MenuManager.instance.OpenMenu("ErrorMenu");
+        bool isHost = NetworkManager.Singleton.IsHost;
+        startGameButton.SetActive(isHost);
+        selectedCourse.SetActive(isHost);
+        roomSettingsButton.SetActive(isHost);
+    }
+
+    private async void LeaveLobby()
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, playerId);
+            if (NetworkManager.Singleton.IsHost)
+            {
+                await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error leaving lobby: {e.Message}");
+        }
+
+        NetworkManager.Singleton.Shutdown();
+        currentLobby = null;
     }
 
     private void SetSettingsValues()
     {
         GlobalData.SelectedCharacter = PlayerPrefs.GetInt("character", 0);
-        GlobalData.UseController = intToBool(PlayerPrefs.GetInt("controller"));
-        GlobalData.ShowName = intToBool(PlayerPrefs.GetInt("showName"));
-        //PhotonNetwork.LocalPlayer.CustomProperties["character"] = GlobalData.SelectedCharacter;
+        GlobalData.UseController = PlayerPrefs.GetInt("controller") != 0;
+        GlobalData.ShowName = PlayerPrefs.GetInt("showName") != 0;
         GlobalData.Score = PlayerPrefs.GetInt("score");
-        //PhotonNetwork.LocalPlayer.CustomProperties["score"] = GlobalData.Score;
-        //PhotonNetwork.LocalPlayer.CustomProperties["bio"] = PlayerPrefs.GetString("bio");
+    }
 
-        /*if (!string.IsNullOrEmpty(PlayerPrefs.GetString("emblem")))
-        {
-            Texture2D tex = IMG2Sprite.LoadTextureFromBytes(Convert.FromBase64String(PlayerPrefs.GetString("emblem")));
-            tex = IMG2Sprite.Resize(tex, 64, 64);
-            PhotonNetwork.LocalPlayer.CustomProperties["emblem"] = tex.EncodeToPNG();
-        }*/
+    private void UpdateDiscordStatus()
+    {
+        string status = currentLobby != null 
+            ? $"In a lobby ({currentLobby.Players.Count}/{GlobalData.PlayerCount})" 
+            : "Browsing the menus...";
+            
+        DiscordController.instance.UpdateStatusInfo(
+            "Enjoying the online experience",
+            status,
+            "maric_rast",
+            "Image made by AI",
+            GlobalData.CharPngNames[GlobalData.SelectedCharacter],
+            $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"
+        );
     }
 }

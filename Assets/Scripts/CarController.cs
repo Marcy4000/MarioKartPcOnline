@@ -1,12 +1,11 @@
-using Cinemachine;
-using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode;
+using System.Collections;
 
 public class CarController : NetworkBehaviour
 {
     public KartCharacter[] characters;
-    public int selectedCharacter;
+    public NetworkVariable<int> selectedCharacter = new NetworkVariable<int>();
     [SerializeField] private Transform characterSpawnParent;
 
     public Rigidbody theRB;
@@ -14,9 +13,10 @@ public class CarController : NetworkBehaviour
 
     public float forwardAccel, revesreAccel, maxSpeed, turnStrenght, gravityForce = 10f, dragOnGround = 3f;
 
-    private float speedInput, turnInput;
+    private NetworkVariable<float> speedInput = new NetworkVariable<float>();
+    private NetworkVariable<float> turnInput = new NetworkVariable<float>();
 
-    public bool grounded { get; private set; }
+    public NetworkVariable<bool> grounded = new NetworkVariable<bool>();
     [SerializeField] bool autoDisable;
 
     [SerializeField] public LayerMask whatIsGround;
@@ -31,324 +31,168 @@ public class CarController : NetworkBehaviour
     [Space]
     [SerializeField] private Transform leftFrontWheel, rightFrontWheel;
 
-    public bool botDrive = false;
+    public NetworkVariable<bool> botDrive = new NetworkVariable<bool>();
     [SerializeField] private KartLap kartLap;
     [SerializeField] private Animator animator;
     private Transform checkpoint;
     private int lastValue;
-    bool canMove = false;
+    public NetworkVariable<bool> canMove = new NetworkVariable<bool>();
     public float botTurnSpeed;
-    public bool star { get; private set; }
-    public bool bulletBil;
-    private bool isDrifting;
+    public NetworkVariable<bool> star = new NetworkVariable<bool>();
+    public NetworkVariable<bool> bulletBil = new NetworkVariable<bool>();
+    private NetworkVariable<bool> isDrifting = new NetworkVariable<bool>();
     [SerializeField] private ParticleSystem[] driftingParticles;
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
     [SerializeField] private AudioClip starTheme;
     private float turnStrBackup;
-    private Coroutine driftingCorutine;
+    private Coroutine driftingCoroutine;
 
-    private bool isReady = false;
-    public bool isPlayer;
+    private NetworkVariable<bool> isReady = new NetworkVariable<bool>();
+    public NetworkVariable<bool> isPlayer = new NetworkVariable<bool>();
 
-    public bool antiGravity = false;
+    public NetworkVariable<bool> antiGravity = new NetworkVariable<bool>();
 
-    //Values that will be synced over network
-    Vector3 latestPos, latestVel;
-    Quaternion latestRot;
-    //Lag compensation
-    float currentTime = 0;
-    double currentPacketTime = 0;
-    double lastPacketTime = 0;
-    Vector3 positionAtLastPacket = Vector3.zero;
-    Vector3 velocityAtLastPacket = Vector3.zero;
-    Quaternion rotationAtLastPacket = Quaternion.identity;
+    private StandardInput controls;
 
-    private void OnEnable()
+    public override void OnNetworkSpawn()
     {
-        Countdown.Instance.OnCountdownEnded += CountdownEnded;
-    }
+        if (!IsOwner) return;
 
-    private void OnDisable()
-    {
-        Countdown.Instance.OnCountdownEnded -= CountdownEnded;
-    }
-
-    private void CountdownEnded()
-    {
-        canMove = true;
-    }
-
-    void Start()
-    {
-        StartCoroutine(NewStart());
-    }
-
-    IEnumerator NewStart()
-    {
-        while (!GlobalData.HasSceneLoaded)
-        {
-            yield return null;
-        }
-
-        turnStrBackup = turnStrenght;
-        botTurnSpeed = Random.Range(1.4f, 1.8f);
-        if (autoDisable)
-        {
-            enabled = false;
-            yield break;
-        }
-
-        if (!IsOwner)
-        {
-            theRB.constraints = RigidbodyConstraints.FreezeAll;
-            lastValue = kartLap.CheckpointIndex;
-            checkpoint = GetNextCheckPoint();
-            //SetCharacter((int)pv.Owner.CustomProperties["character"]);
-            isReady = true;
-            yield break;
-        }
-        theRB.transform.parent = null;
-
-        if (GlobalData.SelectedStage == 13)
-        {
-            antiGravity = true;
-        }
-
-        if (!botDrive)
+        if (Instance == null)
         {
             Instance = this;
-            CinemachineVirtualCamera vCam = FindObjectOfType<CinemachineVirtualCamera>();
-            vCam.Follow = transform;
-            vCam.LookAt = transform;
-            SetCharacter(GlobalData.SelectedCharacter);
         }
         else
         {
-            int botChar = Random.Range(0, characters.Length);
-            SetCharacter(botChar);
-            SyncCharacterRPC(botChar, NetworkObjectId);
-        }
-        if (antiGravity)
-        {
-            theRB.useGravity = false;
-        }
-        lastValue = kartLap.CheckpointIndex;
-        checkpoint = GetNextCheckPoint();
-        idle.Play();
-        moving.Stop();
-
-        isReady = true;
-    }
-
-    public void GetHit()
-    {
-        if (star || bulletBil)
-            return;
-        theRB.velocity = Vector3.zero;
-        theRB.angularVelocity = Vector3.zero;
-        theRB.AddForce(transform.up * 4200f, ForceMode.Impulse);
-    }
-
-    public void SetCharacter(int character)
-    {
-        selectedCharacter = character;
-        skinnedMeshRenderer.material = characters[character].KartMaterial;
-        GameObject newCharacter = Instantiate(characters[character].CharacterModel, characterSpawnParent);
-        animator = newCharacter.GetComponentInChildren<Animator>();
-    }
-
-    [Rpc(SendTo.Everyone)]//old stuff
-    public void SyncCharacterRPC(int character, ulong viewid)
-    {
-        if (NetworkObjectId == viewid)
-        {
-            SetCharacter(character);
-        }
-    }
-
-    private void Update()
-    {
-        if (!isReady)
-        {
+            Destroy(gameObject);
             return;
         }
 
-        if (!IsOwner)
-        {
-            //Lag compensation
-            double timeToReachGoal = currentPacketTime - lastPacketTime;
-            currentTime += Time.deltaTime;
+        controls = new StandardInput();
+        controls.Enable();
 
-            //Update remote player
-            rotationAtLastPacket = GlobalData.FixQuaternion(rotationAtLastPacket);
-            latestRot = GlobalData.FixQuaternion(latestRot);
+        theRB = GetComponent<Rigidbody>();
+        turnStrBackup = turnStrenght;
 
-            var time = (float)(currentTime / timeToReachGoal);
-            //time = Mathf.Clamp01(time);
-            time = Mathf.Clamp01((float)(time + Time.deltaTime / timeToReachGoal));
-            transform.position = Vector3.Lerp(positionAtLastPacket, latestPos, time);
-            transform.rotation = Quaternion.Lerp(rotationAtLastPacket, latestRot, time);
-            return;
-        }
-
-        if (!canMove)
-        {
-            return;
-        }
-
-
-        if (!moving.isPlaying)
-        {
-            idle.Stop();
-            moving.Play();
-        }
-        if (lastValue != kartLap.CheckpointIndex)
-        {
-            checkpoint = GetNextCheckPoint();
-        }
-        foreach (var tire in tires)
-        {
-            tire.SetFloat("Blend", 1);
-        }
-        /*Quaternion newRotation = Quaternion.FromToRotation(transform.forward, checkpoint.forward) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, botTurnSpeed);*/
-        Vector3 lookPos = checkpoint.position - transform.position;
-        lookPos += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        //lookPos.y = 0;
-        Quaternion rotation = Quaternion.LookRotation(lookPos, transform.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * botTurnSpeed);
-        lastValue = kartLap.CheckpointIndex;
-
-        //transform.position = new Vector3(theRB.transform.position.x, theRB.transform.position.y - kartOffset, theRB.transform.position.z);
-        transform.position = theRB.position - (transform.up * kartOffset);
+        StartCoroutine(NewStart());
     }
 
-    private IEnumerator Drifting()
+    public override void OnNetworkDespawn()
     {
-        yield return new WaitForSeconds(2.5f);
-        foreach (var item in driftingParticles)
+        if (!IsOwner) return;
+        controls.Disable();
+    }
+
+    private IEnumerator NewStart()
+    {
+        yield return new WaitUntil(() => GlobalData.HasSceneLoaded);
+
+        GameEvent.current.onCountdownEnded += CountdownEnded;
+        botDrive.Value = !isPlayer.Value;
+
+        if (botDrive.Value)
         {
-            item.Play();
+            checkpoint = CheckpointManager.instance.checkpoints[0];
+            canMove.Value = true;
         }
+
+        isReady.Value = true;
+    }
+
+    [ServerRpc]
+    public void GetHitServerRpc()
+    {
+        GetHitClientRpc();
+    }
+
+    [ClientRpc]
+    private void GetHitClientRpc()
+    {
+        StartCoroutine(BotHitCoroutine());
+    }
+
+    private IEnumerator BotHitCoroutine()
+    {
+        canMove.Value = false;
+        yield return new WaitForSeconds(1f);
+        canMove.Value = true;
+    }
+
+    [ServerRpc]
+    public void SetCharacterServerRpc(int character)
+    {
+        selectedCharacter.Value = character;
+        SetCharacterClientRpc(character);
+    }
+
+    [ClientRpc]
+    private void SetCharacterClientRpc(int character)
+    {
+        if (characterSpawnParent.childCount > 0)
+        {
+            Destroy(characterSpawnParent.GetChild(0).gameObject);
+        }
+
+        Instantiate(characters[character].characterModel, characterSpawnParent.position, characterSpawnParent.rotation, characterSpawnParent);
     }
 
     private void FixedUpdate()
     {
-        if (!canMove)
-        {
-            return;
-        }
+        if (!IsOwner || !isReady.Value) return;
 
-        if (!grounded)
+        if (grounded.Value)
         {
-            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), 2 * Time.deltaTime);
-        }
-
-        RaycastHit hit;
-
-        Debug.DrawRay(groundRayPoint.position, -transform.up * groundRayLenght);
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLenght, whatIsGround))
-        {
-            Quaternion newRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed);
-            if (hit.collider.CompareTag("Boost Pad"))
-            {
-                theRB.AddForce(transform.forward * 12000f);
-            }
             theRB.drag = dragOnGround;
-            theRB.AddForce(1000f * forwardAccel * transform.forward);
+
+            if (Mathf.Abs(speedInput.Value) > 0)
+            {
+                theRB.AddForce(transform.forward * speedInput.Value);
+            }
         }
         else
         {
             theRB.drag = 0.1f;
-            //theRB.AddForce(100f * -gravityForce * Vector3.up);
+            theRB.AddForce(Vector3.up * -gravityForce * 100);
         }
 
-        if (antiGravity)
+        if (botDrive.Value)
         {
-            theRB.AddForce(-transform.up * 75f * theRB.mass);
-        }
-
-        if (theRB.velocity.magnitude > maxSpeed)
-        {
-            theRB.velocity = theRB.velocity.normalized * maxSpeed;
+            BotUpdate();
         }
     }
 
-    public void EnterStarmode()
+    private void BotUpdate()
     {
+        if (!canMove.Value) return;
+
+        Vector3 targetDirection = (checkpoint.position - transform.position).normalized;
+        float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
+
+        turnInput.Value = Mathf.Clamp(angle / 90f, -1f, 1f);
+        speedInput.Value = forwardAccel;
+
+        transform.rotation = Quaternion.Lerp(transform.rotation,
+            Quaternion.LookRotation(targetDirection, transform.up),
+            Time.deltaTime * botTurnSpeed);
+    }
+
+    private void CountdownEnded()
+    {
+        canMove.Value = true;
+    }
+
+    [ServerRpc]
+    public void EnterStarModeServerRpc()
+    {
+        star.Value = true;
         StartCoroutine(StarMan());
     }
 
     private IEnumerator StarMan()
     {
-        star = true;
-        forwardAccel = forwardAccel * 1.3f;
-        MusicManager.instance.Stop();
-        MusicManager.instance.SetAudioClip(starTheme);
-        MusicManager.instance.Play();
-        yield return new WaitForSeconds(8f);
-        star = false;
-        forwardAccel = forwardAccel / 1.3f;
-        MusicManager.instance.Stop();
-        MusicManager.instance.ResetAudioClip();
-        MusicManager.instance.Play();
-    }
-
-    private Transform GetCurrentCheckPoint()
-    {
-        LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
-
-        foreach (var item in things)
-        {
-            if (item.Index == kartLap.CheckpointIndex)
-            {
-                return item.transform;
-            }
-        }
-
-        foreach (var item in things)
-        {
-            if (item.Index == 1)
-            {
-                return item.transform;
-            }
-        }
-
-        return things[0].transform;
-    }
-
-    private Transform GetNextCheckPoint()
-    {
-        LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
-
-        foreach (var item in things)
-        {
-            if (item.Index == kartLap.CheckpointIndex)
-            {
-                return item.next;
-            }
-        }
-
-        foreach (var item in things)
-        {
-            if (item.Index == 1)
-            {
-                return item.transform;
-            }
-        }
-
-        return things[0].transform;
-    }
-
-    [Rpc(SendTo.Owner)]
-    void BotGetHitRPC(bool b)
-    {
-        if (!IsOwner)
-        {
-            return;
-        }
-        GetHit();
+        AudioSource.PlayClipAtPoint(starTheme, transform.position);
+        yield return new WaitForSeconds(10);
+        star.Value = false;
     }
 }

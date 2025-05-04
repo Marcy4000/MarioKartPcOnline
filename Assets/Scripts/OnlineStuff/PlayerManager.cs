@@ -1,26 +1,44 @@
-using System.Collections;
-using System.IO;
-using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using Unity.Services.Lobbies.Models;
 
 public class PlayerManager : NetworkBehaviour
 {
     private bool allPlayersLoaded;
     private GameObject loadingScreen;
+    public static PlayerManager Instance { get; private set; }
 
     private void Start()
     {
-        loadingScreen = GameObject.FindGameObjectWithTag("LoadingScreen");
-        if (IsOwner)
+        if (Instance == null)
         {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (GlobalData.HasSceneLoaded)
+        {
+            loadingScreen = GameObject.Find("LoadingScreen");
             StartCoroutine(LoadTrack());
         }
     }
 
     private IEnumerator LoadTrack()
     {
-        DiscordController.instance.UpdateStatusInfo("Doing a polished race", $"Current track: {GlobalData.Stages[GlobalData.SelectedStage]}", "maric_rast", "Image made by AI", GlobalData.CharPngNames[GlobalData.SelectedCharacter], $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}");
+        DiscordController.instance.UpdateStatusInfo(
+            "Doing a polished race", 
+            $"Current track: {GlobalData.Stages[GlobalData.SelectedStage]}", 
+            "maric_rast", 
+            "Image made by AI", 
+            GlobalData.CharPngNames[GlobalData.SelectedCharacter], 
+            $"Currently playing as {GlobalData.CharPngNames[GlobalData.SelectedCharacter]}"
+        );
 
         AsyncOperation load = SceneManager.LoadSceneAsync(GlobalData.Stages[GlobalData.SelectedStage], LoadSceneMode.Additive);
         load.allowSceneActivation = true;
@@ -29,80 +47,90 @@ public class PlayerManager : NetworkBehaviour
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(GlobalData.Stages[GlobalData.SelectedStage]));
 
-        //_playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
-        //_playerCustomProprietes["playerLoaded"] = true;
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);
         GlobalData.HasSceneLoaded = true;
         CreateController();
-        if (GlobalData.SpawnBots)
+
+        if (GlobalData.SpawnBots && IsHost)
         {
             CreateBots();
         }
 
-        GlobalData.AllPlayersLoaded = false;
-        /*do
+        yield return StartCoroutine(WaitForAllPlayersToLoad());
+        
+        if (IsHost)
         {
-            allPlayersLoaded = true;
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                object loaded;
-                if (p.CustomProperties.TryGetValue("playerLoaded", out loaded))
-                {
-                    if (!(bool)loaded)
-                    {
-                        allPlayersLoaded = false;
-                        break;
-                    }
-                }
-                else
-                {
-                    allPlayersLoaded = false;
-                    break;
-                }
-            }
-
-            yield return null;
-        } while (!allPlayersLoaded);*/
-
-        GlobalData.AllPlayersLoaded = true;
-
-        //Cutscene.instance.PlayCutscene(Camera.main.gameObject);
-        if (LobbyController.Instance.IsLocalPlayerHost())
-        {
-            StartGameRPC();
+            StartGameServerRpc();
         }
+    }
+
+    private IEnumerator WaitForAllPlayersToLoad()
+    {
+        yield return new WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == GlobalData.PlayerCount || 
+                                       (NetworkManager.Singleton.ConnectedClients.Count > 0 && !NetworkManager.Singleton.IsHost));
+        
+        allPlayersLoaded = true;
+        GlobalData.AllPlayersLoaded = true;
     }
 
     private void CreateController()
     {
-        Transform spawnPoint = SpawnManager.Instance.getSpawnPoint((int)OwnerClientId);
-        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NewKart"), spawnPoint.position, spawnPoint.rotation);
+        Transform spawnPoint = SpawnManager.Instance.getSpawnPoint((int)GetCurrentId());
+        GameObject playerPrefab = NetworkManager.Singleton.NetworkConfig.PlayerPrefab;
+        
+        if (NetworkManager.Singleton.IsHost)
+        {
+            var player = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject;
+            if (player != null)
+            {
+                player.transform.position = spawnPoint.position;
+                player.transform.rotation = spawnPoint.rotation;
+            }
+        }
+    }
+
+    private ulong GetCurrentId()
+    {
+        if (!NetworkManager.Singleton.IsHost)
+            return NetworkManager.Singleton.LocalClientId;
+
+        return 0;
     }
 
     private void CreateBots()
     {
-        if (!LobbyController.Instance.IsLocalPlayerHost())
-        {
-            Debug.Log("Not master client, so no bot car instantiated");
-            return;
-        }
+        if (!IsHost) return;
 
-        for (int i = LobbyController.Instance.Lobby.Players.Count; i < GlobalData.PlayerCount; i++)
+        int currentPlayers = NetworkManager.Singleton.ConnectedClients.Count;
+        for (int i = currentPlayers; i < GlobalData.PlayerCount; i++)
         {
             Transform spawnPoint = SpawnManager.Instance.getSpawnPoint(i);
-            //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BotKart"), spawnPoint.position, spawnPoint.rotation);
-            Debug.Log("Spawned bot!");
+            SpawnBotServerRpc(spawnPoint.position, spawnPoint.rotation);
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    public void StartGameRPC()
+    [ServerRpc]
+    private void SpawnBotServerRpc(Vector3 position, Quaternion rotation)
+    {
+        GameObject botPrefab = Resources.Load<GameObject>("PhotonPrefabs/BotKart");
+        GameObject bot = Instantiate(botPrefab, position, rotation);
+        NetworkObject netObj = bot.GetComponent<NetworkObject>();
+        netObj.Spawn();
+    }
+
+    [ServerRpc]
+    private void StartGameServerRpc()
+    {
+        StartGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartGameClientRpc()
     {
         Debug.Log("Starting Game!");
-        Destroy(loadingScreen);
+        if (loadingScreen != null)
+        {
+            Destroy(loadingScreen);
+        }
         Cutscene.instance.PlayCutscene(Camera.main.gameObject);
-        /*_playerCustomProprietes = PhotonNetwork.LocalPlayer.CustomProperties;
-        _playerCustomProprietes["playerLoaded"] = false;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProprietes);*/
     }
 }
