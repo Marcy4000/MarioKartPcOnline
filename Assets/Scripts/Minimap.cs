@@ -31,14 +31,14 @@ public class Minimap : MonoBehaviour
 
             MinimapIcon icon = Instantiate(iconPrefab, transform).GetComponent<MinimapIcon>();
 
-            if (kart.carController.isPlayer)
+            if (!kart.kartController.IsBot)
             {
                 SkinManager skinManager = kart.GetComponent<SkinManager>();
                 icon.Initialize(iconSprites[skinManager.selectedCharacter], kart, minimapCam.transform.position);
             }
             else
             {
-                icon.Initialize(iconSprites[kart.carController.selectedCharacter], kart, minimapCam.transform.position);
+                icon.Initialize(iconSprites[0], kart, minimapCam.transform.position); // Default icon for bots
             }
         }
 

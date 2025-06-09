@@ -86,11 +86,11 @@ public class RedShell : MonoBehaviourPun, IPunObservable
         if (collision.gameObject.GetComponent<KartLap>())
         {
             KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.kartController.PhotonView.IsMine)
             {
                 return;
             }
-            kart.carController.GetHit();
+            kart.kartController.Transform.GetComponent<PlayerScript>().GetHit(false);
             photonView.RPC("AskToDestroy", RpcTarget.All);
         }
     }

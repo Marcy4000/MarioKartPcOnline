@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 
-public class PlayerScript : MonoBehaviour, IPunObservable
+public class PlayerScript : MonoBehaviour, IPunObservable, IKartController
 {
     private Rigidbody rb;
 
@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     public float boostSpeed;
     public float RealSpeed { get; private set; } //not the applied speed
     public bool canMove;
-    public bool star= false;
+    public bool star = false;
     public bool BulletBill = false;
     public Transform rayPoint;
     public Transform holder;
@@ -37,7 +37,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     //drift and steering stuffz
     private float steerDirection;
     private float driftTime;
-    
+
     bool driftLeft = false;
     bool driftRight = false;
     float outwardsDriftForce = 50000f;
@@ -63,6 +63,33 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
     [Header("Sounds")]
     public AudioSource[] soundEffects;
+
+    [Header("Bot Settings")]
+    public bool isBotControlled = false;
+    public float botSkillLevel = 1.0f; // 0.5-1.5 for varying difficulty
+    public bool canUseDrift = true;
+    public bool canUseAdvancedMoves = true;
+    [SerializeField] private Transform currentCheckpoint;
+    private float botReactionTime;
+    private float nextMoveDecision;
+    private float botTurnSpeed = 1.5f;
+    private KartLap kartLap;
+    [SerializeField] private AudioClip starTheme;
+
+    // Bot drift state
+    private bool botDrifting = false;
+    private float botDriftTimer = 0f;
+    private float botDriftDuration = 0f;
+
+    // IKartController implementation
+    public bool IsBot => isBotControlled;
+    public bool IsGrounded => touchingGround;
+    public bool Star => star;
+    bool IKartController.BulletBill => BulletBill;
+    public LayerMask GroundMask => whatIsGround;
+    public Rigidbody Rigidbody => rb;
+    public PhotonView PhotonView => photonView;
+    public Transform Transform => transform;
 
     //Values that will be synced over network
     Vector3 latestPos, latestVel;
@@ -103,10 +130,23 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         kartAnimator = holder.GetComponent<Animator>();
+        kartLap = GetComponent<KartLap>();
+
+        // Initialize bot settings
+        botReactionTime = (2.0f - botSkillLevel) * 0.5f;
+        botTurnSpeed = Random.Range(1.4f, 1.8f) * botSkillLevel;
+
         if (GlobalData.SelectedStage == 13)
         {
             antiGravity = true;
             rb.useGravity = false;
+        }
+
+        // Initialize bot checkpoint tracking
+        if (isBotControlled)
+        {
+            lastValue = kartLap.CheckpointIndex;
+            currentCheckpoint = GetNextCheckPoint();
         }
     }
 
@@ -135,7 +175,8 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             if (Cutscene.instance.isPlaying) return;
             if (alreadyDown) return;
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetButton("Fire2"))
+            // Ignora input boost di partenza se è un bot
+            if (!isBotControlled && (Input.GetKeyDown(KeyCode.W) || Input.GetButton("Fire2")))
             {
                 alreadyDown = true;
                 if (Countdown.Instance.canDoRocketBoost)
@@ -144,14 +185,14 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                 }
                 else
                 {
-
                     Countdown.Instance.OnCountdownEnded += StallAfterCountDownEnded;
                 }
             }
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && touchingGround || Input.GetButtonDown("Drift") && touchingGround)
+        // Ignora input hop/derapata se è un bot
+        if (!isBotControlled && ((Input.GetKeyDown(KeyCode.Space) && touchingGround) || (Input.GetButtonDown("Drift") && touchingGround)))
         {
             kartAnimator.SetTrigger("Hop");
             if (steerDirection > 0)
@@ -178,7 +219,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             return;
         }
-        
+
         move();
         RaycastHit hit;
         if (Physics.Raycast(rayPoint.position, -transform.up, out hit, 1.2f, whatIsGround))
@@ -212,6 +253,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             }
         }
     }
+
     public void GetHit(bool spin)
     {
         if (star || BulletBill)
@@ -240,7 +282,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             kartAnimator.SetTrigger("Flip");
             yield return new WaitForSeconds(1.3f);
         }
-        
+
         canMove = true;
     }
 
@@ -264,8 +306,6 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             DriftPS.Stop();
             DriftPS2.Stop();
         }
-
-
     }
 
     private void move()
@@ -276,7 +316,29 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             return;
         }
 
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2"))
+        bool accelerate = false;
+        bool brake = false;
+
+        if (isBotControlled)
+        {
+            // Bot AI movement logic
+            accelerate = true; // Bots generally always accelerate
+
+            // Update checkpoint tracking
+            if (lastValue != kartLap.CheckpointIndex)
+            {
+                lastValue = kartLap.CheckpointIndex;
+                currentCheckpoint = GetNextCheckPoint();
+            }
+        }
+        else
+        {
+            // Player input
+            accelerate = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetButton("Fire2");
+            brake = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetButton("Fire1");
+        }
+
+        if (accelerate)
         {
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, Time.deltaTime * 0.5f); //speed
             if (!soundEffects[1].isPlaying)
@@ -285,7 +347,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
                 soundEffects[1].Play();
             }
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetButton("Fire1"))
+        else if (brake)
         {
             CurrentSpeed = Mathf.Lerp(CurrentSpeed, -MaxSpeed / 1.75f, 1f * Time.deltaTime);
             if (!soundEffects[1].isPlaying)
@@ -342,9 +404,18 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             return;
         }
-        steerDirection = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
-        Vector3 steerDirVect; //this is used for the final rotation of the kart for steering
 
+        // Get steering input (either from player or bot AI)
+        if (isBotControlled)
+        {
+            steerDirection = GetBotSteerDirection();
+        }
+        else
+        {
+            steerDirection = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
+        }
+
+        Vector3 steerDirVect; //this is used for the final rotation of the kart for steering
         float steerAmount;
 
         if (driftLeft && !driftRight)
@@ -368,7 +439,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             if (isSliding && touchingGround)
             {
                 rb.AddForce(-transform.right * outwardsDriftForce * Time.deltaTime, ForceMode.Acceleration);
-            }   
+            }
         }
         else
         {
@@ -447,180 +518,182 @@ public class PlayerScript : MonoBehaviour, IPunObservable
 
     private void drift()
     {
-        if (driftLeft || driftRight) 
+        // Handle bot drift timer
+        if (isBotControlled && botDrifting)
         {
-            if (Input.GetKey(KeyCode.Space) && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0 || Input.GetButton("Drift") && touchingGround && CurrentSpeed > 35 && Input.GetAxis("Horizontal") != 0)
+            botDriftTimer += Time.deltaTime;
+            if (botDriftTimer >= botDriftDuration)
+            {
+                // End bot drift
+                botDrifting = false;
+                botDriftTimer = 0f;
+                driftLeft = false;
+                driftRight = false;
+                isSliding = false;
+
+                // Give boost and reset
+                if (driftTime > 1.5)
+                {
+                    if (driftTime >= 6)
+                        BoostTime = 2.5f;
+                    else if (driftTime >= 4)
+                        BoostTime = 1.5f;
+                    else
+                        BoostTime = 0.75f;
+
+                    if (soundEffects.Length > 5) soundEffects[5].Play();
+                }
+
+                driftTime = 0;
+                StopDriftParticles();
+                return;
+            }
+        }
+
+        // Check if we should be drifting
+        bool shouldDrift = false;
+        bool hasSteerInput = false;
+
+        if (isBotControlled)
+        {
+            shouldDrift = botDrifting && touchingGround && CurrentSpeed > 35;
+            hasSteerInput = botDrifting; // Bots always have "input" when drifting
+        }
+        else
+        {
+            bool driftInput = !GlobalData.UseController ?
+                Input.GetKey(KeyCode.Space) : Input.GetButton("Drift");
+            float horizontalInput = !GlobalData.UseController ?
+                Input.GetAxis("Horizontal") : Input.GetAxis("Horizontal");
+
+            shouldDrift = driftInput && touchingGround && CurrentSpeed > 35 && horizontalInput != 0;
+            hasSteerInput = horizontalInput != 0;
+        }
+
+        if (driftLeft || driftRight)
+        {
+            if (shouldDrift && hasSteerInput)
             {
                 driftTime += Time.deltaTime;
+                isSliding = true;
 
                 //particle effects (sparks)
                 if (driftTime >= 1.5 && driftTime < 4)
                 {
-                    if (!soundEffects[2].isPlaying)
+                    if (soundEffects.Length > 2 && !soundEffects[2].isPlaying)
                     {
                         soundEffects[2].Play();
-                        soundEffects[3].Stop();
-                        soundEffects[4].Stop();
+                        if (soundEffects.Length > 3) soundEffects[3].Stop();
+                        if (soundEffects.Length > 4) soundEffects[4].Stop();
                     }
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-                        ParticleSystem DriftPS2 = leftDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-                        PSMAIN.startColor = drift1;
-                        PSMAIN2.startColor = drift1;
-
-                        if (!DriftPS.isPlaying && !DriftPS2.isPlaying)
-                        {
-                            DriftPS.Play();
-                            DriftPS2.Play();
-                        }
-                    }
+                    UpdateDriftParticles(drift1);
                 }
-                if (driftTime >= 4 && driftTime < 6)
+                else if (driftTime >= 4 && driftTime < 6)
                 {
-                    if (!soundEffects[3].isPlaying)
+                    if (soundEffects.Length > 3 && !soundEffects[3].isPlaying)
                     {
                         soundEffects[3].Play();
-                        soundEffects[4].Stop();
-                        soundEffects[2].Stop();
+                        if (soundEffects.Length > 2) soundEffects[2].Stop();
+                        if (soundEffects.Length > 4) soundEffects[4].Stop();
                     }
-                    //drift color particles
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-                        ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-                        PSMAIN.startColor = drift2;
-                        PSMAIN2.startColor = drift2;
-                    }
-
+                    UpdateDriftParticles(drift2);
                 }
-                if (driftTime >= 6)
+                else if (driftTime >= 6)
                 {
-                    if (!soundEffects[4].isPlaying)
+                    if (soundEffects.Length > 4 && !soundEffects[4].isPlaying)
                     {
                         soundEffects[4].Play();
-                        soundEffects[3].Stop();
-                        soundEffects[2].Stop();
+                        if (soundEffects.Length > 2) soundEffects[2].Stop();
+                        if (soundEffects.Length > 3) soundEffects[3].Stop();
                     }
-                    for (int i = 0; i < leftDrift.childCount; i++)
-                    {
-                        ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN = DriftPS.main;
-                        ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
-                        ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-                        PSMAIN.startColor = drift3;
-                        PSMAIN2.startColor = drift3;
-                    }
+                    UpdateDriftParticles(drift3);
                 }
             }
         }
 
-        if (!GlobalData.UseController)
+        // Check if we should stop drifting
+        bool shouldStopDrift = false;
+
+        if (isBotControlled)
         {
-            if (!Input.GetKey(KeyCode.Space) || RealSpeed < 35)
-            {
-                driftLeft = false;
-                driftRight = false;
-                isSliding = false;
-
-                //give a boost
-                if (driftTime > 1.5 && driftTime < 4)
-                {
-                    BoostTime = 0.75f;
-                    soundEffects[2].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[4].Stop();
-                    soundEffects[5].Play();
-                }
-                if (driftTime >= 4 && driftTime < 7)
-                {
-                    BoostTime = 1.5f;
-                    soundEffects[2].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[4].Stop();
-                    soundEffects[5].Play();
-
-                }
-                if (driftTime >= 6)
-                {
-                    BoostTime = 2.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
-
-                //reset everything
-                driftTime = 0;
-                //stop particles
-                for (int i = 0; i < 5; i++)
-                {
-                    ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                    ParticleSystem.MainModule PSMAIN = DriftPS.main;
-
-                    ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                    ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
-
-                    DriftPS.Stop();
-                    DriftPS2.Stop();
-                }
-            }
+            shouldStopDrift = !botDrifting || RealSpeed < 35;
         }
         else
         {
-            if (!Input.GetButton("Drift") || RealSpeed < 35)
+            bool driftInput = !GlobalData.UseController ?
+                Input.GetKey(KeyCode.Space) : Input.GetButton("Drift");
+            shouldStopDrift = !driftInput || RealSpeed < 35;
+        }
+
+        if (shouldStopDrift)
+        {
+            driftLeft = false;
+            driftRight = false;
+            isSliding = false;
+
+            //give a boost
+            if (driftTime > 1.5 && driftTime < 4)
             {
-                driftLeft = false;
-                driftRight = false;
-                isSliding = false;
+                BoostTime = 0.75f;
+                if (soundEffects.Length > 5) soundEffects[5].Play();
+            }
+            else if (driftTime >= 4 && driftTime < 7)
+            {
+                BoostTime = 1.5f;
+                if (soundEffects.Length > 5) soundEffects[5].Play();
+            }
+            else if (driftTime >= 6)
+            {
+                BoostTime = 2.5f;
+                if (soundEffects.Length > 5) soundEffects[5].Play();
+            }
 
-                //give a boost
-                if (driftTime > 1.5 && driftTime < 4)
-                {
-                    BoostTime = 0.75f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
-                if (driftTime >= 4 && driftTime < 7)
-                {
-                    BoostTime = 1.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
+            // Stop all drift sounds
+            if (soundEffects.Length > 2) soundEffects[2].Stop();
+            if (soundEffects.Length > 3) soundEffects[3].Stop();
+            if (soundEffects.Length > 4) soundEffects[4].Stop();
 
-                }
-                if (driftTime >= 6)
-                {
-                    BoostTime = 2.5f;
-                    soundEffects[4].Stop();
-                    soundEffects[3].Stop();
-                    soundEffects[2].Stop();
-                    soundEffects[5].Play();
-                }
+            //reset everything
+            driftTime = 0;
+            StopDriftParticles();
+        }
+    }
 
-                //reset everything
-                driftTime = 0;
-                //stop particles
-                for (int i = 0; i < 5; i++)
-                {
-                    ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //right wheel particles
-                    ParticleSystem.MainModule PSMAIN = DriftPS.main;
+    private void UpdateDriftParticles(Color color)
+    {
+        for (int i = 0; i < leftDrift.childCount; i++)
+        {
+            ParticleSystem DriftPS = rightDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>();
+            ParticleSystem.MainModule PSMAIN = DriftPS.main;
 
-                    ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>(); //left wheel particles
-                    ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
+            ParticleSystem DriftPS2 = leftDrift.GetChild(i).gameObject.GetComponent<ParticleSystem>();
+            ParticleSystem.MainModule PSMAIN2 = DriftPS2.main;
 
-                    DriftPS.Stop();
-                    DriftPS2.Stop();
-                }
+            PSMAIN.startColor = color;
+            PSMAIN2.startColor = color;
+
+            if (!DriftPS.isPlaying && !DriftPS2.isPlaying)
+            {
+                DriftPS.Play();
+                DriftPS2.Play();
+            }
+        }
+    }
+
+    private void StopDriftParticles()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (i < rightDrift.childCount)
+            {
+                ParticleSystem DriftPS = rightDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
+                DriftPS.Stop();
+            }
+
+            if (i < leftDrift.childCount)
+            {
+                ParticleSystem DriftPS2 = leftDrift.transform.GetChild(i).gameObject.GetComponent<ParticleSystem>();
+                DriftPS2.Stop();
             }
         }
     }
@@ -731,14 +804,18 @@ public class PlayerScript : MonoBehaviour, IPunObservable
     {
         LapCheckPoint[] things = FindObjectsOfType<LapCheckPoint>();
 
+        // Use this kart's checkpoint index
+        int currentCheckpointIndex = kartLap?.CheckpointIndex ?? 0;
+
         foreach (var item in things)
         {
-            if (item.Index == KartLap.mainKart.CheckpointIndex)
+            if (item.Index == currentCheckpointIndex + 1)
             {
-                return item.next;
+                return item.transform;
             }
         }
 
+        // If no next checkpoint found, look for checkpoint 1 (start of next lap)
         foreach (var item in things)
         {
             if (item.Index == 1)
@@ -747,7 +824,96 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             }
         }
 
-        return things[0].transform;
+        // Fallback to first checkpoint found
+        return things.Length > 0 ? things[0].transform : null;
+    }
+
+    private float GetBotSteerDirection()
+    {
+        if (currentCheckpoint == null)
+        {
+            currentCheckpoint = GetNextCheckPoint();
+            return 0f;
+        }
+
+        // Calculate direction to checkpoint
+        Vector3 directionToCheckpoint = (currentCheckpoint.position - transform.position).normalized;
+        Vector3 forward = transform.forward;
+
+        // Use cross product to determine turn direction
+        Vector3 cross = Vector3.Cross(forward, directionToCheckpoint);
+        float steer = cross.y;
+
+        // Apply bot skill level - less skilled bots have more erratic steering
+        steer = Mathf.Clamp(steer * botTurnSpeed, -1f, 1f);
+
+        // Add some randomness based on skill level (reduced when drifting)
+        float randomnessMultiplier = botDrifting ? 0.1f : 1f; // Less randomness when drifting
+        float randomness = (1.0f - botSkillLevel) * 0.3f * randomnessMultiplier;
+        steer += Random.Range(-randomness, randomness);
+
+        // Wall avoidance - check for walls ahead
+        RaycastHit wallHit;
+        Vector3 wallCheckDirection = transform.forward + transform.right * steer;
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, wallCheckDirection, out wallHit, 8f))
+        {
+            if (wallHit.collider.CompareTag("Wall"))
+            {
+                // Avoid wall by steering away
+                Vector3 avoidDirection = Vector3.Reflect(wallCheckDirection, wallHit.normal);
+                float avoidSteer = Vector3.Dot(transform.right, avoidDirection.normalized);
+                steer = Mathf.Lerp(steer, avoidSteer, 0.8f);
+
+                // Stop drifting if heading toward wall
+                if (botDrifting && Vector3.Dot(transform.forward, wallHit.normal) < -0.5f)
+                {
+                    botDrifting = false;
+                    botDriftTimer = 0f;
+                    driftLeft = false;
+                    driftRight = false;
+                    isSliding = false;
+                }
+            }
+        }
+
+        // Bot drift logic - only drift on safe turns
+        if (canUseDrift && canUseAdvancedMoves && touchingGround && CurrentSpeed > 35 && !botDrifting)
+        {
+            float turnAngle = Vector3.Angle(forward, directionToCheckpoint);
+            float distanceToCheckpoint = Vector3.Distance(transform.position, currentCheckpoint.position);
+
+            // Only drift if turn is significant, we have enough distance, and no walls detected
+            bool shouldStartDrift = turnAngle > 60f && // Increased angle threshold
+                                  distanceToCheckpoint > 15f && // Ensure enough distance
+                                  Random.value < (botSkillLevel * 0.5f) && // Reduced drift frequency
+                                  !Physics.Raycast(transform.position + Vector3.up * 0.5f, wallCheckDirection, 10f); // No walls ahead
+
+            if (shouldStartDrift && !driftLeft && !driftRight && Mathf.Abs(steer) > 0.4f)
+            {
+                // Start drift based on turn direction
+                botDrifting = true;
+                botDriftTimer = 0f;
+                botDriftDuration = Random.Range(1.5f * botSkillLevel, 3f * botSkillLevel); // Shorter drift duration
+
+                if (steer > 0.4f)
+                {
+                    driftRight = true;
+                    driftLeft = false;
+                    // Attiva animazione hop solo se NON è un bot
+                    if (!isBotControlled)
+                        kartAnimator.SetTrigger("Hop");
+                }
+                else if (steer < -0.4f)
+                {
+                    driftLeft = true;
+                    driftRight = false;
+                    if (!isBotControlled)
+                        kartAnimator.SetTrigger("Hop");
+                }
+            }
+        }
+
+        return Mathf.Clamp(steer, -1f, 1f);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -758,7 +924,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             stream.SendNext(SerializationHelper.SerializeVector3(transform.position));
             stream.SendNext(SerializationHelper.SerializeQuaternion(transform.rotation));
             if (rb != null)
-            { 
+            {
                 stream.SendNext(SerializationHelper.SerializeVector3(rb.velocity));
             }
             else
@@ -770,7 +936,7 @@ public class PlayerScript : MonoBehaviour, IPunObservable
         {
             //Network player, receive data
             latestPos = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
-            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream. ReceiveNext());
+            latestRot = SerializationHelper.DeserializeQuaternion((byte[])stream.ReceiveNext());
             latestVel = SerializationHelper.DeserializeVector3((byte[])stream.ReceiveNext());
 
             //Lag compensation
@@ -787,6 +953,48 @@ public class PlayerScript : MonoBehaviour, IPunObservable
             {
                 velocityAtLastPacket = Vector3.zero;
             }
+        }
+    }
+
+    public void EnterStarMode()
+    {
+        StartCoroutine(StarMode());
+    }
+
+    public void SwitchToBot()
+    {
+        isBotControlled = true;
+        // Initialize bot AI components
+        if (kartLap == null) kartLap = GetComponent<KartLap>();
+        currentCheckpoint = GetNextCheckPoint();
+        botReactionTime = (2.0f - botSkillLevel) * 0.5f;
+        botTurnSpeed = Random.Range(1.4f, 1.8f) * botSkillLevel;
+    }
+
+    public void SwitchToPlayer()
+    {
+        isBotControlled = false;
+    }
+
+    private IEnumerator StarMode()
+    {
+        star = true;
+        kartAnimator.SetBool("Star", true);
+        BoostTime = 8f;
+        if (starTheme != null)
+        {
+            MusicManager.instance.Stop();
+            MusicManager.instance.SetAudioClip(starTheme);
+            MusicManager.instance.Play();
+        }
+        yield return new WaitForSeconds(8f);
+        star = false;
+        kartAnimator.SetBool("Star", false);
+        if (starTheme != null)
+        {
+            MusicManager.instance.Stop();
+            MusicManager.instance.ResetAudioClip();
+            MusicManager.instance.Play();
         }
     }
 }

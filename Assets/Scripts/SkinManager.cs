@@ -13,9 +13,21 @@ public class SkinManager : MonoBehaviourPun
     public SpriteRenderer emblemSprite;
     [SerializeField] private Animator characterAnimator;
     [SerializeField] private Transform characterSpawnParent;
+    public bool randomCharacter = false; // Toggle per personaggio casuale
 
     private void Start()
     {
+        if (randomCharacter)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                int randomIndex = Random.Range(0, characters.Length);
+                photonView.RPC("RPC_SetRandomCharacter", RpcTarget.AllBuffered, randomIndex);
+            }
+            // Gli altri client riceveranno l'RPC e non devono fare nulla qui
+            return;
+        }
+
         if (!photonView.IsMine)
         {
             SetCharacter((int)photonView.Owner.CustomProperties["character"]);
@@ -23,10 +35,17 @@ public class SkinManager : MonoBehaviourPun
             emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
             return;
         }
+        
         instance = this;
         emblemMesh.material.SetTexture("_DetailAlbedoMap", IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]));
         emblemSprite.sprite = IMG2Sprite.ConvertTextureToSprite(IMG2Sprite.LoadTextureFromBytes((byte[])photonView.Owner.CustomProperties["emblem"]), 32, SpriteMeshType.FullRect, true);
         SetCharacter(GlobalData.SelectedCharacter);
+    }
+
+    [PunRPC]
+    public void RPC_SetRandomCharacter(int characterIndex)
+    {
+        SetCharacter(characterIndex);
     }
 
     public void SetCharacter(int character)
@@ -53,7 +72,7 @@ public class SkinManager : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine || randomCharacter || characterAnimator == null)
         {
             return;
         }

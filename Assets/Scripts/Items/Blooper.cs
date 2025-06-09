@@ -12,9 +12,9 @@ public class Blooper : MonoBehaviour
         insance = this;
     }
 
-    public void Splat(RacePlace racePlace)
+    public void Splat(int racePlace)
     {
-        /*if (KartLap.mainKart.racePlace < racePlace)
+        /*if (KartLap.mainKart.racePlace > racePlace)
         {
             blooperAnimator.Play("BlooperMoving");
         }*/

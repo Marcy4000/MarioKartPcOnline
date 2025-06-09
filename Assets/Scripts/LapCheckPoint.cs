@@ -51,10 +51,19 @@ public class LapCheckPoint : MonoBehaviour
         {
             KartLap Kart = other.GetComponent<KartLap>();
             //Debug.LogWarning(Mathf.Abs(Kart.CheckpointIndex - Index));
-            if ( Mathf.Abs(Kart.CheckpointIndex - Index   )<10 )
+            if (Mathf.Abs(Kart.CheckpointIndex - Index) < 10)
             {
-                Kart.CheckpointIndex = Index;
-                Kart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(Kart));
+                // Request checkpoint hit through the centralized system
+                if (RaceStateManager.instance != null)
+                {
+                    RaceStateManager.instance.RequestCheckpointHit(Kart.photonView.ViewID, Index, Kart.transform.position);
+                }
+                else
+                {
+                    // Fallback to old system if RaceStateManager is not available
+                    Kart.CheckpointIndex = Index;
+                    Kart.UpdatePlace(PlaceCounter.instance.GetCurrentPlace(Kart));
+                }
             }
         }
         else if (other.GetComponent<RedShell>())

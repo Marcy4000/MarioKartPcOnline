@@ -16,13 +16,13 @@ public class ItemBox : MonoBehaviour
             breakSound.Play();
             thing.SetActive(false);
             boxCollider.enabled = false;
-            if (kart.carController.pv.IsMine && !kart.carController.botDrive)
+            if (kart.kartController.PhotonView.IsMine && !kart.kartController.IsBot)
             {
                 ItemRoulette.instance.Spin();
             }
-            else if (kart.carController.pv.IsMine && kart.carController.botDrive && !kart.carController.bulletBil && !kart.hasFinished)
+            else if (kart.kartController.PhotonView.IsMine && kart.kartController.IsBot && !kart.kartController.BulletBill && !kart.hasFinished)
             {
-                kart.carController.gameObject.GetComponent<BotItemManager>().SelectItem();
+                kart.kartController.Transform.gameObject.GetComponent<BotItemManager>().SelectItem();
             }
             StartCoroutine(WaitThing());
         }

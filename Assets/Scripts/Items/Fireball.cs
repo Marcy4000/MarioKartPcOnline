@@ -13,13 +13,13 @@ public class Fireball : MonoBehaviour
         if (collision.gameObject.GetComponent<KartLap>())
         {
             KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.kartController.PhotonView.IsMine)
             {
                 return;
             }
-            kart.carController.theRB.velocity = Vector3.zero;
-            kart.carController.theRB.angularVelocity = Vector3.zero;
-            kart.carController.theRB.AddForce(transform.up * 1200f, ForceMode.Impulse);
+            kart.kartController.Rigidbody.velocity = Vector3.zero;
+            kart.kartController.Rigidbody.angularVelocity = Vector3.zero;
+            kart.kartController.Rigidbody.AddForce(transform.up * 1200f, ForceMode.Impulse);
             pv.RPC("AskToDestroy", RpcTarget.All);
         }
         else if (collision.collider.CompareTag("Wall") && pv.IsMine)

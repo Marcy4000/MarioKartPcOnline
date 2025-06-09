@@ -106,7 +106,7 @@ public class PlayerManager : MonoBehaviourPun
         for (int i = PhotonNetwork.PlayerList.Length; i < GlobalData.PlayerCount; i++)
         {
             Transform spawnPoint = SpawnManager.Instance.getSpawnPoint(i);
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "BotKart"), spawnPoint.position, spawnPoint.rotation);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "NewBotKart"), spawnPoint.position, spawnPoint.rotation);
             Debug.Log("Spawned bot!");
         }
     }

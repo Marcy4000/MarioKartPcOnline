@@ -45,9 +45,9 @@ public class BotItemManager : MonoBehaviourPun
         switch (selectedItem.itemType)
         {
             case Items.mushroom:
-                if (kart.carController.grounded)
+                if (kart.kartController.IsGrounded)
                 {
-                    kart.carController.theRB.AddForce(kart.carController.transform.forward * 4000f, ForceMode.Impulse);
+                    kart.kartController.Rigidbody.AddForce(kart.kartController.Transform.forward * 4000f, ForceMode.Impulse);
                 }
                 break;
             case Items.greenShell:
@@ -80,7 +80,11 @@ public class BotItemManager : MonoBehaviourPun
                 break;
 
             case Items.bulletBill:
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "GreenShell"), fireballSpawnPos.position, transform.rotation);
+                PlayerScript botKart = kart.kartController as PlayerScript;
+
+                botKart.BulletBill = true;
+                botKart.gameObject.AddComponent<BulletBill>().mask = kart.kartController.GroundMask;
+                botKart.BoostTime = 10f;
                 break;
 
             case Items.blooper:
@@ -98,7 +102,7 @@ public class BotItemManager : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void UseBlooper(Photon.Realtime.Player sender, RacePlace racePlace)
+    public void UseBlooper(Photon.Realtime.Player sender, int racePlace)
     {
         Blooper.insance.Splat(racePlace);
     }

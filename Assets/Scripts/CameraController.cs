@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
             trp.m_BindingMode = CinemachineTransposer.BindingMode.LockToTargetNoRoll;
         }
         PlayerScript[] players = FindObjectsOfType<PlayerScript>();
-        PlayerScript mainPlayer = players.Where(p => p.photonView.IsMine).FirstOrDefault();
+        PlayerScript mainPlayer = players.Where(p => p.photonView.IsMine && !p.isBotControlled).FirstOrDefault();
 
         virtualCamera.Follow = mainPlayer.transform;
         virtualCamera.LookAt = mainPlayer.transform;

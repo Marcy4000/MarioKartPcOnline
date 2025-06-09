@@ -103,7 +103,7 @@ public class ItemManager : MonoBehaviourPun
                 break;
             case Items.bulletBill:
                 player.BulletBill = true;
-                player.gameObject.AddComponent<BulletBill>().mask = kart.carController.whatIsGround;
+                player.gameObject.AddComponent<BulletBill>().mask = kart.kartController.GroundMask;
                 player.BoostTime = 10f;
                 break;
             case Items.blooper:
@@ -129,7 +129,7 @@ public class ItemManager : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void UseBlooper(Photon.Realtime.Player sender, RacePlace racePlace)
+    public void UseBlooper(Photon.Realtime.Player sender, int racePlace)
     {
         if (sender == PhotonNetwork.LocalPlayer)
         {

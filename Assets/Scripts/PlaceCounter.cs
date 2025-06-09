@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RacePlace { first, second, third, fourth, fifth, sixth, seventh, eighth, nineth, tenth, eleventh, twelveth }
-
 public class PlaceCounter : MonoBehaviour
 {
     public static PlaceCounter instance { get; private set; }
@@ -11,6 +9,12 @@ public class PlaceCounter : MonoBehaviour
     public KartLap[] karts;
     private LapCheckPoint[] checkPoints;
     private Transform finishLine;
+
+    // Animation names for positions (for backward compatibility with existing animations)
+    private string[] positionAnimations = { 
+        "first", "second", "third", "fourth", "fifth", "sixth", 
+        "seventh", "eighth", "nineth", "tenth", "eleventh", "twelveth" 
+    };
 
     private void Start()
     {
@@ -29,10 +33,18 @@ public class PlaceCounter : MonoBehaviour
         finishLine = FindObjectOfType<LapHandle>().transform;
     }
 
-    public RacePlace GetCurrentPlace(KartLap targetKart)
+    public int GetCurrentPlace(KartLap targetKart)
     {
-        int currPlace = karts.Length - 1;
-        RacePlace newPlace;
+        // This method is now only used as fallback when RaceStateManager is not available
+        // The centralized system handles position calculation
+        if (RaceStateManager.instance != null)
+        {
+            // Return current position from centralized system
+            return targetKart.racePlace;
+        }
+
+        // Fallback to old local calculation
+        int currPlace = 1; // Start at 1st place
 
         foreach (var kart in karts)
         {
@@ -41,29 +53,39 @@ public class PlaceCounter : MonoBehaviour
                 continue;
             }
 
-            if (kart.lapNumber < targetKart.lapNumber)
+            // Check if this kart is ahead of the target kart
+            bool isAhead = false;
+
+            if (kart.lapNumber > targetKart.lapNumber)
             {
-                currPlace--;
+                isAhead = true;
             }
             else if (kart.lapNumber == targetKart.lapNumber)
             {
-                if (kart.CheckpointIndex < targetKart.CheckpointIndex)
+                if (kart.CheckpointIndex > targetKart.CheckpointIndex)
                 {
-                    currPlace--;
+                    isAhead = true;
                 }
                 else if (kart.CheckpointIndex == targetKart.CheckpointIndex)
                 {
-                    if (Vector3.Distance(targetKart.transform.position, GetCheckpointTransformByIndex(targetKart.CheckpointIndex + 1).position) < Vector3.Distance(kart.transform.position, GetCheckpointTransformByIndex(kart.CheckpointIndex + 1).position))
+                    // Same checkpoint, check distance to next checkpoint
+                    float targetDistance = Vector3.Distance(targetKart.transform.position, GetCheckpointTransformByIndex(targetKart.CheckpointIndex + 1).position);
+                    float kartDistance = Vector3.Distance(kart.transform.position, GetCheckpointTransformByIndex(kart.CheckpointIndex + 1).position);
+                    
+                    if (kartDistance < targetDistance)
                     {
-                        currPlace--;
+                        isAhead = true;
                     }
                 }
             }
+
+            if (isAhead)
+            {
+                currPlace++;
+            }
         }
 
-        newPlace = (RacePlace)currPlace;
-
-        return newPlace;
+        return currPlace;
     }
 
     public LapCheckPoint GetCheckpointByIndex(int index)
@@ -90,8 +112,21 @@ public class PlaceCounter : MonoBehaviour
         return finishLine;
     }
 
-    public void ChangePosition(RacePlace place)
+    public void ChangePosition(int position)
     {
-        animator.Play(place.ToString());
+        // Convert 1-based position to 0-based array index
+        int animIndex = position - 1;
+
+        // Ensure we don't go out of bounds
+        if (animIndex >= 0 && animIndex < positionAnimations.Length)
+        {
+            animator.Play(positionAnimations[animIndex]);
+        }
+        else
+        {
+            // For positions beyond our predefined animations, use the last one
+            animator.Play(positionAnimations[positionAnimations.Length - 1]);
+            Debug.LogWarning($"Position {position} exceeds predefined animations. Using last animation instead.");
+        }
     }
 }

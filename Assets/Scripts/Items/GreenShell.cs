@@ -69,11 +69,11 @@ public class GreenShell : MonoBehaviour, IPunObservable
         else if (collision.gameObject.GetComponent<KartLap>())
         {
             KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.kartController.PhotonView.IsMine)
             {
                 return;
             }
-            kart.carController.GetHit();
+            kart.kartController.Transform.GetComponent<PlayerScript>().GetHit(false);
             pv.RPC("AskToDestroy", RpcTarget.All);
         }
     }

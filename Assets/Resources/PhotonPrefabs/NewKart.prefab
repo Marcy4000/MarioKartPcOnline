@@ -2308,7 +2308,6 @@ GameObject:
   - component: {fileID: 3190860238525008558}
   - component: {fileID: 3190860238525008559}
   - component: {fileID: 867531168394680521}
-  - component: {fileID: 4723892008413562815}
   - component: {fileID: 7194367450481897056}
   m_Layer: 8
   m_Name: NewKart
@@ -2384,6 +2383,12 @@ MonoBehaviour:
   - {fileID: 6576911667527873488}
   - {fileID: 8800283486431861886}
   - {fileID: 3415433711741421498}
+  isBotControlled: 0
+  botSkillLevel: 1
+  canUseDrift: 1
+  canUseAdvancedMoves: 1
+  currentCheckpoint: {fileID: 0}
+  starTheme: {fileID: 0}
 --- !u!114 &7748783424871331470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2406,7 +2411,6 @@ MonoBehaviour:
   - {fileID: 3190860238525008552}
   - {fileID: 3190860238525008553}
   - {fileID: 867531168394680521}
-  - {fileID: 4723892008413562815}
   - {fileID: 7494664426684162998}
   - {fileID: 2200998361195444265}
   sceneViewId: 0
@@ -2539,61 +2543,9 @@ MonoBehaviour:
   lapNumber: 0
   CheckpointIndex: 0
   racePlace: 0
-  carController: {fileID: 4723892008413562815}
   hasFinished: 0
   shellBackSPos: {fileID: 162675575508719733}
   frontPosition: {fileID: 2633737645283202640}
---- !u!114 &4723892008413562815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582820841966394765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27346fd197114424e925521a332fd5c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characters: []
-  selectedCharacter: 0
-  characterSpawnParent: {fileID: 0}
-  theRB: {fileID: 2312950184684985447}
-  forwardAccel: 11
-  revesreAccel: 6
-  maxSpeed: 180
-  turnStrenght: 160
-  gravityForce: 16
-  dragOnGround: 3
-  autoDisable: 1
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 576
-  groundRayLenght: 0.75
-  groundRayPoint: {fileID: 6312790470151467495}
-  rotationSpeed: 0
-  kartOffset: 1.5
-  tires:
-  - {fileID: 5161005882683172896, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  - {fileID: 5292852801605436776, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  - {fileID: 3109471047804418845, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  - {fileID: 3312316865399706288, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  idle: {fileID: 5249111864412075362, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  moving: {fileID: 5249111864412075363, guid: 3875d5ae0209a9b48a228ad2fe482a4e, type: 3}
-  leftFrontWheel: {fileID: 938602944089606230}
-  rightFrontWheel: {fileID: 574339073756174379}
-  botDrive: 0
-  kartLap: {fileID: 867531168394680521}
-  animator: {fileID: 0}
-  botTurnSpeed: 0
-  bulletBil: 0
-  driftingParticles:
-  - {fileID: 2763758868864765364}
-  - {fileID: 2763758868864765364}
-  skinnedMeshRenderer: {fileID: 0}
-  starTheme: {fileID: 8300000, guid: dcd810f89ed59ac44ba48de8793ffed9, type: 3}
-  isPlayer: 1
-  antiGravity: 0
 --- !u!114 &7194367450481897056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2632,6 +2584,7 @@ MonoBehaviour:
   emblemSprite: {fileID: 1460950959915650572}
   characterAnimator: {fileID: 0}
   characterSpawnParent: {fileID: 8968294167676251176}
+  randomCharacter: 0
 --- !u!1 &6710196519083276019
 GameObject:
   m_ObjectHideFlags: 0
@@ -4024,12 +3977,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9030e7fb4c4e6794c9657d30df278489, type: 3}
---- !u!198 &2763758868864765364 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7064002941200153897, guid: 9030e7fb4c4e6794c9657d30df278489,
-    type: 3}
-  m_PrefabInstance: {fileID: 4923200974669590685}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2763758869110358614 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7064002941478318795, guid: 9030e7fb4c4e6794c9657d30df278489,

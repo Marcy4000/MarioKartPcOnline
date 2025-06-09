@@ -34,21 +34,24 @@ public class ItemRoulette : MonoBehaviour
     public void ChangeToRandomItem()
     {
         firstImage.sprite = secondImage.sprite;
-        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        secondImage.sprite = itemIcons[(int)KartLap.mainKart.racePlace].items[random].activeSprite;
+        int racePlaceIndex = Mathf.Max(0, KartLap.mainKart.racePlace - 1);
+        int random = Random.Range(0, itemIcons[racePlaceIndex].items.Length);
+        secondImage.sprite = itemIcons[racePlaceIndex].items[random].activeSprite;
     }
 
     public Item GetRandomItem(KartLap lap)
     {
-        int random = Random.Range(0, itemIcons[(int)lap.racePlace].items.Length);
-        return itemIcons[(int)lap.racePlace].items[random];
+        int racePlaceIndex = Mathf.Max(0, lap.racePlace - 1);
+        int random = Random.Range(0, itemIcons[racePlaceIndex].items.Length);
+        return itemIcons[racePlaceIndex].items[random];
     }
 
     public void Spin()
     {
         if (spinning || selectedItem != nothing) { return; }
-        int random = Random.Range(0, itemIcons[(int)KartLap.mainKart.racePlace].items.Length);
-        selectedItem = itemIcons[(int)KartLap.mainKart.racePlace].items[random];
+        int racePlaceIndex = Mathf.Max(0, KartLap.mainKart.racePlace - 1);
+        int random = Random.Range(0, itemIcons[racePlaceIndex].items.Length);
+        selectedItem = itemIcons[racePlaceIndex].items[random];
         StartCoroutine(DoTheSpinning());
     }
 

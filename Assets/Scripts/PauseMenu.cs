@@ -58,7 +58,7 @@ public class PauseMenu : MonoBehaviour
     {
         KartLap kartLap = KartLap.mainKart;
 
-        if (!kartLap.carController.pv.IsMine)
+        if (!kartLap.kartController.PhotonView.IsMine)
         {
             return;
         }

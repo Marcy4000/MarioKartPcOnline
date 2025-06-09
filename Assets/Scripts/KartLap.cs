@@ -7,10 +7,9 @@ public class KartLap : MonoBehaviourPun, IPunObservable
 {
     public int lapNumber;
     public int CheckpointIndex;
-    public RacePlace racePlace;
-    public CarController carController;
+    public int racePlace = 1; // 1st place by default
+    public IKartController kartController;
     public bool hasFinished = false;
-    private bool ready = false;
     public Transform shellBackSPos, frontPosition;
     public static KartLap mainKart;
 
@@ -22,35 +21,59 @@ public class KartLap : MonoBehaviourPun, IPunObservable
         StartCoroutine(SetMainKart());
     }
 
-    private void LateUpdate()
+    private void Start()
     {
-        if (!ready || hasFinished || !carController.pv.IsMine)
-        {
-            return;
-        }
-        UpdatePlace(PlaceCounter.instance.GetCurrentPlace(this));
+        // Get the kart controller component
+        kartController = GetComponent<IKartController>();
+        StartCoroutine(RegisterWithRaceManager());
+    }
+
+    private IEnumerator RegisterWithRaceManager()
+    {
+        // Wait for RaceStateManager to be available
+        yield return new WaitUntil(() => RaceStateManager.instance != null);
+        
+        // Register this kart with the centralized race manager
+        string playerName = kartController.IsBot ? $"Bot {photonView.ViewID}" : photonView.Owner?.NickName ?? "Unknown";
+        RaceStateManager.instance.RegisterKart(photonView.ViewID, playerName, kartController.IsBot);
     }
 
     private IEnumerator SetMainKart()
     {
         yield return new WaitUntil(() => GlobalData.AllPlayersLoaded);
 
-        if (carController.pv.IsMine && carController.isPlayer)
+        if (kartController.PhotonView.IsMine && !kartController.IsBot)
         {
             mainKart = this;
         }
-         ready = true;
     }
 
-    public void UpdatePlace(RacePlace place)
+    public void UpdatePlace(int place)
     {
-        if (PlaceCounter.instance.karts == null)
-        {
-            return;
-        }
-
         racePlace = place;
-        if (carController.pv.IsMine && carController.isPlayer)
+        if (kartController.PhotonView.IsMine && !kartController.IsBot)
+        {
+            PlaceCounter.instance.ChangePosition(racePlace);
+        }
+    }
+
+    // New methods for centralized race management
+    public void SetLapData(int newLap, int newCheckpoint, bool finished)
+    {
+        lapNumber = newLap;
+        CheckpointIndex = newCheckpoint;
+        hasFinished = finished;
+    }
+
+    public void SetCheckpointIndex(int newCheckpoint)
+    {
+        CheckpointIndex = newCheckpoint;
+    }
+
+    public void UpdateNetworkPosition(int newPosition)
+    {
+        racePlace = newPosition;
+        if (kartController.PhotonView.IsMine && !kartController.IsBot)
         {
             PlaceCounter.instance.ChangePosition(racePlace);
         }
@@ -60,19 +83,19 @@ public class KartLap : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // Send checkpoint index and lap number to other clients
+            // Send basic data for fallback synchronization
             stream.SendNext(CheckpointIndex);
             stream.SendNext(lapNumber);
             stream.SendNext(hasFinished);
+            stream.SendNext(racePlace);
         }
         else if (stream.IsReading)
         {
-            // Receive checkpoint index and lap number from network
+            // Receive basic data (centralized system takes priority)
             CheckpointIndex = (int)stream.ReceiveNext();
             lapNumber = (int)stream.ReceiveNext();
             hasFinished = (bool)stream.ReceiveNext();
-
-            UpdatePlace(PlaceCounter.instance.GetCurrentPlace(this));
+            racePlace = (int)stream.ReceiveNext();
         }
     }
 }

@@ -20,14 +20,14 @@ public class LightningHandler : MonoBehaviour
         soundEffects[0].Play();
         foreach (var kart in PlaceCounter.instance.karts)
         {
-            if (!kart.carController.isPlayer)
+            if (kart.kartController.IsBot)
             {
-                if (!kart.carController.pv.IsMine)
+                if (!kart.kartController.PhotonView.IsMine)
                 {
                     continue;
                 }
 
-                kart.carController.GetHit();
+                kart.kartController.Transform.GetComponent<PlayerScript>().GetHit(true);
             }
             else
             {

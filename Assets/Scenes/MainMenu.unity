@@ -39714,6 +39714,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &1315268158
 GameObject:
   m_ObjectHideFlags: 0
@@ -63364,9 +63365,10 @@ MonoBehaviour:
   details: Enjoying the PC online experience
   state: Browsing the menus...
   largeImage: maric_rast
-  largeText: Made by AI
+  largeText: Very good racing game
   smallImage: 'Current Character: ???'
   smallText: mario
+  enableInEditor: 0
 --- !u!4 &2127610706
 Transform:
   m_ObjectHideFlags: 0

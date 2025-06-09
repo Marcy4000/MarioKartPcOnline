@@ -47,7 +47,7 @@ public class BlueShell : MonoBehaviourPun
     {
         foreach (var kart in PlaceCounter.instance.karts)
         {
-            if (kart.racePlace == RacePlace.first)
+            if (kart.racePlace == 1)
             {
                 targetKart = kart;
                 StartCoroutine(SafeFrames());
@@ -82,11 +82,11 @@ public class BlueShell : MonoBehaviourPun
         distanceAlongPath += speed * Time.deltaTime;
         transform.position = path.path.GetPointAtDistance(distanceAlongPath);
 
-        if (targetKart.racePlace != RacePlace.first || !targetKart)
+        if (targetKart.racePlace != 1 || !targetKart)
         {
             foreach (var kart in PlaceCounter.instance.karts)
             {
-                if (kart.racePlace == RacePlace.first)
+                if (kart.racePlace == 1)
                 {
                     targetKart = kart;
                     Debug.Log("blue Shell found target");
@@ -196,11 +196,12 @@ public class BlueShell : MonoBehaviourPun
         if (collision.gameObject.GetComponent<KartLap>())
         {
             KartLap kart = collision.gameObject.GetComponent<KartLap>();
-            if (!kart.carController.pv.IsMine)
+            if (!kart.kartController.PhotonView.IsMine)
             {
                 return;
             }
-            kart.carController.GetHit();
+            kart.kartController.Transform.GetComponent<PlayerScript>().GetHit(false);
+            photonView.RPC("AskToDestroy", RpcTarget.All);
         }
     }
 
@@ -218,5 +219,4 @@ public class BlueShell : MonoBehaviourPun
     {
         return Vector2.Distance(new Vector2(a.x, a.z), new Vector2(b.x, b.z));
     }
-
 }
